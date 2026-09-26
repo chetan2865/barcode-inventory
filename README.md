@@ -76,3 +76,54 @@ Two things to know before restyling:
 desktop executable, served by Waitress with WhiteNoise. New template directories
 or static files must be added to its `datas` list or they will be missing from
 the packaged build.
+
+## Deploying to Railway
+
+The application ships a production settings module separate from development
+and from the desktop build, so deploying changes neither of those.
+
+**1. Create the service.** Point Railway at this repository. Nixpacks detects
+Python, installs `requirements.txt`, and runs the `buildCommand` in
+`railway.json` (`collectstatic`).
+
+**2. Add Postgres.** *New → Database → PostgreSQL* in the same project. Railway
+injects `DATABASE_URL` automatically. Without it the app falls back to SQLite on
+a container disk that is wiped on every deploy.
+
+**3. Attach a Volume.** *Service → Settings → Volumes*, mounted anywhere (for
+example `/data`). This is not optional: the application writes a barcode PNG for
+every entry, plus uploaded signatures, logos and payment QRs. `MEDIA_ROOT`
+follows `RAILWAY_VOLUME_MOUNT_PATH`, so without a volume every generated barcode
+disappears on the next deploy.
+
+**4. Set the variables.** See `.env.example`. The two that matter:
+
+```
+DJANGO_SETTINGS_MODULE = config.settings_production
+BARCODE_SECRET_KEY     = <a generated key>
+```
+
+Generate the key with:
+
+```bash
+python -c "from django.core.management.utils import get_random_secret_key as k; print(k())"
+```
+
+The app refuses to start in production without it, deliberately.
+
+**5. Deploy.** The `release` command in `Procfile` runs `migrate` before each
+new version goes live. Railway generates the public domain and the settings
+module trusts it automatically for `ALLOWED_HOSTS` and CSRF.
+
+### Notes
+
+- **Static files** are served by WhiteNoise with hashed filenames, gzip and
+  brotli. No CDN or bucket needed.
+- **Media files** are served by WhiteNoise from the volume, with
+  `WHITENOISE_AUTOREFRESH` on so barcodes generated after boot are found.
+- **HSTS** is off until you set `DJANGO_HSTS_SECONDS`. Turn it on only once a
+  custom domain is confirmed on HTTPS — browsers cache it and it is hard to undo.
+- **There is no authentication.** Every view in this application is open to
+  anyone who has the URL. On a public Railway domain that means anyone can read
+  and modify inventory, parties and invoices. Put the service behind
+  authentication before exposing it to the internet.

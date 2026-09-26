@@ -1,4 +1,17 @@
+# Application
 Django==4.2.30
-psycopg2-binary==2.9.12
 Pillow==11.3.0
 python-barcode==0.16.1
+
+# Database: psycopg2 drives Postgres on Railway; dj-database-url parses the
+# DATABASE_URL that Railway injects.
+psycopg2-binary==2.9.12
+dj-database-url==3.0.1
+
+# Serving: gunicorn is the web process, whitenoise serves static and media.
+gunicorn==23.0.0
+whitenoise==6.11.0
+
+# The packaged desktop build uses waitress instead of gunicorn (which has no
+# Windows support). Harmless to install here, required by desktop.py.
+waitress==3.0.2
