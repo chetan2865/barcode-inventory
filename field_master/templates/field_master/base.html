@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% comment %}
+Kept as a shim so the templates that already say
+{% extends "field_master/base.html" %} did not have to change. The real shell
+lives in templates/base.html.
+
+This base used to hardcode `active` on the Field Master link, which also lit
+up on items/sku_format.html (it extends this file across apps). The shared
+shell derives the active item from the resolved view name instead, so that
+is fixed.
+{% endcomment %}

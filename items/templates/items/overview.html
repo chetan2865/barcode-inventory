@@ -1,0 +1,176 @@
+{% extends "items/base.html" %}
+
+{% block title %}Overview{% endblock %}
+{% block page_context %}Overview{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Overview</h1>
+        <p class="page-subtitle">
+            What is currently in the database. Every figure is counted from live records &mdash;
+            quantities come from the same engine the Products page uses.
+        </p>
+    </div>
+    <div class="page-actions">
+        <a href="{% url 'items:barcode_scan' %}" class="btn btn-outline-secondary">Scan Barcode</a>
+        <a href="{% url 'items:add' %}" class="btn btn-primary">Register Item</a>
+    </div>
+</div>
+
+<div class="stat-grid mb-4">
+    <div class="stat">
+        <div class="stat-label">Products</div>
+        <div class="stat-value">{{ product_count }}</div>
+        <div class="stat-meta">distinct product names</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Entries</div>
+        <div class="stat-value">{{ entry_count }}</div>
+        <div class="stat-meta">individual intakes</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">SKU Codes</div>
+        <div class="stat-value">{{ sku_count }}</div>
+        <div class="stat-meta">unique variants</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">{{ qty_name|default:"Quantity" }}</div>
+        <div class="stat-value">{{ total_quantity }}</div>
+        <div class="stat-meta">across all entries</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Invoices</div>
+        <div class="stat-value">{{ invoice_count }}</div>
+        <div class="stat-meta">&#8377;{{ invoice_total }} invoiced</div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <!-- ------------------------------------------------ recent intake -- -->
+    <div class="col-xl-7">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Recent Entries</span>
+                <a href="{% url 'items:list' %}" class="btn btn-sm btn-outline-secondary">All products</a>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Product</th>
+                            <th>SKU</th>
+                            <th class="text-end">{{ qty_name|default:"Qty" }}</th>
+                            <th class="text-end">Added</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in recent_entries %}
+                        <tr>
+                            <td><strong>{{ entry.product }}</strong></td>
+                            <td>
+                                {% if entry.sku %}
+                                <span class="code-chip code-chip-primary">{{ entry.sku }}</span>
+                                {% else %}
+                                <span class="text-muted">&ndash;</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-end">{{ entry.quantity|default:"&ndash;" }}</td>
+                            <td class="text-end text-muted small">{{ entry.created_at|date:"d M Y" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">
+                                <div class="empty-state">
+                                    <div class="empty-state-title">No entries yet</div>
+                                    <div class="empty-state-text">
+                                        Register your first inventory item to see it here.
+                                    </div>
+                                    <a href="{% url 'items:add' %}" class="btn btn-sm btn-primary">Register Item</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ---------------------------------------------- recent invoices -- -->
+    <div class="col-xl-5">
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Recent Invoices</span>
+                <a href="{% url 'invoicing:invoice_list' %}" class="btn btn-sm btn-outline-secondary">All invoices</a>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Number</th>
+                            <th>Buyer</th>
+                            <th class="text-end">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for invoice in recent_invoices %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'invoicing:invoice_detail' invoice.pk %}">
+                                    <span class="code-chip">{{ invoice.number }}</span>
+                                </a>
+                                <div class="text-muted small mt-1">{{ invoice.date|date:"d M Y" }}</div>
+                            </td>
+                            <td>{{ invoice.buyer_snapshot.name|default:"&ndash;" }}</td>
+                            <td class="text-end">&#8377;{{ invoice.total }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3">
+                                <div class="empty-state">
+                                    <div class="empty-state-title">No invoices yet</div>
+                                    <div class="empty-state-text">Scan products into an invoice to raise one.</div>
+                                    <a href="{% url 'invoicing:invoice_create' %}" class="btn btn-sm btn-primary">Create Invoice</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Configuration</div>
+            <div class="card-body p-0">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Defined fields</td>
+                            <td class="text-end"><strong>{{ field_count }}</strong></td>
+                            <td class="text-end" style="width:90px;">
+                                <a href="{% url 'field_master:list' %}" class="btn btn-sm btn-outline-secondary">Open</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Companies</td>
+                            <td class="text-end"><strong>{{ company_count }}</strong></td>
+                            <td class="text-end">
+                                <a href="{% url 'invoicing:enterprise_list' %}?role=company" class="btn btn-sm btn-outline-secondary">Open</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Customers</td>
+                            <td class="text-end"><strong>{{ buyer_count }}</strong></td>
+                            <td class="text-end">
+                                <a href="{% url 'invoicing:enterprise_list' %}?role=buyer" class="btn btn-sm btn-outline-secondary">Open</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

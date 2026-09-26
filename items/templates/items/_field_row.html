@@ -1,0 +1,64 @@
+{% load items_extras %}
+<div class="{{ field|col_class }}" data-field-name="{{ field.name }}" data-field-type="{{ field.type }}">
+    <label class="form-label">
+        {{ field.name }}{% if field.mandatory %} <span class="text-danger">*</span>{% endif %}
+    </label>
+
+    {% field_value field index posted item as value %}
+
+    {% if field.type == "text" %}
+    <input type="text" name="{% input_name index %}" class="form-control"
+           placeholder="{{ field.configuration.placeholder|default:'' }}"
+           {% if field.configuration.max_length %}maxlength="{{ field.configuration.max_length }}"{% endif %}
+           {% if field.mandatory %}required{% endif %}
+           value="{{ value }}">
+
+    {% elif field.type == "number" %}
+    <input type="number" name="{% input_name index %}" class="form-control"
+           {% if field.configuration.minimum != None %}min="{{ field.configuration.minimum }}"{% endif %}
+           {% if field.configuration.maximum != None %}max="{{ field.configuration.maximum }}"{% endif %}
+           step="{{ field.configuration.decimal_places|number_step }}"
+           {% if field.mandatory %}required{% endif %}
+           value="{{ value }}">
+
+    {% elif field.type == "date" %}
+    <input type="date" name="{% input_name index %}" class="form-control"
+           {% if field.configuration.minimum_date %}min="{{ field.configuration.minimum_date }}"{% endif %}
+           {% if field.configuration.maximum_date %}max="{{ field.configuration.maximum_date }}"{% endif %}
+           {% if field.mandatory %}required{% endif %}
+           value="{{ value }}">
+
+    {% elif field.type == "long_text" %}
+    <textarea name="{% input_name index %}" class="form-control"
+              rows="{{ field.configuration.rows|default:3 }}"
+              {% if field.configuration.max_length %}maxlength="{{ field.configuration.max_length }}"{% endif %}
+              {% if field.mandatory %}required{% endif %}>{{ value }}</textarea>
+
+    {% elif field.type == "boolean" %}
+    {% field_checked field index posted item as checked %}
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="{% input_name index %}"
+               id="{% input_name index %}" {% if checked %}checked{% endif %}>
+        <label class="form-check-label" for="{% input_name index %}">Yes</label>
+    </div>
+
+    {% elif field.type == "dropdown" %}
+    <select name="{% input_name index %}" class="form-select"
+            {% if field.mandatory %}required{% endif %}>
+        <option value="">&mdash; Select &mdash;</option>
+        {% for option in field.configuration.options %}
+        <option value="{{ option }}" {% if option == value %}selected{% endif %}>{{ option }}</option>
+        {% endfor %}
+    </select>
+
+    {% elif field.type == "file" %}
+    <input type="file" name="{% input_name index %}" class="form-control"
+           {% if field.configuration.allowed_extensions %}
+           accept="{% for ext in field.configuration.allowed_extensions %}.{{ ext }}{% if not forloop.last %},{% endif %}{% endfor %}"
+           {% endif %}>
+    {% if value %}
+    <small class="text-muted">Current file: <a href="{{ value }}" target="_blank">{{ value }}</a></small>
+    {% endif %}
+
+    {% endif %}
+</div>

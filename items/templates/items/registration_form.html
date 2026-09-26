@@ -1,0 +1,87 @@
+{% extends "items/base.html" %}
+{% load items_extras %}
+
+{% block title %}{% if mode == "edit" %}Edit Item{% else %}Item Registration{% endif %}{% endblock %}
+{% block page_context %}Item Registration{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">{% if mode == "edit" %}Edit Item{% else %}Item Registration{% endif %}</h1>
+        <p class="page-subtitle">
+            Fields are generated from the Field Master &mdash; change the schema there, not here.
+        </p>
+    </div>
+    <div class="page-actions">
+        <a href="{% url 'items:list' %}" class="btn btn-outline-secondary">Back to list</a>
+    </div>
+</div>
+
+<form method="post"
+      enctype="multipart/form-data"
+      class="form-layout form-layout--wide"
+      action="{% if mode == 'edit' %}{% url 'items:edit' item.pk %}{% else %}{% url 'items:add' %}{% endif %}">
+    {% csrf_token %}
+
+    <div class="card mb-3">
+        <div class="card-header">Item Detail</div>
+        <div class="card-body">
+            <div class="row g-3">
+                {% for field in fields %}
+                {% if not field.hide %}
+                {% include "items/_field_row.html" with field=field index=forloop.counter0 %}
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions form-actions--wide mb-4">
+        <a href="{% url 'items:list' %}" class="btn btn-outline-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">{% if mode == "edit" %}Save Changes{% else %}Save Item{% endif %}</button>
+    </div>
+</form>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Item JSON</span>
+        <span class="text-muted small fw-normal">Live preview &mdash; updates as you fill in the form</span>
+    </div>
+    <div class="card-body json-view">
+        <pre id="item-json-preview" class="mb-0"></pre>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Live JSON preview of the item being registered/edited, built straight
+    // from the rendered fields rather than duplicating the schema in JS.
+    (function () {
+        var form = document.querySelector('form');
+        var pre = document.getElementById('item-json-preview');
+        var itemId = {% if mode == "edit" %}{{ item.pk }}{% else %}null{% endif %};
+
+        function fieldValue(wrapper, type) {
+            var input = wrapper.querySelector('[name]');
+            if (!input) return null;
+            if (type === 'boolean') return input.checked;
+            if (type === 'file') return input.files && input.files[0] ? input.files[0].name : null;
+            if (type === 'number') return input.value === '' ? null : Number(input.value);
+            return input.value;
+        }
+
+        function refresh() {
+            var data = {id: itemId};
+            document.querySelectorAll('[data-field-name]').forEach(function (wrapper) {
+                data[wrapper.dataset.fieldName] = fieldValue(wrapper, wrapper.dataset.fieldType);
+            });
+            pre.textContent = JSON.stringify(data, null, 4);
+        }
+
+        form.addEventListener('input', refresh);
+        form.addEventListener('change', refresh);
+        refresh();
+    })();
+</script>
+{% endblock %}

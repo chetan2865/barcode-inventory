@@ -1,0 +1,70 @@
+{% comment %}
+SKU Details section, shared by Add New Product and Add Existing Product.
+
+Two levels of button, deliberately:
+  * "Save SKU" sits inside a SKU's own boundary and commits that SKU within
+    the form - it folds the block into a summary line and opens the next blank
+    one. Nothing is sent to the server.
+  * the page's own Save button, outside this card, submits everything.
+
+Requires in context: sku_form_fields, sku_fields, qty_name.
+
+IMPORTANT for anyone restyling this file: _sku_section_js.html clones the
+first .sku-block to create new ones, and its click handler tests
+`e.target.classList.contains(...)`. So:
+  * keep the classes sku-block / sku-label / sku-saved / sku-edit /
+    sku-summary / sku-body / save-sku / remove-sku and the d-none toggles;
+  * keep the action buttons text-only - an icon inside one would become the
+    event target and the handler would never fire.
+{% endcomment %}
+<div class="card mb-3">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div>
+            <span>SKU Details</span>
+            <span class="text-muted small fw-normal ms-2">
+                {% if single_sku %}
+                One SKU only &mdash; this material was registered straight from a scan.
+                {% else %}
+                Each SKU saves as its own entry with its own {{ qty_name|lower }} &mdash; never merged.
+                {% endif %}
+            </span>
+        </div>
+        {% if not single_sku %}
+        <button type="button" class="btn btn-sm btn-outline-secondary" id="add-sku">+ Add SKU</button>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        <div id="sku-blocks" {% if single_sku %}data-single="1"{% endif %}>
+            <div class="sku-block p-3 mb-3" data-block="0">
+                <div class="sku-block-head mb-3">
+                    <span class="sku-block-title">
+                        <span class="badge bg-secondary sku-label">SKU 1</span>
+                        <span class="badge bg-success sku-saved d-none">Saved</span>
+                        <span class="sku-summary"></span>
+                    </span>
+                    <span class="row-actions">
+                        <button type="button" class="btn btn-sm btn-outline-secondary sku-edit d-none">Edit</button>
+                        <button type="button" class="btn btn-sm btn-outline-danger remove-sku d-none">Remove</button>
+                    </span>
+                </div>
+                <div class="sku-body">
+                    <div class="row g-3">
+                        {% for field in sku_form_fields %}
+                        {% include "items/_field_row.html" with field=field index=forloop.counter0 item=None posted=None %}
+                        {% endfor %}
+                    </div>
+                    <div class="sku-block-foot">
+                        <button type="button" class="btn btn-outline-success btn-sm save-sku">Save SKU</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="form-text mb-0">
+            {% if single_sku %}
+            Save the SKU to fold it away, then press Save to store the entry.
+            {% else %}
+            Save a SKU to fold it away and start the next one. The page&rsquo;s Save button stores them all.
+            {% endif %}
+        </p>
+    </div>
+</div>

@@ -1,0 +1,571 @@
+{% extends "items/base.html" %}
+
+{% block title %}Create Invoice{% endblock %}
+{% block page_context %}New Invoice{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Create Invoice</h1>
+        <p class="page-subtitle">
+            Fill the left, watch the invoice build on the right. Products go on by scanning &mdash;
+            scan the same label again and its quantity goes up by one.
+        </p>
+    </div>
+    <div class="page-actions">
+        <a href="{% url 'invoicing:invoice_list' %}" class="btn btn-outline-secondary">All invoices</a>
+    </div>
+</div>
+
+<form method="post" action="{% url 'invoicing:invoice_create' %}" id="invoice-form">
+{% csrf_token %}
+<input type="hidden" name="lines" id="lines-json">
+
+<div class="row g-3">
+    <!-- ------------------------------------------------ left: entry ---- -->
+    <div class="col-xl-5">
+
+        <div class="card mb-3">
+            <div class="card-header"><span class="inv-step"><span class="inv-step-no">1</span>Company (Seller)</span></div>
+            <div class="card-body">
+                <label class="form-label">Company Name</label>
+                <select class="form-select mb-3" id="company-select" name="seller_id">
+                    <option value="">&mdash; Select Company &mdash;</option>
+                    {% for company in companies %}
+                    <option value="{{ company.pk }}">{{ company.name }}</option>
+                    {% endfor %}
+                </select>
+                <div class="row g-2" id="seller-fields">
+                    {% for field in party_fields %}
+                    <div class="col-md-6">
+                        <label class="form-label">{{ field|title }}</label>
+                        <input type="text" class="form-control form-control-sm" name="seller_{{ field }}"
+                               data-party="seller" data-field="{{ field }}">
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="form-text">
+                    Registered under <a href="{% url 'invoicing:enterprise_list' %}">Enterprise Master</a>.
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="inv-step"><span class="inv-step-no">2</span>Dispatch From</span>
+                <div class="form-check form-switch mb-0">
+                    <input class="form-check-input" type="checkbox" id="dispatch-same" checked>
+                    <label class="form-check-label small" for="dispatch-same">Same as company</label>
+                </div>
+            </div>
+            <div class="card-body d-none" id="dispatch-body">
+                <div class="row g-2">
+                    {% for field in party_fields %}
+                    <div class="col-md-6">
+                        <label class="form-label">{{ field|title }}</label>
+                        <input type="text" class="form-control form-control-sm" name="dispatch_{{ field }}"
+                               data-party="dispatch" data-field="{{ field }}">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header"><span class="inv-step"><span class="inv-step-no">3</span>Buyer (Bill to)</span></div>
+            <div class="card-body">
+                <label class="form-label">Buyer Name</label>
+                <select class="form-select mb-3" id="buyer-select" name="buyer_id">
+                    <option value="">&mdash; Select Buyer &mdash;</option>
+                    {% for buyer in buyers %}
+                    <option value="{{ buyer.pk }}">{{ buyer.name }}</option>
+                    {% endfor %}
+                </select>
+                <div class="row g-2" id="buyer-fields">
+                    {% for field in party_fields %}
+                    <div class="col-md-6">
+                        <label class="form-label">{{ field|title }}</label>
+                        <input type="text" class="form-control form-control-sm" name="buyer_{{ field }}"
+                               data-party="buyer" data-field="{{ field }}">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="inv-step"><span class="inv-step-no">4</span>Shipping To</span>
+                <div class="form-check form-switch mb-0">
+                    <input class="form-check-input" type="checkbox" id="ship-same" checked>
+                    <label class="form-check-label small" for="ship-same">Same as buyer</label>
+                </div>
+            </div>
+            <div class="card-body d-none" id="ship-body">
+                <div class="row g-2">
+                    {% for field in party_fields %}
+                    <div class="col-md-6">
+                        <label class="form-label">{{ field|title }}</label>
+                        <input type="text" class="form-control form-control-sm" name="ship_{{ field }}"
+                               data-party="ship" data-field="{{ field }}">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header"><span class="inv-step"><span class="inv-step-no">5</span>Invoice Detail</span></div>
+            <div class="card-body">
+                <div class="row g-2">
+                    <div class="col-md-6">
+                        <label class="form-label">Invoice No</label>
+                        <input type="text" name="number" class="form-control form-control-sm"
+                               id="invoice-number" value="{{ suggested_number }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Invoice Date</label>
+                        <input type="date" name="date" class="form-control form-control-sm"
+                               id="invoice-date" value="{{ today }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Reference No</label>
+                        <input type="text" name="reference_no" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Reference Date</label>
+                        <input type="date" name="reference_date" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">PO No</label>
+                        <input type="text" name="po_no" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">PO Date</label>
+                        <input type="date" name="po_date" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Mode / Terms of Payment</label>
+                        <input type="text" name="payment_mode" class="form-control form-control-sm" placeholder="online">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Vehicle Number</label>
+                        <input type="text" name="vehicle_no" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label">Bank</label>
+                        <select name="bank" class="form-select form-select-sm">
+                            <option value="">&mdash; Select Bank &mdash;</option>
+                            {% for bank in banks %}
+                            <option value="{{ bank.pk }}">{{ bank.name }}{% if bank.account_no %} &middot; {{ bank.account_no }}{% endif %}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-3 inv-scan-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="inv-step"><span class="inv-step-no">6</span>Products &mdash; scan to add</span>
+                <span class="badge bg-success" id="scan-state">Listening</span>
+            </div>
+            <div class="card-body">
+                <input type="text" id="scan-box" class="form-control form-control-lg scan-input"
+                       placeholder="Scan a barcode…" autocomplete="off">
+                <div class="form-text" id="scan-note">
+                    Scanning an item already on the invoice adds one to its quantity.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- --------------------------------------------- right: preview ---- -->
+    <div class="col-xl-7">
+        <div class="card invoice-preview-sticky">
+            <div class="card-body inv-preview-mount">
+                <div class="invoice-paper invoice-paper--compact">
+                    <div class="inv-head">
+                        <div class="inv-head-left">
+                            <div class="inv-label">Sold By :</div>
+                            <strong id="pv-seller-name">Company name</strong>
+                            <div class="inv-address" id="pv-seller-address"></div>
+                            <div class="mt-2"><strong>PAN No:</strong> <span id="pv-seller-pan"></span></div>
+                            <div><strong>GST Registration No:</strong> <span id="pv-seller-gstin"></span></div>
+                        </div>
+                        <div class="inv-head-right">
+                            <div class="inv-label">Billing Address :</div>
+                            <strong id="pv-buyer-name">Buyer name</strong>
+                            <div class="inv-address" id="pv-buyer-address"></div>
+                            <div><strong>State/UT Code:</strong> <span id="pv-buyer-code"></span></div>
+                            <div class="inv-label mt-2">Shipping Address :</div>
+                            <strong id="pv-ship-name"></strong>
+                            <div class="inv-address" id="pv-ship-address"></div>
+                            <div><strong>Place of supply:</strong> <span id="pv-supply-state"></span></div>
+                            <div><strong>Place of delivery:</strong> <span id="pv-delivery-state"></span></div>
+                        </div>
+                    </div>
+
+                    <div class="inv-head inv-head-meta">
+                        <div class="inv-head-left">
+                            <div><strong>Order Number:</strong> <span id="pv-po"></span></div>
+                            <div><strong>Mode of Payment:</strong> <span id="pv-mode"></span></div>
+                            <div id="pv-dispatch-wrap" class="d-none">
+                                <strong>Dispatched From:</strong> <span id="pv-dispatch"></span>
+                            </div>
+                        </div>
+                        <div class="inv-head-right">
+                            <div><strong>Invoice Number :</strong> <span id="pv-number">{{ suggested_number }}</span></div>
+                            <div><strong>Invoice Details :</strong> <span id="pv-ref"></span></div>
+                            <div><strong>Invoice Date :</strong> <span id="pv-date">{{ today }}</span></div>
+                        </div>
+                    </div>
+
+                    <table class="inv-table">
+                        <thead>
+                            <tr>
+                                <th style="width:30px;">Sl.<br>No</th>
+                                <th>Description</th>
+                                <th style="width:74px;">Unit<br>Price</th>
+                                <th style="width:58px;">Qty</th>
+                                <th style="width:74px;">Net<br>Amount</th>
+                                <th style="width:44px;">Tax<br>Rate</th>
+                                <th style="width:46px;">Tax<br>Type</th>
+                                <th style="width:70px;">Tax<br>Amount</th>
+                                <th style="width:78px;">Total<br>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pv-lines">
+                            <tr>
+                                <td colspan="9" class="text-center text-muted" style="padding:26px;">
+                                    Scan a barcode to put the first product on this invoice.
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr class="inv-total">
+                                <td colspan="7"><strong>TOTAL:</strong></td>
+                                <td class="text-end"><strong id="pv-tax">₹0.00</strong></td>
+                                <td class="text-end"><strong id="pv-total">₹0.00</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="inv-words">
+                        <div><strong>Amount in Words:</strong></div>
+                        <strong id="pv-words">Zero Rupees Only</strong>
+                    </div>
+
+                    <div class="inv-sign">
+                        <div class="inv-sign-for">For <span id="pv-sign-for">your company</span>:</div>
+                        {% if setting.signature %}
+                        <img src="{{ setting.signature.url }}" alt="signature">
+                        {% else %}
+                        <div class="inv-sign-space"></div>
+                        {% endif %}
+                        <div class="inv-sign-title"><strong>Authorized Signatory</strong></div>
+                    </div>
+
+                    <div class="inv-reverse">Whether tax is payable under reverse charge - No</div>
+                </div>
+
+                <div class="text-center mt-2">
+                    <span class="badge bg-secondary" id="pv-supply-kind">Nothing scanned yet</span>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <span class="text-muted small" id="save-hint">Scan at least one product to save.</span>
+                <button type="submit" class="btn btn-primary" id="save-invoice" disabled>Save Invoice</button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+{# The invoice-paper styles live in static/css/app.css, shared with invoice_detail. #}
+<script>
+// Focus the scan box without scrolling to it, so the page still opens at its
+// own header. Replaces the `autofocus` attribute, which always scrolls.
+(function () {
+    var box = document.getElementById("scan-box");
+    if (box) box.focus({preventScroll: true});
+})();
+(function () {
+    const SCAN_URL = "{% url 'invoicing:invoice_scan' %}";
+    const PREVIEW_URL = "{% url 'invoicing:invoice_preview' %}";
+    const ENTERPRISE_URL = "{% url 'invoicing:enterprise_json' 0 %}".replace("/0/", "/__id__/");
+    const CSRF = document.querySelector("[name=csrfmiddlewaretoken]").value;
+
+    // One scanned code -> one line. Scanning it again finds the line and adds
+    // one to its quantity rather than repeating the product.
+    const lines = [];
+    let lineSplits = [];        // the server's per-line tax split, by index
+    let lastSplitStamp = "";
+
+    const $ = (id) => document.getElementById(id);
+    const text = (id, value) => { const el = $(id); if (el) el.textContent = value || ""; };
+
+    // ---- parties -----------------------------------------------------
+    function partyInputs(party) {
+        return Array.from(document.querySelectorAll(`[data-party="${party}"]`));
+    }
+
+    function readParty(party) {
+        const out = {};
+        partyInputs(party).forEach(function (input) { out[input.dataset.field] = input.value.trim(); });
+        return out;
+    }
+
+    function fillParty(party, data) {
+        partyInputs(party).forEach(function (input) {
+            input.value = data[input.dataset.field] || "";
+        });
+    }
+
+    function loadEnterprise(select, party) {
+        const id = select.value;
+        if (!id) { fillParty(party, {}); refresh(); return; }
+        fetch(ENTERPRISE_URL.replace("__id__", id))
+            .then((r) => r.json())
+            .then(function (data) { fillParty(party, data); refresh(); });
+    }
+
+    $("company-select").addEventListener("change", function () { loadEnterprise(this, "seller"); });
+    $("buyer-select").addEventListener("change", function () { loadEnterprise(this, "buyer"); });
+
+    // "Same as" simply hides the block; the server falls back to the source
+    // party when it is left empty, so nothing has to be copied around.
+    function bindSame(toggleId, bodyId, party) {
+        $(toggleId).addEventListener("change", function () {
+            $(bodyId).classList.toggle("d-none", this.checked);
+            if (this.checked) fillParty(party, {});
+            refresh();
+        });
+    }
+    bindSame("dispatch-same", "dispatch-body", "dispatch");
+    bindSame("ship-same", "ship-body", "ship");
+
+    // ---- scanning ----------------------------------------------------
+    const scanBox = $("scan-box");
+    let buffer = "";
+    let lastKey = 0;
+
+    document.addEventListener("keydown", function (e) {
+        if (e.target.tagName === "TEXTAREA") return;
+        const typingElsewhere = e.target !== scanBox && e.target.tagName === "INPUT" && e.target.type !== "checkbox";
+
+        if (e.key === "Enter") {
+            // Enter is the scanner's suffix, never "submit this invoice" - an
+            // empty scan box must not fire the form off half-filled.
+            e.preventDefault();
+            const value = (e.target === scanBox ? scanBox.value : buffer).trim();
+            buffer = "";
+            if (value && !typingElsewhere) {
+                scanBox.value = "";
+                addByScan(value);
+            }
+            return;
+        }
+        if (typingElsewhere || e.key.length !== 1) return;
+
+        const now = performance.now();
+        if (now - lastKey > 500) buffer = "";
+        lastKey = now;
+        buffer += e.key;
+        if (document.activeElement !== scanBox) scanBox.value = buffer;
+    });
+
+    function addByScan(code) {
+        const existing = lines.find((line) => line.scanned_code === code);
+        if (existing) {
+            existing.quantity += 1;
+            note(`${existing.product} &mdash; quantity now ${existing.quantity}`, "warning");
+            render();
+            refresh();
+            return;
+        }
+        fetch(SCAN_URL + "?value=" + encodeURIComponent(code))
+            .then((r) => r.json())
+            .then(function (data) {
+                if (!data.found) {
+                    note(`<code>${escapeHtml(code)}</code> is not in the database.`, "danger");
+                    return;
+                }
+                lines.push({
+                    scanned_code: code,
+                    description: data.description,
+                    product: data.product,
+                    hsn: data.hsn,
+                    sku_code: data.sku_code,
+                    quantity: 1,
+                    unit: data.unit || "Nos",
+                    rate: Number(data.rate || 0),
+                    gst_rate: Number(data.gst_rate || 0),
+                });
+                note(`${data.product} added at ${data.rate} (GST ${data.gst_rate}%)`, "success");
+                render();
+                refresh();
+            })
+            .catch(function () { note("Lookup failed.", "danger"); });
+    }
+
+    function note(message, kind) {
+        const el = $("scan-note");
+        el.innerHTML = message;
+        el.className = "form-text text-" + (kind === "success" ? "success" : kind === "danger" ? "danger" : "warning");
+    }
+
+    // ---- preview -----------------------------------------------------
+    function render() {
+        const body = $("pv-lines");
+        body.innerHTML = "";
+
+        if (!lines.length) {
+            body.innerHTML = '<tr><td colspan="9" class="text-center text-muted" style="padding:26px;">' +
+                             "Scan a barcode to put the first product on this invoice.</td></tr>";
+        }
+
+        lines.forEach(function (line, index) {
+            const net = line.quantity * line.rate;
+            const split = lineSplits[index] || {components: [], tax: "0.00", total: net.toFixed(2)};
+            const rows = Math.max(split.components.length, 1);
+            const first = split.components[0];
+
+            const tr = document.createElement("tr");
+            tr.innerHTML =
+                '<td rowspan="' + rows + '">' + (index + 1) + "</td>" +
+                '<td rowspan="' + rows + '" class="inv-desc">' + escapeHtml(line.description) +
+                "<div>SKU: " + escapeHtml(line.sku_code) + "</div>" +
+                (line.hsn ? "<div>HSN:" + escapeHtml(line.hsn) + "</div>" : "") + "</td>" +
+                '<td rowspan="' + rows + '" class="text-end">\u20b9' + line.rate.toFixed(2) + "</td>" +
+                '<td rowspan="' + rows + '" class="text-center">' +
+                '<input type="number" min="1" step="1" class="form-control form-control-sm qty text-center p-0" ' +
+                'data-index="' + index + '" value="' + line.quantity + '" style="width:52px;display:inline-block;"></td>' +
+                '<td rowspan="' + rows + '" class="text-end">\u20b9' + net.toFixed(2) + "</td>" +
+                (first
+                    ? '<td class="text-center">' + first.percent + '%</td><td class="text-center">' + first.label + "</td>" +
+                      '<td class="text-end">\u20b9' + first.amount + "</td>"
+                    : '<td class="text-center">\u2013</td><td class="text-center">\u2013</td><td class="text-end">\u20b90.00</td>') +
+                '<td rowspan="' + rows + '" class="text-end">\u20b9' + split.total + "</td>";
+            body.appendChild(tr);
+
+            split.components.slice(1).forEach(function (component) {
+                const extra = document.createElement("tr");
+                extra.innerHTML =
+                    '<td class="text-center">' + component.percent + "%</td>" +
+                    '<td class="text-center">' + component.label + "</td>" +
+                    '<td class="text-end">\u20b9' + component.amount + "</td>";
+                body.appendChild(extra);
+            });
+        });
+
+        $("save-invoice").disabled = lines.length === 0;
+        $("save-hint").textContent = lines.length
+            ? lines.length + " line" + (lines.length === 1 ? "" : "s") + " on this invoice."
+            : "Scan at least one product to save.";
+        $("lines-json").value = JSON.stringify(lines);
+    }
+
+    document.getElementById("pv-lines").addEventListener("change", function (e) {
+        if (!e.target.classList.contains("qty")) return;
+        const index = Number(e.target.dataset.index);
+        lines[index].quantity = Math.max(1, Number(e.target.value) || 1);
+        render();
+        refresh();
+    });
+
+    function refresh() {
+        const seller = readParty("seller");
+        const buyer = readParty("buyer");
+        const dispatch = $("dispatch-same").checked ? seller : readParty("dispatch");
+        const ship = $("ship-same").checked ? buyer : readParty("ship");
+
+        text("pv-seller-name", seller.name || "Company name");
+        text("pv-seller-address", seller.address);
+        text("pv-seller-pan", seller.pan);
+        text("pv-seller-gstin", seller.gstin);
+        text("pv-sign-for", seller.name || "your company");
+
+        text("pv-buyer-name", buyer.name || "Buyer name");
+        text("pv-buyer-address", buyer.address);
+        text("pv-buyer-code", buyer.state_code);
+
+        text("pv-ship-name", ship.name);
+        text("pv-ship-address", ship.address);
+        text("pv-supply-state", (buyer.state || "").toUpperCase());
+        text("pv-delivery-state", (ship.state || "").toUpperCase());
+
+        // Dispatch shows only when it is somewhere other than the company.
+        const dispatchDiffers = dispatch.name && dispatch.name !== seller.name;
+        $("pv-dispatch-wrap").classList.toggle("d-none", !dispatchDiffers);
+        text("pv-dispatch", dispatchDiffers ? dispatch.name + ", " + dispatch.state : "");
+
+        text("pv-number", $("invoice-number").value);
+        text("pv-date", $("invoice-date").value);
+        text("pv-ref", document.querySelector("[name=reference_no]").value);
+        text("pv-po", document.querySelector("[name=po_no]").value);
+        text("pv-mode", document.querySelector("[name=payment_mode]").value);
+
+        // The split itself is worked out on the server, so the preview and the
+        // saved invoice can never disagree about the tax.
+        fetch(PREVIEW_URL, {
+            method: "POST",
+            headers: {"Content-Type": "application/json", "X-CSRFToken": CSRF},
+            body: JSON.stringify({
+                lines: lines,
+                seller_state_code: seller.state_code,
+                buyer_state_code: buyer.state_code,
+            }),
+        })
+            .then((r) => r.json())
+            .then(showTotals);
+    }
+
+    function showTotals(t) {
+        lineSplits = t.line_rows || [];
+        text("pv-tax", "\u20b9" + t.tax);
+        text("pv-total", "\u20b9" + t.total);
+        text("pv-words", t.amount_words);
+
+        const kind = $("pv-supply-kind");
+        if (!lines.length) {
+            kind.className = "badge bg-secondary";
+            kind.textContent = "Nothing scanned yet";
+        } else if (t.union_territory) {
+            kind.className = "badge bg-info text-dark";
+            kind.textContent = "Same union territory \u2014 CGST + UGST";
+        } else if (t.intra_state) {
+            kind.className = "badge bg-success";
+            kind.textContent = "Same state \u2014 CGST + SGST";
+        } else {
+            kind.className = "badge bg-primary";
+            kind.textContent = "Different state \u2014 IGST";
+        }
+
+        // The per-line split arrived with these totals; redraw the lines with
+        // it, but only when it actually changed, so this cannot loop.
+        const stamp = JSON.stringify(lineSplits);
+        if (stamp !== lastSplitStamp) {
+            lastSplitStamp = stamp;
+            render();
+        }
+    }
+
+    function escapeHtml(s) {
+        return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+            return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c];
+        });
+    }
+
+    document.getElementById("invoice-form").addEventListener("input", function (e) {
+        if (e.target === scanBox) return;
+        refresh();
+    });
+
+    render();
+    refresh();
+})();
+</script>
+{% endblock %}

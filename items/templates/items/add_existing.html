@@ -1,0 +1,103 @@
+{% extends "items/base.html" %}
+{% load items_extras %}
+
+{% block title %}Add Existing Product{% endblock %}
+{% block page_context %}Item Registration{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Add Existing Product</h1>
+        <p class="page-subtitle">
+            Pick a product that already exists, edit anything that changed for this intake,
+            then add as many SKUs as you need &mdash; each one becomes its own entry.
+        </p>
+    </div>
+    <div class="page-actions">
+        <a href="{% url 'items:add' %}" class="btn btn-outline-secondary">New product instead</a>
+        <button type="submit" form="entry-form" class="btn btn-primary">Save</button>
+    </div>
+</div>
+
+{% include "items/_flow_hint.html" with step="existing" %}
+
+<form method="post" enctype="multipart/form-data" action="{% url 'items:add_existing' %}" id="entry-form"
+      class="form-layout form-layout--wide">
+    {% csrf_token %}
+
+    <div class="card mb-3" id="product-card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Product Information</span>
+            <span class="text-muted small fw-normal">Pre-filled from the selected product &mdash; all editable</span>
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                {% for field in fields %}
+                {% if not field.hide %}
+
+                {% if field.name == product_field %}
+                {# The product itself is chosen from what already exists, not typed again. #}
+                <div class="{{ field|col_class }} product-picker" data-field-name="{{ field.name }}" data-field-type="dropdown">
+                    <label class="form-label">
+                        {{ field.name }}{% if field.mandatory %} <span class="text-danger">*</span>{% endif %}
+                    </label>
+                    <select name="{% input_name forloop.counter0 %}" class="form-select" id="product-select"
+                            {% if field.mandatory %}required{% endif %}>
+                        <option value="">&mdash; Select Product &mdash;</option>
+                        {% for product in products %}
+                        <option value="{{ product.name }}">{{ product.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="form-text">Choosing one fills the fields below &mdash; all of them stay editable.</div>
+                </div>
+                {% else %}
+                {% include "items/_field_row.html" with field=field index=forloop.counter0 item=None posted=None %}
+                {% endif %}
+
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% include "items/_sku_section.html" %}
+
+    <div class="form-actions form-actions--wide">
+        <span class="form-actions-note">
+            Saving stores this intake as a new entry against the selected product.
+        </span>
+        <a href="{% url 'items:list' %}" class="btn btn-outline-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+    // Existing products, so picking a name can fill the rest of the form.
+    const PRODUCTS = {{ products_json|safe }};
+
+    const select = document.getElementById("product-select");
+    if (!select) return;
+    const card = document.getElementById("product-card");
+
+    select.addEventListener("change", function () {
+        const data = PRODUCTS[select.value];
+        // Visual cue only: marks the fields that a product choice filled in.
+        if (card) card.classList.toggle("is-prefilled", Boolean(data));
+        if (!data) return;
+        document.querySelectorAll("#product-card [data-field-name]").forEach(function (wrapper) {
+            if (wrapper.querySelector("#product-select")) return;
+            const input = wrapper.querySelector("[name]");
+            if (!input || input.type === "file") return;
+            const value = data[wrapper.dataset.fieldName];
+            if (value === undefined || value === null) return;
+            if (input.type === "checkbox") input.checked = Boolean(value);
+            else input.value = value;
+        });
+    });
+})();
+</script>
+{% include "items/_sku_section_js.html" %}
+{% endblock %}

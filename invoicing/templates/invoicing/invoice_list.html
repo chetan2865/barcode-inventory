@@ -1,0 +1,73 @@
+{% extends "items/base.html" %}
+
+{% block title %}Invoices{% endblock %}
+{% block page_context %}Invoices{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Invoices</h1>
+        <p class="page-subtitle">Every invoice raised, newest first.</p>
+    </div>
+    <div class="page-actions">
+        <a href="{% url 'invoicing:invoice_create' %}" class="btn btn-primary">+ Create Invoice</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-scroll">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width:150px;">Invoice No</th>
+                        <th style="width:120px;">Date</th>
+                        <th>Buyer</th>
+                        <th style="width:150px;">Supply</th>
+                        <th class="text-end" style="width:120px;">Taxable</th>
+                        <th class="text-end" style="width:110px;">Tax</th>
+                        <th class="text-end" style="width:130px;">Total</th>
+                        <th class="text-end" style="width:90px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for invoice in invoices %}
+                    <tr>
+                        <td><span class="code-chip code-chip-primary">{{ invoice.number }}</span></td>
+                        <td class="text-muted">{{ invoice.date|date:"d M Y" }}</td>
+                        <td><strong>{{ invoice.buyer_snapshot.name|default:"&ndash;" }}</strong></td>
+                        <td>
+                            {% if invoice.igst %}
+                            <span class="badge bg-info">IGST</span>
+                            {% elif invoice.ugst %}
+                            <span class="badge bg-secondary">CGST + UGST</span>
+                            {% else %}
+                            <span class="badge bg-success">CGST + SGST</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end num">{{ invoice.taxable }}</td>
+                        <td class="text-end num text-muted">{{ invoice.cgst|add:invoice.sgst|add:invoice.ugst|add:invoice.igst }}</td>
+                        <td class="text-end num"><strong>{{ invoice.total }}</strong></td>
+                        <td class="text-end">
+                            <a href="{% url 'invoicing:invoice_detail' invoice.pk %}" class="btn btn-sm btn-outline-secondary">Open</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8">
+                            <div class="empty-state">
+                                <div class="empty-state-title">No invoices raised yet</div>
+                                <div class="empty-state-text">
+                                    Create one and scan products onto it &mdash; totals and tax are worked out for you.
+                                </div>
+                                <a href="{% url 'invoicing:invoice_create' %}" class="btn btn-sm btn-primary">+ Create Invoice</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

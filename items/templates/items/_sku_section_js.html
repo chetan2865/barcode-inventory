@@ -1,0 +1,150 @@
+{% comment %}
+Behaviour for the shared SKU Details section (items/_sku_section.html).
+Included inside the {% block scripts %} of both add pages.
+{% endcomment %}
+<script>
+(function () {
+    const form = document.getElementById("entry-form");
+    const blocksEl = document.getElementById("sku-blocks");
+    if (!form || !blocksEl) return;
+
+    // Registering straight off a scan is one material, so one SKU: no second
+    // block is ever opened and there is nothing to add or remove.
+    const single = blocksEl.dataset.single === "1";
+
+    function blocks() {
+        return Array.from(blocksEl.querySelectorAll(".sku-block"));
+    }
+
+    // Names are namespaced per block (sku_<n>_field_<i>) so each SKU posts on
+    // its own and the server can group them back.
+    function renumber(block, index) {
+        block.dataset.block = index;
+        block.querySelector(".sku-label").textContent = "SKU " + (index + 1);
+        block.querySelectorAll("[name]").forEach(function (input) {
+            if (!input.dataset.baseName) {
+                input.dataset.baseName = input.name.replace(/^sku_\d+_/, "");
+            }
+            input.name = "sku_" + index + "_" + input.dataset.baseName;
+            if (input.id) input.id = "sku_" + index + "_" + input.dataset.baseName;
+        });
+        block.querySelector(".remove-sku").classList.toggle("d-none", single || blocks().length === 1);
+    }
+
+    function refresh() {
+        blocks().forEach(renumber);
+    }
+
+    function values(block) {
+        const out = [];
+        block.querySelectorAll("[data-field-name]").forEach(function (wrapper) {
+            const input = wrapper.querySelector("[name]");
+            if (input && String(input.value).trim() !== "") {
+                out.push(wrapper.dataset.fieldName + ": " + input.value);
+            }
+        });
+        return out;
+    }
+
+    function isBlank(block) {
+        return Array.from(block.querySelectorAll("[name]")).every(function (i) {
+            return String(i.value).trim() === "";
+        });
+    }
+
+    function isComplete(block) {
+        const required = Array.from(block.querySelectorAll("[required]"));
+        if (!required.length) return !isBlank(block);
+        return required.every(function (i) { return String(i.value).trim() !== ""; });
+    }
+
+    function addBlock() {
+        const fresh = blocks()[0].cloneNode(true);
+        fresh.querySelectorAll("[name]").forEach(function (input) {
+            if (input.type === "checkbox") input.checked = false;
+            else input.value = "";
+        });
+        fresh.classList.remove("border-success");
+        fresh.querySelector(".sku-saved").classList.add("d-none");
+        fresh.querySelector(".sku-edit").classList.add("d-none");
+        fresh.querySelector(".sku-summary").textContent = "";
+        fresh.querySelector(".sku-body").classList.remove("d-none");
+        blocksEl.appendChild(fresh);
+        refresh();
+        return fresh;
+    }
+
+    // "Save SKU" - commits this SKU inside the form: folded away, still posted
+    // with everything else when the page's Save button is pressed.
+    function saveBlock(block) {
+        const invalid = Array.from(block.querySelectorAll("[required]")).find(function (i) {
+            return String(i.value).trim() === "";
+        });
+        if (invalid) {
+            invalid.reportValidity();
+            return false;
+        }
+        block.classList.add("border-success");
+        block.querySelector(".sku-saved").classList.remove("d-none");
+        block.querySelector(".sku-edit").classList.remove("d-none");
+        block.querySelector(".sku-summary").textContent = values(block).join(" · ");
+        block.querySelector(".sku-body").classList.add("d-none");
+
+        if (!single) {
+            // Keep exactly one blank block waiting at the end.
+            const all = blocks();
+            if (!isBlank(all[all.length - 1])) addBlock();
+        }
+        return true;
+    }
+
+    blocksEl.addEventListener("click", function (e) {
+        const block = e.target.closest(".sku-block");
+        if (!block) return;
+
+        if (e.target.classList.contains("save-sku")) {
+            saveBlock(block);
+        } else if (e.target.classList.contains("sku-edit")) {
+            block.classList.remove("border-success");
+            block.querySelector(".sku-saved").classList.add("d-none");
+            block.querySelector(".sku-edit").classList.add("d-none");
+            block.querySelector(".sku-summary").textContent = "";
+            block.querySelector(".sku-body").classList.remove("d-none");
+        } else if (e.target.classList.contains("remove-sku")) {
+            if (blocks().length === 1) return;
+            block.remove();
+            refresh();
+        }
+    });
+
+    const addButton = document.getElementById("add-sku");
+    if (addButton) addButton.addEventListener("click", function () {
+        const all = blocks();
+        const last = all[all.length - 1];
+        const target = isBlank(last) ? last : addBlock();
+        const first = target.querySelector("[name]");
+        if (first) first.focus();
+    });
+
+    // Filling the last SKU right through also opens the next one.
+    blocksEl.addEventListener("change", function () {
+        if (single) return;
+        const all = blocks();
+        const last = all[all.length - 1];
+        if (isComplete(last)) addBlock();
+    });
+
+    // A trailing blank block must not hold the page's Save button hostage.
+    form.addEventListener("submit", function () {
+        blocks().forEach(function (block) {
+            if (!isComplete(block)) {
+                block.querySelectorAll("[required]").forEach(function (input) {
+                    input.removeAttribute("required");
+                });
+            }
+        });
+    });
+
+    refresh();
+})();
+</script>

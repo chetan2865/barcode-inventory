@@ -1,0 +1,218 @@
+[
+{
+  "model": "field_master.masterschema",
+  "pk": 1,
+  "fields": {
+    "page": "Item Registration",
+    "fields": [
+      {
+        "name": "Product Name",
+        "type": "text",
+        "include_in_sku": false,
+        "include_in_invoice_description": true,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "L",
+        "configuration": {
+          "placeholder": null,
+          "max_length": null
+        },
+        "sku_config": {},
+        "system": true
+      },
+      {
+        "name": "HSN",
+        "type": "text",
+        "include_in_sku": false,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "placeholder": null,
+          "max_length": null
+        },
+        "sku_config": {},
+        "system": true
+      },
+      {
+        "name": "Selling Rate",
+        "type": "number",
+        "include_in_sku": false,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "minimum": 0,
+          "maximum": null,
+          "decimal_places": 2
+        },
+        "sku_config": {},
+        "system": true
+      },
+      {
+        "name": "Manufacturing Cost",
+        "type": "number",
+        "include_in_sku": false,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "minimum": 0,
+          "maximum": null,
+          "decimal_places": 2
+        },
+        "sku_config": {},
+        "system": true
+      },
+      {
+        "name": "GST Rate",
+        "type": "dropdown",
+        "include_in_sku": false,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "options": [
+            "0%",
+            "5%",
+            "12%",
+            "18%",
+            "28%",
+            "40%"
+          ]
+        },
+        "sku_config": {},
+        "system": true
+      },
+      {
+        "name": "Fabric",
+        "type": "dropdown",
+        "include_in_sku": true,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "options": [
+            "Lycra",
+            "Cotton"
+          ]
+        }
+      },
+      {
+        "name": "Sleeve",
+        "type": "dropdown",
+        "include_in_sku": true,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "options": [
+            "Full Sleeve",
+            "Half Sleeve"
+          ]
+        }
+      },
+      {
+        "name": "Color",
+        "type": "dropdown",
+        "include_in_sku": true,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "options": [
+            "Black",
+            "Blue"
+          ]
+        }
+      },
+      {
+        "name": "Pattern",
+        "type": "dropdown",
+        "include_in_sku": true,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "options": [
+            "Plain",
+            "Printed",
+            "Striped",
+            "Checked"
+          ]
+        },
+        "sku_config": {
+          "order": null,
+          "length": null,
+          "transform": null
+        },
+        "system": false
+      },
+      {
+        "name": "material",
+        "type": "dropdown",
+        "include_in_sku": true,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "L",
+        "configuration": {
+          "options": [
+            "A",
+            "B",
+            "C"
+          ]
+        },
+        "sku_config": {
+          "order": null,
+          "length": null,
+          "transform": null
+        },
+        "system": false
+      },
+      {
+        "name": "Quantity",
+        "type": "number",
+        "include_in_sku": true,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "minimum": 0,
+          "maximum": null,
+          "decimal_places": null
+        },
+        "sku_config": {
+          "order": null,
+          "length": null,
+          "transform": null
+        },
+        "system": false
+      }
+    ],
+    "created_at": "2026-07-14T11:34:48.125Z",
+    "updated_at": "2026-08-16T11:31:50.016Z"
+  }
+},
+{
+  "model": "items.skuformat",
+  "pk": 1,
+  "fields": {
+    "separator": "-",
+    "component_length": 3,
+    "sequence_padding": 3,
+    "transform": "alnum",
+    "uppercase": true,
+    "updated_at": "2026-08-15T12:39:53.726Z"
+  }
+}
+]

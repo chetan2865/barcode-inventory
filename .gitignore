@@ -1,0 +1,44 @@
+# ---------------------------------------------------------------- Python --
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+*.egg-info/
+.eggs/
+
+# ----------------------------------------------------------------- Django --
+# The database holds live business data - invoices, GSTINs, parties. It is
+# not source, and it does not belong in the repository.
+db.sqlite3
+db.sqlite3-journal
+*.log
+local_settings.py
+
+# Uploaded and generated files: barcode images, signatures, logos, payment QRs.
+# All of these are regenerated or re-uploaded; none are source.
+/media/
+
+# collectstatic output (the checked-in sources live in /static/).
+/staticfiles/
+/static_root/
+
+# ------------------------------------------------------------ PyInstaller --
+# The packaged desktop build - ~213 MB of generated output.
+/build/
+/dist/
+*.manifest
+*.spec.bak
+
+# -------------------------------------------------------------- Editors/OS --
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini

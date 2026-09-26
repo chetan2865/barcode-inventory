@@ -1,0 +1,261 @@
+{% extends "items/base.html" %}
+
+{% block title %}Scanner Test{% endblock %}
+{% block page_context %}Barcode Scanner{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Barcode Scanner Test</h1>
+        <p class="page-subtitle">
+            A diagnostics page. Keep it open and scan &mdash; a USB reader types the code like a
+            keyboard, so nothing needs to be clicked or focused; every scan lands below.
+        </p>
+    </div>
+    <div class="page-actions">
+        <span class="badge bg-success">Listening for scans</span>
+        <button id="clear" class="btn btn-sm btn-outline-secondary">Clear list</button>
+        <a href="{% url 'items:barcode_scan' %}" class="btn btn-sm btn-outline-secondary">Real scanner</a>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="row g-3 align-items-end">
+            <div class="col-auto" style="min-width:340px;">
+                <label class="form-label mb-1">Live capture</label>
+                <input id="buffer" type="text" class="form-control form-control-lg scan-input"
+                       placeholder="Scan a barcode..." autocomplete="off" autofocus>
+                <div class="form-text">Typing here works too &mdash; press Enter to submit manually.</div>
+            </div>
+            <div class="col">
+                <div id="lastmeta" class="text-muted small">No scan yet.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-sm align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th style="width:40px;">#</th>
+                    <th>Scanned Value</th>
+                    <th>Resolved</th>
+                    <th style="width:90px;">Scans</th>
+                    <th style="width:170px;">First / Last</th>
+                    <th style="width:160px;">Input timing</th>
+                </tr>
+            </thead>
+            <tbody id="rows">
+                <tr id="empty"><td colspan="6" class="text-center text-muted py-4">
+                    Waiting for the first scan&hellip;
+                </td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+    const LOOKUP_URL = "{% url 'items:barcode_lookup' %}";
+    const ADD_URL = "{% url 'items:add' %}";
+    // A USB HID reader sends its characters far faster than a human types;
+    // anything under this per-key gap is reported as scanner input.
+    const SCANNER_KEY_GAP_MS = 40;
+    const EMPTY_ROW = '<tr id="empty"><td colspan="6" class="text-center text-muted py-4">Waiting for the first scan&hellip;</td></tr>';
+
+    const bufferEl = document.getElementById("buffer");
+    const rowsEl = document.getElementById("rows");
+    const metaEl = document.getElementById("lastmeta");
+
+    // Scanned value -> { count, first, last, rowEl, data }
+    const seen = new Map();
+    let order = 0;
+
+    // Raw keystroke capture at the document level, so the reader is heard even
+    // when no field has focus.
+    let raw = "";
+    let startedAt = 0;
+    let lastKeyAt = 0;
+    let gaps = [];
+
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+            const value = (bufferEl.value || raw).trim();
+            const stats = {
+                chars: raw.length || value.length,
+                elapsed: startedAt ? Math.round(performance.now() - startedAt) : null,
+                avgGap: gaps.length ? Math.round(gaps.reduce((a, b) => a + b, 0) / gaps.length) : null
+            };
+            reset();
+            if (value) {
+                e.preventDefault();
+                submit(value, stats);
+            }
+            return;
+        }
+        if (e.key.length !== 1) return;   // ignore Shift, Tab, arrows, ...
+
+        const now = performance.now();
+        if (!startedAt || now - lastKeyAt > 500) {   // a fresh scan / typing burst
+            raw = "";
+            gaps = [];
+            startedAt = now;
+        } else {
+            gaps.push(now - lastKeyAt);
+        }
+        lastKeyAt = now;
+        raw += e.key;
+
+        // Mirror into the box when the keystrokes landed outside it.
+        if (document.activeElement !== bufferEl) bufferEl.value = raw;
+    });
+
+    function reset() {
+        raw = "";
+        startedAt = 0;
+        lastKeyAt = 0;
+        gaps = [];
+        bufferEl.value = "";
+        bufferEl.focus();
+    }
+
+    function submit(value, stats) {
+        const source = stats.avgGap !== null && stats.avgGap < SCANNER_KEY_GAP_MS ? "scanner" : "typed";
+        fetch(LOOKUP_URL + "?value=" + encodeURIComponent(value))
+            .then(function (r) { return r.json(); })
+            .then(function (data) { record(value, data, stats, source); })
+            .catch(function () { record(value, null, stats, source); });
+    }
+
+    function record(value, data, stats, source) {
+        const now = new Date().toLocaleTimeString();
+        const timing = stats.avgGap === null
+            ? "&ndash;"
+            : stats.chars + " chars &middot; " + stats.elapsed + " ms<br>" +
+              '<span class="text-muted">~' + stats.avgGap + " ms/key &middot; " + source + "</span>";
+
+        const existing = seen.get(value);
+        if (existing) {
+            existing.count += 1;
+            existing.last = now;
+            existing.rowEl.querySelector(".cell-count").innerHTML =
+                '<span class="badge bg-warning text-dark">' + existing.count + "&times;</span>";
+            existing.rowEl.querySelector(".cell-times").innerHTML =
+                existing.first + '<br><span class="text-muted">' + existing.last + "</span>";
+            existing.rowEl.querySelector(".cell-timing").innerHTML = timing;
+            rowsEl.prepend(existing.rowEl);
+            flash(existing.rowEl, "table-warning");
+            metaEl.innerHTML =
+                '<span class="badge bg-warning text-dark">Already added</span> <code>' +
+                escapeHtml(value) + "</code> &mdash; seen " + existing.count + " times. " +
+                resolvedText(existing.data);
+            return;
+        }
+
+        const emptyEl = document.getElementById("empty");
+        if (emptyEl) emptyEl.remove();
+
+        order += 1;
+        const tr = document.createElement("tr");
+        tr.innerHTML =
+            '<td class="text-muted">' + order + "</td>" +
+            "<td><code>" + escapeHtml(value) + "</code></td>" +
+            '<td class="cell-resolved">' + resolvedCell(data) + "</td>" +
+            '<td class="cell-count"><span class="badge bg-secondary">1&times;</span></td>' +
+            '<td class="cell-times small">' + now + '<br><span class="text-muted">' + now + "</span></td>" +
+            '<td class="cell-timing small">' + timing + "</td>";
+        rowsEl.prepend(tr);
+        flash(tr, "table-success");
+
+        seen.set(value, { count: 1, first: now, last: now, rowEl: tr, data: data });
+        metaEl.innerHTML =
+            '<span class="badge bg-success">Added</span> <code>' + escapeHtml(value) +
+            "</code> &mdash; " + resolvedText(data);
+    }
+
+    function resolvedCell(data) {
+        if (!data) return '<span class="text-danger">Lookup failed</span>';
+        if (!data.found) {
+            // Unknown code: offer to register it as new material, one SKU.
+            return '<span class="badge bg-danger">Not in database</span> ' +
+                   '<a class="btn btn-sm btn-outline-success ms-2" target="_blank" href="' +
+                   ADD_URL + "?scanned=" + encodeURIComponent(data.value) + '">Add to database</a>';
+        }
+
+        const details = Object.keys(data.sku_data || {}).map(function (k) {
+            return '<span class="badge bg-light text-dark border me-1">' +
+                   escapeHtml(k) + ": " + escapeHtml(String(data.sku_data[k])) + "</span>";
+        }).join("");
+
+        // An entry barcode identifies one intake exactly; siblings are listed
+        // beside it, never added together.
+        const unit = data.unit
+            ? ' <span class="badge ' + (data.unit_in_range ? "bg-primary" : "bg-danger") +
+              '">Unit ' + data.unit + " of " + data.quantity + "</span>"
+            : "";
+        const head = data.entry_id
+            ? '<span class="badge bg-dark">Entry #' + data.entry_id + "</span> " +
+              escapeHtml(data.product || "") +
+              ' <span class="badge bg-success">Qty ' + data.quantity + "</span>" + unit
+            : '<span class="badge bg-secondary">SKU code only</span>';
+
+        const siblings = (data.entries || []).map(function (e) {
+            return '<span class="badge ' + (e.scanned ? "bg-success" : "bg-light text-dark border") +
+                   ' me-1">#' + e.item_id + ": " + e.quantity + "</span>";
+        }).join("");
+
+        const mapped = data.source_code
+            ? '<div class="mt-1 small text-muted">original barcode: <code>' +
+              escapeHtml(data.source_code) + "</code>" +
+              (data.scanned_source ? " (scanned)" : "") + "</div>"
+            : "";
+
+        return head + mapped +
+               '<div class="mt-1"><strong>' + escapeHtml(data.sku_code || "") + "</strong> " +
+               '<span class="text-muted">&middot; SKU ID ' + data.sku_id + "</span></div>" +
+               '<div class="mt-1">' + details + "</div>" +
+               '<div class="mt-1 small text-muted">entries: ' + (siblings || "none") + "</div>";
+    }
+
+    function resolvedText(data) {
+        if (!data) return "lookup failed.";
+        if (!data.found) return "no matching record.";
+        if (data.entry_id) {
+            const piece = data.unit ? " (unit " + data.unit + " of " + data.quantity + ")" : "";
+            return "entry #" + data.entry_id + " of " + escapeHtml(data.sku_code) +
+                   " - quantity " + data.quantity + piece + ".";
+        }
+        return "SKU " + escapeHtml(data.sku_code) + " (no single entry).";
+    }
+
+    function flash(el, cls) {
+        el.classList.add(cls);
+        setTimeout(function () { el.classList.remove(cls); }, 1200);
+    }
+
+    function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, function (c) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+    }
+
+    document.getElementById("clear").addEventListener("click", function () {
+        seen.clear();
+        order = 0;
+        rowsEl.innerHTML = EMPTY_ROW;
+        metaEl.textContent = "No scan yet.";
+        reset();
+    });
+
+    // Keep focus on the capture box so a reader's keystrokes are never lost.
+    setInterval(function () {
+        if (document.activeElement === document.body) bufferEl.focus();
+    }, 1000);
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,281 @@
+{% extends "items/base.html" %}
+{% load items_extras %}
+
+{% block title %}Item Display{% endblock %}
+{% block page_context %}Products{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Products</h1>
+        <p class="page-subtitle">
+            Click a product to see its entries, click an entry to see the SKUs saved with it &mdash;
+            click again to fold it back.
+        </p>
+    </div>
+    <div class="page-actions">
+        <a href="{% url 'items:barcode_scan' %}" class="btn btn-outline-secondary">Scan Barcode</a>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Add Product
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="{% url 'items:add' %}">Add New Product</a></li>
+                <li><a class="dropdown-item" href="{% url 'items:add_existing' %}">Add Existing Product</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% include "items/_flow_hint.html" with step="display" %}
+
+<div class="toolbar">
+    <form method="get" class="row g-2 align-items-center">
+        <div class="col-auto">
+            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse"
+                    data-bs-target="#filters-panel">Filters</button>
+        </div>
+        <div class="col-auto flex-grow-1">
+            <input type="text" name="q" class="form-control" placeholder="Search all fields&hellip;"
+                   value="{{ query }}">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+        <div class="col-auto">
+            <a href="{% url 'items:list' %}" class="btn btn-outline-secondary">Clear</a>
+        </div>
+
+        <div id="filters-panel" class="collapse {% if filter_field and filter_value %}show{% endif %} w-100 mt-2">
+            <div class="filter-panel row g-2 align-items-center">
+                <div class="col-auto">
+                    <select name="filter_field" class="form-select">
+                        <option value="">&mdash; Filter by field &mdash;</option>
+                        {% for field in fields %}
+                        <option value="{{ field.name }}" {% if filter_field == field.name %}selected{% endif %}>{{ field.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <input type="text" name="filter_value" class="form-control" placeholder="Value contains&hellip;"
+                           value="{{ filter_value }}">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-outline-primary">Apply Filter</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th style="width:44px;"></th>
+                    <th>{{ product_field }}</th>
+                    <th style="width:110px;">Entries</th>
+                    <th class="text-end" style="width:130px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                {# Level 1 - the product. #}
+                <tr class="fold-row" data-bs-toggle="collapse" data-bs-target="#product-{{ forloop.counter }}"
+                    role="button" aria-expanded="false">
+                    <td class="fold-caret text-muted">&#9656;</td>
+                    <td><strong>{{ product.name }}</strong></td>
+                    <td><span class="badge bg-secondary">{{ product.entries|length }} entr{{ product.entries|length|pluralize:"y,ies" }}</span></td>
+                    <td class="text-end" onclick="event.stopPropagation();">
+                        <a href="{% url 'items:add_existing' %}" class="btn btn-sm btn-outline-secondary">+ Entry</a>
+                    </td>
+                </tr>
+                <tr class="collapse" id="product-{{ forloop.counter }}">
+                    <td colspan="4" class="nest-cell">
+                        <div class="nest nest--1">
+                            {# Level 2 - one row per entry: the product detail it was saved with. #}
+                            <p class="nest-title">Entries of <strong>{{ product.name }}</strong></p>
+                            <div class="nest-table">
+                                <table class="table table-sm align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="width:36px;"></th>
+                                            <th style="width:90px;">Entry</th>
+                                            {% for field in detail_fields %}<th>{{ field.name }}</th>{% endfor %}
+                                            <th style="width:76px;">SKUs</th>
+                                            <th style="width:140px;">Added</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for entry in product.entries %}
+                                        <tr class="fold-row" data-bs-toggle="collapse"
+                                            data-bs-target="#entry-{{ entry.pk }}" role="button" aria-expanded="false">
+                                            <td class="fold-caret text-muted">&#9656;</td>
+                                            <td><span class="code-chip">#{{ entry.pk }}</span></td>
+                                            {% for field in detail_fields %}
+                                            <td>
+                                                {% with value=entry.data|get_item:field.name %}
+                                                {% if field.type == "boolean" %}
+                                                    {% if value %}<span class="tick-yes">&#10003;</span>{% else %}<span class="tick-no">&ndash;</span>{% endif %}
+                                                {% elif field.type == "file" %}
+                                                    {% if value %}<a href="{{ value }}" target="_blank"
+                                                       onclick="event.stopPropagation();">file</a>{% else %}<span class="tick-no">&ndash;</span>{% endif %}
+                                                {% else %}
+                                                    {{ value|default:"–" }}
+                                                {% endif %}
+                                                {% endwith %}
+                                            </td>
+                                            {% endfor %}
+                                            <td><span class="badge bg-info">{{ entry.lines|length }}</span></td>
+                                            <td class="text-muted small">{{ entry.created_at|date:"d M Y, H:i" }}</td>
+                                        </tr>
+                                        <tr class="collapse" id="entry-{{ entry.pk }}">
+                                            <td colspan="{{ detail_fields|length|add:4 }}" class="nest-cell">
+                                                <div class="nest nest--2">
+                                                    {# Level 3 - every SKU saved in this entry. #}
+                                                    <p class="nest-title">
+                                                        SKUs in entry <span class="code-chip">#{{ entry.pk }}</span>
+                                                        <span class="text-muted fw-normal">
+                                                            &mdash; each keeps its own quantity and its own barcode
+                                                        </span>
+                                                    </p>
+                                                    <div class="nest-table">
+                                                        <table class="table table-sm align-middle mb-0">
+                                                            <thead class="table-light">
+                                                                <tr>
+                                                                    <th style="width:70px;">Line</th>
+                                                                    {% for field in sku_fields %}<th>{{ field.name }}</th>{% endfor %}
+                                                                    <th style="width:170px;">SKU Code</th>
+                                                                    <th class="text-end" style="width:90px;">{{ qty_name }}</th>
+                                                                    <th style="width:180px;">Barcode</th>
+                                                                    <th class="text-end" style="width:210px;">Actions</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for line in entry.lines %}
+                                                                <tr>
+                                                                    <td class="text-muted">#{{ line.pk }}</td>
+                                                                    {% for field in sku_fields %}
+                                                                    <td>{{ line.sku.data|get_item:field.name|default:"–" }}</td>
+                                                                    {% endfor %}
+                                                                    <td>
+                                                                        {% if line.sku %}
+                                                                        <span class="code-chip code-chip-primary">{{ line.sku.code }}</span>
+                                                                        {% else %}<span class="tick-no">&ndash;</span>{% endif %}
+                                                                    </td>
+                                                                    <td class="text-end"><strong>{{ line.quantity }}</strong></td>
+                                                                    <td>
+                                                                        {% if line.barcode %}
+                                                                        <img class="barcode-img" src="{{ line.barcode.image.url }}"
+                                                                             alt="{{ line.barcode.value }}">
+                                                                        <div class="barcode-value">{{ line.barcode.value }}</div>
+                                                                        {% if line.barcode.source_value %}
+                                                                        <div class="barcode-value barcode-source"
+                                                                             title="Original barcode this material arrived with">
+                                                                            &#8617; {{ line.barcode.source_value }}
+                                                                        </div>
+                                                                        {% endif %}
+                                                                        {% else %}
+                                                                        <span class="tick-no">&ndash;</span>
+                                                                        {% endif %}
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="row-actions">
+                                                                            {% if line.barcode %}
+                                                                            <a href="{% url 'items:barcodes_zip' line.pk %}"
+                                                                               class="btn btn-sm btn-outline-secondary"
+                                                                               title="ZIP: 1 lot barcode + {{ line.quantity }} unit barcodes">Labels</a>
+                                                                            {% endif %}
+                                                                            <a href="{% url 'items:edit' line.pk %}"
+                                                                               class="btn btn-sm btn-outline-secondary">Edit</a>
+                                                                            <form method="post" action="{% url 'items:delete' line.pk %}"
+                                                                                  onsubmit="return confirm('Delete this SKU line?');">
+                                                                                {% csrf_token %}
+                                                                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                {% empty %}
+                                                                <tr>
+                                                                    <td colspan="{{ sku_fields|length|add:5 }}" class="text-center text-muted py-3">
+                                                                        No SKU in this entry yet.
+                                                                    </td>
+                                                                </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    <details class="json-details mt-3">
+                                                        <summary>Entry JSON</summary>
+                                                        {% for line in entry.lines %}
+                                                        <div class="json-view mt-2"><pre class="mb-0"><code>{{ line.json_pretty }}</code></pre></div>
+                                                        {% endfor %}
+                                                    </details>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">
+                        <div class="empty-state">
+                            <div class="empty-state-title">No products yet</div>
+                            <div class="empty-state-text">
+                                Register your first product, or scan a barcode to bring one in.
+                            </div>
+                            <a href="{% url 'items:add' %}" class="btn btn-sm btn-primary">Add New Product</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if page_obj.paginator.num_pages > 1 %}
+<nav class="mt-3">
+    <ul class="pagination justify-content-center mb-0">
+        <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ query }}&filter_field={{ filter_field }}&filter_value={{ filter_value }}">Previous</a>
+        </li>
+        {% for page_num in page_obj.paginator.page_range %}
+        <li class="page-item {% if page_num == page_obj.number %}active{% endif %}">
+            <a class="page-link" href="?page={{ page_num }}&q={{ query }}&filter_field={{ filter_field }}&filter_value={{ filter_value }}">{{ page_num }}</a>
+        </li>
+        {% endfor %}
+        <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ query }}&filter_field={{ filter_field }}&filter_value={{ filter_value }}">Next</a>
+        </li>
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+    // Bootstrap sets aria-expanded on the row itself, which the CSS uses to
+    // turn the caret. Nothing else is needed to fold and unfold.
+    document.querySelectorAll(".fold-row").forEach(function (row) {
+        const target = document.querySelector(row.dataset.bsTarget);
+        if (!target) return;
+        target.addEventListener("show.bs.collapse", function (e) {
+            if (e.target === target) row.setAttribute("aria-expanded", "true");
+        });
+        target.addEventListener("hide.bs.collapse", function (e) {
+            if (e.target === target) row.setAttribute("aria-expanded", "false");
+        });
+    });
+})();
+</script>
+{% endblock %}

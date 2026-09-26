@@ -1,0 +1,328 @@
+{% extends "field_master/base.html" %}
+
+{% block title %}{% if mode == "edit" %}Edit Field{% else %}Add Field{% endif %}{% endblock %}
+{% block page_context %}Field Master{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">{% if mode == "edit" %}Edit Field{% else %}Field Designer{% endif %}</h1>
+        <p class="page-subtitle">
+            {% if mode == "edit" %}
+            Change how this field behaves on the Item Registration form. Its name and SKU membership are fixed.
+            {% else %}
+            Define one field of the Item Registration form &mdash; what it asks for, how it behaves,
+            and whether it takes part in the SKU code.
+            {% endif %}
+        </p>
+    </div>
+    <div class="page-actions">
+        <a href="{% url 'field_master:list' %}" class="btn btn-outline-secondary">Back to list</a>
+    </div>
+</div>
+
+<form method="post"
+      action="{% if mode == 'edit' %}{% url 'field_master:edit' index %}{% else %}{% url 'field_master:add' %}{% endif %}">
+    {% csrf_token %}
+
+    <div class="form-layout">
+        <div class="form-main">
+
+            <div class="card mb-3">
+                <div class="card-body">
+
+                    <!-- ------------------------------------ basic info -- -->
+                    <div class="form-section">
+                        <p class="form-section-title">Basic Information</p>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Field Name <span class="text-danger">*</span></label>
+                                <input type="text" name="name" class="form-control"
+                                       value="{{ field.name|default:'' }}" required
+                                       placeholder="e.g. Fabric"
+                                       {% if mode == "edit" %}readonly{% endif %}>
+                                {% if mode == "edit" %}
+                                <div class="form-text">Field names cannot be changed after creation.</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Type</label>
+                                <select name="type" id="field-type" class="form-select">
+                                    {% for value, label in field_types %}
+                                    <option value="{{ value }}"
+                                        {% if field.type == value %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Field Size</label>
+                                <select name="field_size" class="form-select">
+                                    {% for size in field_sizes %}
+                                    <option value="{{ size }}"
+                                        {% if field.field_size == size %}selected{% endif %}>{{ size }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="form-text">Width on the form.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- -------------------------------------- behaviour -- -->
+                    <div class="form-section">
+                        <p class="form-section-title">Behavior</p>
+                        <div class="switch-grid">
+                            <label class="switch-card" for="include_in_sku">
+                                <input class="form-check-input" type="checkbox" name="include_in_sku"
+                                       id="include_in_sku" {% if field.include_in_sku %}checked{% endif %}
+                                       {% if mode == "edit" and field.include_in_sku %}disabled{% endif %}>
+                                <span>
+                                    <span class="switch-card-title">Include in SKU</span>
+                                    <span class="switch-card-note">
+                                        {% if mode == "edit" and field.include_in_sku %}
+                                        Already part of the SKU configuration &mdash; cannot be removed.
+                                        {% else %}
+                                        Its value becomes a component of the SKU code.
+                                        {% endif %}
+                                    </span>
+                                </span>
+                            </label>
+                            {% if mode == "edit" and field.include_in_sku %}
+                            <input type="hidden" name="include_in_sku" value="on">
+                            {% endif %}
+
+                            <label class="switch-card" for="include_in_invoice_description">
+                                <input class="form-check-input" type="checkbox" name="include_in_invoice_description"
+                                       id="include_in_invoice_description"
+                                       {% if field.include_in_invoice_description %}checked{% endif %}>
+                                <span>
+                                    <span class="switch-card-title">Include in Invoice Description</span>
+                                    <span class="switch-card-note">Printed under the item line on invoices.</span>
+                                </span>
+                            </label>
+
+                            <label class="switch-card" for="mandatory">
+                                <input class="form-check-input" type="checkbox" name="mandatory"
+                                       id="mandatory" {% if field.mandatory %}checked{% endif %}>
+                                <span>
+                                    <span class="switch-card-title">Mandatory</span>
+                                    <span class="switch-card-note">Must be filled before an entry can be saved.</span>
+                                </span>
+                            </label>
+
+                            <label class="switch-card" for="hide">
+                                <input class="form-check-input" type="checkbox" name="hide"
+                                       id="hide" {% if field.hide %}checked{% endif %}>
+                                <span>
+                                    <span class="switch-card-title">Hidden</span>
+                                    <span class="switch-card-note">Kept in the schema but not shown on the form.</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# --- SKU options. Only shown when "Include in SKU" is checked. --- #}
+            <div class="card mb-3" id="sku-options-card" style="display:none;">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>SKU Options</span>
+                    <span class="text-muted small fw-normal">Leave blank to use the global SKU Format</span>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Order</label>
+                            <input type="number" name="sku_order" class="form-control" min="0"
+                                   value="{{ field.sku_config.order|default:'' }}">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Length (chars)</label>
+                            <input type="number" name="sku_length" class="form-control" min="1"
+                                   value="{{ field.sku_config.length|default:'' }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Transform</label>
+                            <select name="sku_transform" class="form-select">
+                                {% for value, label in sku_transforms %}
+                                <option value="{{ value }}"
+                                    {% if field.sku_config.transform == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <div class="form-text mb-2">Always uppercase &mdash; fixed rule.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# --- Type-dependent configuration. Only the block matching the selected type is shown. --- #}
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Configuration</span>
+                    <span class="text-muted small fw-normal">Depends on the selected type</span>
+                </div>
+                <div class="card-body">
+
+                    <div class="config-block" data-type="dropdown">
+                        <label class="form-label">Options (one per line)</label>
+                        <textarea name="options" class="form-control" rows="4"
+                                  placeholder="Red&#10;Blue&#10;Black">{% for opt in field.configuration.options %}{{ opt }}
+{% endfor %}</textarea>
+                        <div class="form-text">Each line becomes one choice in the dropdown.</div>
+                    </div>
+
+                    <div class="config-block" data-type="text">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Placeholder</label>
+                                <input type="text" name="placeholder" class="form-control"
+                                       value="{{ field.configuration.placeholder|default:'' }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Maximum Length</label>
+                                <input type="number" name="max_length" class="form-control"
+                                       value="{{ field.configuration.max_length|default:'' }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="config-block" data-type="number">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Minimum</label>
+                                <input type="number" name="minimum" class="form-control"
+                                       value="{{ field.configuration.minimum|default:'' }}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Maximum</label>
+                                <input type="number" name="maximum" class="form-control"
+                                       value="{{ field.configuration.maximum|default:'' }}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Decimal Places</label>
+                                <input type="number" name="decimal_places" class="form-control"
+                                       value="{{ field.configuration.decimal_places|default:'' }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="config-block" data-type="date">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Minimum Date</label>
+                                <input type="date" name="minimum_date" class="form-control"
+                                       value="{{ field.configuration.minimum_date|default:'' }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Maximum Date</label>
+                                <input type="date" name="maximum_date" class="form-control"
+                                       value="{{ field.configuration.maximum_date|default:'' }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="config-block" data-type="file">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Allowed Extensions (comma separated)</label>
+                                <input type="text" name="allowed_extensions" class="form-control"
+                                       placeholder="pdf, png, jpg"
+                                       value="{{ field.configuration.allowed_extensions|join:', ' }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Maximum File Size (KB)</label>
+                                <input type="number" name="maximum_file_size" class="form-control"
+                                       value="{{ field.configuration.maximum_file_size|default:'' }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="config-block" data-type="long_text">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Rows</label>
+                                <input type="number" name="rows" class="form-control"
+                                       value="{{ field.configuration.rows|default:'' }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Maximum Length</label>
+                                <input type="number" name="max_length" class="form-control"
+                                       value="{{ field.configuration.max_length|default:'' }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="config-block" data-type="boolean">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="default_value"
+                                   id="default_value"
+                                   {% if field.configuration.default_value %}checked{% endif %}>
+                            <label class="form-check-label" for="default_value">Default Value (checked = True)</label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a href="{% url 'field_master:list' %}" class="btn btn-outline-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Save Field</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Show only the configuration block that matches the selected field Type.
+    (function () {
+        var typeSelect = document.getElementById('field-type');
+        var blocks = document.querySelectorAll('.config-block');
+
+        function refresh() {
+            var selected = typeSelect.value;
+            blocks.forEach(function (block) {
+                block.style.display = (block.dataset.type === selected) ? '' : 'none';
+            });
+        }
+
+        typeSelect.addEventListener('change', refresh);
+        refresh();
+    })();
+
+    // Reveal the SKU Options card only when "Include in SKU" is checked.
+    (function () {
+        var skuCheckbox = document.getElementById('include_in_sku');
+        var skuCard = document.getElementById('sku-options-card');
+
+        function refreshSku() {
+            skuCard.style.display = skuCheckbox.checked ? '' : 'none';
+        }
+
+        skuCheckbox.addEventListener('change', refreshSku);
+        refreshSku();
+    })();
+
+    // Mandatory fields can never be hidden - keep the two checkboxes exclusive.
+    (function () {
+        var mandatory = document.getElementById('mandatory');
+        var hide = document.getElementById('hide');
+
+        function refresh() {
+            if (mandatory.checked) {
+                hide.checked = false;
+                hide.disabled = true;
+            } else {
+                hide.disabled = false;
+            }
+        }
+
+        mandatory.addEventListener('change', refresh);
+        refresh();
+    })();
+</script>
+{% endblock %}

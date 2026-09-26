@@ -1,0 +1,33 @@
+{% comment %}
+The data shape, stated once and reused: a Product holds Entries, and each
+Entry carries one SKU. Purely explanatory - it renders no data and changes
+no behaviour, it just keeps the hierarchy in front of the user on the pages
+where it matters.
+
+Context: `step` - "new" | "existing" | "display".
+{% endcomment %}
+<div class="flow-hint">
+    <span class="flow-hint-step {% if step == 'new' or step == 'existing' or step == 'display' %}is-on{% endif %}">
+        <span class="flow-hint-dot">1</span>
+        <span>
+            <strong>Product</strong>
+            <em>{% if step == "existing" %}chosen from existing{% else %}the item itself{% endif %}</em>
+        </span>
+    </span>
+    <span class="flow-hint-arrow">&rarr;</span>
+    <span class="flow-hint-step is-on">
+        <span class="flow-hint-dot">2</span>
+        <span>
+            <strong>Entry</strong>
+            <em>one intake, its own quantity &amp; cost</em>
+        </span>
+    </span>
+    <span class="flow-hint-arrow">&rarr;</span>
+    <span class="flow-hint-step is-on">
+        <span class="flow-hint-dot">3</span>
+        <span>
+            <strong>SKU</strong>
+            <em>the variant code &amp; its barcode</em>
+        </span>
+    </span>
+</div>

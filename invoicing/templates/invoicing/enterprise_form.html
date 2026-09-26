@@ -1,0 +1,131 @@
+{% extends "items/base.html" %}
+
+{% block title %}{% if mode == "edit" %}Edit Enterprise{% else %}Register Enterprise{% endif %}{% endblock %}
+
+{% block page_context %}Enterprise Master{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">{% if mode == "edit" %}Edit Enterprise{% else %}Register Enterprise{% endif %}</h1>
+        <p class="page-subtitle">
+            The fields below are the ones an invoice has to print. Anything else you keep about
+            this party goes in Additional Details.
+        </p>
+    </div>
+    <div class="page-actions">
+        <a href="{% url 'invoicing:enterprise_list' %}" class="btn btn-outline-secondary">Back</a>
+    </div>
+</div>
+
+<form method="post" class="form-layout">
+    {% csrf_token %}
+
+    <div class="card mb-3">
+        <div class="card-header">Party Details</div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Used as <span class="text-danger">*</span></label>
+                    <select name="role" class="form-select">
+                        <option value="both" {% if enterprise.role == "both" or not enterprise %}selected{% endif %}>Both</option>
+                        <option value="company" {% if enterprise.role == "company" %}selected{% endif %}>Our company (seller)</option>
+                        <option value="buyer" {% if enterprise.role == "buyer" %}selected{% endif %}>Buyer</option>
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Company Name <span class="text-danger">*</span></label>
+                    <input type="text" name="name" class="form-control" required
+                           value="{{ enterprise.name|default:'' }}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" value="{{ enterprise.email|default:'' }}">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Phone</label>
+                    <input type="text" name="phone" class="form-control" value="{{ enterprise.phone|default:'' }}">
+                </div>
+                <div class="col-md-8">
+                    <label class="form-label">Address</label>
+                    <textarea name="address" class="form-control" rows="2">{{ enterprise.address|default:'' }}</textarea>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">State</label>
+                    <input type="text" name="state" class="form-control" placeholder="e.g. Gujarat"
+                           value="{{ enterprise.state|default:'' }}">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">State Code</label>
+                    <input type="text" name="state_code" class="form-control" placeholder="24"
+                           value="{{ enterprise.state_code|default:'' }}">
+                    <div class="form-text">Decides the tax split.</div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">PAN</label>
+                    <input type="text" name="pan" class="form-control" value="{{ enterprise.pan|default:'' }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">GSTIN / UIN</label>
+                    <input type="text" name="gstin" class="form-control" value="{{ enterprise.gstin|default:'' }}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <span>Additional Details</span>
+                <small class="text-muted ms-2">Anything else you keep about this party.</small>
+            </div>
+            <button type="button" class="btn btn-sm btn-primary" id="add-extra">+ Add Field</button>
+        </div>
+        <div class="card-body">
+            <div id="extra-rows">
+                {% for key, value in enterprise.extra.items %}
+                <div class="row g-2 mb-2 extra-row">
+                    <div class="col-md-4"><input type="text" name="extra_key" class="form-control" value="{{ key }}"></div>
+                    <div class="col-md-7"><input type="text" name="extra_value" class="form-control" value="{{ value }}"></div>
+                    <div class="col-md-1"><button type="button" class="btn btn-outline-danger w-100 drop-extra">&times;</button></div>
+                </div>
+                {% empty %}
+                <div class="row g-2 mb-2 extra-row">
+                    <div class="col-md-4"><input type="text" name="extra_key" class="form-control" placeholder="Field name"></div>
+                    <div class="col-md-7"><input type="text" name="extra_value" class="form-control" placeholder="Value"></div>
+                    <div class="col-md-1"><button type="button" class="btn btn-outline-danger w-100 drop-extra">&times;</button></div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a href="{% url 'invoicing:enterprise_list' %}" class="btn btn-outline-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">{% if mode == "edit" %}Save Changes{% else %}Register{% endif %}</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+    const rows = document.getElementById("extra-rows");
+    document.getElementById("add-extra").addEventListener("click", function () {
+        const fresh = rows.querySelector(".extra-row").cloneNode(true);
+        fresh.querySelectorAll("input").forEach(function (i) { i.value = ""; });
+        rows.appendChild(fresh);
+    });
+    rows.addEventListener("click", function (e) {
+        if (!e.target.classList.contains("drop-extra")) return;
+        if (rows.querySelectorAll(".extra-row").length === 1) {
+            e.target.closest(".extra-row").querySelectorAll("input").forEach(function (i) { i.value = ""; });
+            return;
+        }
+        e.target.closest(".extra-row").remove();
+    });
+})();
+</script>
+{% endblock %}

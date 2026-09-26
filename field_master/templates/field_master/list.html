@@ -1,0 +1,144 @@
+{% extends "field_master/base.html" %}
+
+{% block title %}Field Master &ndash; {{ schema.page }}{% endblock %}
+{% block page_context %}Field Master{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Field Definitions</h1>
+        <p class="page-subtitle">
+            The schema behind Item Registration. Order decides the form layout and the SKU sequence;
+            system fields are fixed.
+        </p>
+    </div>
+    <div class="page-actions">
+        <a href="{% url 'items:sku_format' %}" class="btn btn-outline-secondary">SKU Rules &amp; Format</a>
+        <a href="{% url 'field_master:add' %}" class="btn btn-primary">+ Add Field</a>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Fields</span>
+        <span class="text-muted small fw-normal">Page: {{ schema.page }} &middot; {{ fields|length }} field{{ fields|length|pluralize }}</span>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th style="width:52px;">#</th>
+                    <th>Field Name</th>
+                    <th style="width:110px;">Type</th>
+                    <th style="width:60px;">Size</th>
+                    <th class="text-center" style="width:60px;">SKU</th>
+                    <th class="text-center" style="width:80px;">Invoice</th>
+                    <th class="text-center" style="width:100px;">Mandatory</th>
+                    <th class="text-center" style="width:74px;">Hidden</th>
+                    <th class="text-end" style="width:210px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for field in fields %}
+                <tr>
+                    <td class="text-muted">{{ forloop.counter }}</td>
+                    <td>
+                        <strong>{{ field.name }}</strong>
+                        {% if field.system %}<span class="badge bg-dark ms-1">System</span>{% endif %}
+                        {% if field.include_in_sku %}<span class="badge bg-info ms-1">SKU</span>{% endif %}
+                    </td>
+                    <td><span class="badge bg-secondary text-uppercase">{{ field.type }}</span></td>
+                    <td class="text-muted">{{ field.field_size }}</td>
+                    <td class="text-center">{% if field.include_in_sku %}<span class="tick-yes">&#10003;</span>{% else %}<span class="tick-no">&ndash;</span>{% endif %}</td>
+                    <td class="text-center">{% if field.include_in_invoice_description %}<span class="tick-yes">&#10003;</span>{% else %}<span class="tick-no">&ndash;</span>{% endif %}</td>
+                    <td class="text-center">{% if field.mandatory %}<span class="tick-yes">&#10003;</span>{% else %}<span class="tick-no">&ndash;</span>{% endif %}</td>
+                    <td class="text-center">{% if field.hide %}<span class="tick-yes">&#10003;</span>{% else %}<span class="tick-no">&ndash;</span>{% endif %}</td>
+                    <td>
+                        <div class="row-actions">
+                            <form method="post" action="{% url 'field_master:move' forloop.counter0 'up' %}">
+                                {% csrf_token %}
+                                <button class="btn btn-sm btn-outline-secondary btn-step" title="Move up"
+                                    {% if forloop.first %}disabled{% endif %}>&uarr;</button>
+                            </form>
+                            <form method="post" action="{% url 'field_master:move' forloop.counter0 'down' %}">
+                                {% csrf_token %}
+                                <button class="btn btn-sm btn-outline-secondary btn-step" title="Move down"
+                                    {% if forloop.last %}disabled{% endif %}>&darr;</button>
+                            </form>
+                            {% if field.system %}
+                            <span class="lock-note" title="System field &mdash; cannot be edited or removed">Locked</span>
+                            {% else %}
+                            <a href="{% url 'field_master:edit' forloop.counter0 %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            {% if field.include_in_sku %}
+                            <button class="btn btn-sm btn-outline-danger" disabled
+                                    title="Part of the SKU configuration &mdash; cannot be removed">Delete</button>
+                            {% else %}
+                            <form method="post" action="{% url 'field_master:delete' forloop.counter0 %}"
+                                onsubmit="return confirm('Delete field \'{{ field.name|escapejs }}\'?');">
+                                {% csrf_token %}
+                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9">
+                        <div class="empty-state">
+                            <div class="empty-state-title">No fields defined</div>
+                            <div class="empty-state-text">
+                                Fields define what the Item Registration form asks for.
+                            </div>
+                            <a href="{% url 'field_master:add' %}" class="btn btn-sm btn-primary">+ Add Field</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">SKU Variant Sequence</div>
+    <div class="card-body">
+        {% if sku_sequence %}
+        <div class="sku-sequence">
+            {% for field in sku_sequence %}
+            <span class="sku-seq-step">
+                <span class="sku-seq-order">{{ forloop.counter }}</span>{{ field.name }}
+            </span>
+            <span class="sku-seq-arrow">&rarr;</span>
+            {% endfor %}
+            <span class="sku-seq-step sku-seq-step--auto">
+                <span class="sku-seq-order">{{ sku_sequence|length|add:1 }}</span>Sequence Number
+            </span>
+        </div>
+        <p class="form-text mt-3 mb-0">
+            The order fields are combined into every SKU code &mdash; e.g.
+            <span class="code-chip code-chip-primary">LYC-HAL-BLA-001</span>.
+            Reorder the table above to change it.
+        </p>
+        {% else %}
+        <div class="empty-state py-4">
+            <div class="empty-state-title">No SKU components yet</div>
+            <div class="empty-state-text">
+                Mark a field &ldquo;Include in SKU&rdquo; to add it to the sequence.
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Master JSON</span>
+        <span class="text-muted small fw-normal">Single source of truth &mdash; persisted to the database</span>
+    </div>
+    <div class="card-body json-view">
+        <pre class="mb-0"><code>{{ master_json_pretty }}</code></pre>
+    </div>
+</div>
+{% endblock %}

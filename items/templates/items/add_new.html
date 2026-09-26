@@ -1,0 +1,65 @@
+{% extends "items/base.html" %}
+{% load items_extras %}
+
+{% block title %}Add New Product{% endblock %}
+{% block page_context %}Item Registration{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">{% if scanned_code %}Register Scanned Material{% else %}Register Inventory Item{% endif %}</h1>
+        <p class="page-subtitle">
+            {% if scanned_code %}
+            <span class="code-chip code-chip-primary">{{ scanned_code }}</span>
+            was not in the database. Fill it in here and it becomes an entry &mdash; one SKU,
+            since one scan is one material.
+            {% else %}
+            A product that isn&rsquo;t registered yet &mdash; every field typed in by hand.
+            Add as many SKUs as you need; each one becomes its own entry.
+            {% endif %}
+        </p>
+    </div>
+    <div class="page-actions">
+        <a href="{% url 'items:list' %}" class="btn btn-outline-secondary">Cancel</a>
+        <button type="submit" form="entry-form" class="btn btn-primary">Save</button>
+    </div>
+</div>
+
+{% include "items/_flow_hint.html" with step="new" %}
+
+<form method="post" enctype="multipart/form-data" action="{% url 'items:add' %}" id="entry-form"
+      class="form-layout form-layout--wide">
+    {% csrf_token %}
+    {% if scanned_code %}<input type="hidden" name="scanned_code" value="{{ scanned_code }}">{% endif %}
+
+    <div class="card mb-3">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Product Information</span>
+            <span class="text-muted small fw-normal">Defined in Field Master</span>
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                {% for field in fields %}
+                {% if not field.hide %}
+                {% include "items/_field_row.html" with field=field index=forloop.counter0 item=None posted=posted %}
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% include "items/_sku_section.html" %}
+
+    <div class="form-actions form-actions--wide">
+        <span class="form-actions-note">
+            Saving stores the product detail above together with every SKU saved below.
+        </span>
+        <a href="{% url 'items:list' %}" class="btn btn-outline-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+{% include "items/_sku_section_js.html" %}
+{% endblock %}

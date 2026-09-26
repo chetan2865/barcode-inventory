@@ -1,0 +1,103 @@
+{% extends "items/base.html" %}
+
+{% block title %}Enterprise Master{% endblock %}
+{% block page_context %}{% if role == "company" %}Companies{% elif role == "buyer" %}Customers{% else %}Enterprise Master{% endif %}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">{% if role == "company" %}Companies{% elif role == "buyer" %}Customers{% else %}Enterprise Master{% endif %}</h1>
+        <p class="page-subtitle">
+            Every party an invoice can be drawn between &mdash; your own companies and your buyers.
+            The state code here is what decides CGST/SGST, IGST or UGST.
+        </p>
+    </div>
+    <div class="page-actions">
+        <a href="{% url 'invoicing:enterprise_add' %}" class="btn btn-primary">+ Register Enterprise</a>
+    </div>
+</div>
+
+<div class="toolbar">
+    <div>
+        <form method="get" class="row g-2 align-items-center">
+            <div class="col-auto">
+                <select name="role" class="form-select" onchange="this.form.submit()">
+                    <option value="">&mdash; All parties &mdash;</option>
+                    <option value="company" {% if role == "company" %}selected{% endif %}>Companies (sellers)</option>
+                    <option value="buyer" {% if role == "buyer" %}selected{% endif %}>Buyers</option>
+                </select>
+            </div>
+            <div class="col-auto flex-grow-1">
+                <input type="text" name="q" class="form-control" placeholder="Search by name…" value="{{ query }}">
+            </div>
+            <div class="col-auto"><button class="btn btn-primary">Search</button></div>
+            <div class="col-auto">
+                <a href="{% url 'invoicing:enterprise_list' %}" class="btn btn-outline-secondary">Clear</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>GSTIN</th>
+                    <th>PAN</th>
+                    <th>State</th>
+                    <th style="width:90px;">Code</th>
+                    <th>Contact</th>
+                    <th class="text-end" style="width:160px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for enterprise in enterprises %}
+                <tr>
+                    <td>
+                        <strong>{{ enterprise.name }}</strong>
+                        <div class="small text-muted">{{ enterprise.address|truncatechars:60 }}</div>
+                    </td>
+                    <td><span class="badge bg-secondary">{{ enterprise.get_role_display }}</span></td>
+                    <td>{% if enterprise.gstin %}<span class="code-chip">{{ enterprise.gstin }}</span>{% else %}<span class="tick-no">&ndash;</span>{% endif %}</td>
+                    <td>{% if enterprise.pan %}<span class="code-chip">{{ enterprise.pan }}</span>{% else %}<span class="tick-no">&ndash;</span>{% endif %}</td>
+                    <td>{{ enterprise.state|default:"–" }}</td>
+                    <td>
+                        {{ enterprise.state_code|default:"–" }}
+                        {% if enterprise.is_union_territory %}
+                        <span class="badge bg-info" title="Union territory - UGST applies">UT</span>
+                        {% endif %}
+                    </td>
+                    <td class="small">
+                        {{ enterprise.phone|default:"" }}
+                        {% if enterprise.email %}<div class="text-muted">{{ enterprise.email }}</div>{% endif %}
+                    </td>
+                    <td>
+                        <div class="row-actions">
+                            <a href="{% url 'invoicing:enterprise_edit' enterprise.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            <form method="post" action="{% url 'invoicing:enterprise_delete' enterprise.pk %}"
+                                  onsubmit="return confirm('Remove this enterprise?');">
+                                {% csrf_token %}
+                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8">
+                        <div class="empty-state">
+                            <div class="empty-state-title">Nothing registered yet</div>
+                            <div class="empty-state-text">Add your own company first, then your buyers.</div>
+                            <a href="{% url 'invoicing:enterprise_add' %}" class="btn btn-sm btn-primary">+ Register Enterprise</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
