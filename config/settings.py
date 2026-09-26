@@ -21,7 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)5083y9t$6*z=s-qgyh6w4q9qxmo&e^t28w&$ze4rjau0n6gr3'
+# The repository is public, so no real key is committed. Development falls
+# back to a throwaway value; any real deployment must set BARCODE_SECRET_KEY.
+SECRET_KEY = os.environ.get(
+    "BARCODE_SECRET_KEY",
+    "django-insecure-development-only-set-BARCODE_SECRET_KEY-in-production",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
