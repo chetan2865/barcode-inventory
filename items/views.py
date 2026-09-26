@@ -733,7 +733,10 @@ def entry_labels(request, pk):
             "product": entry.data.get(product_field) or "",
             "style_no": entry.sku.code,
             "detail_rows": detail_rows,
-            "mrp": entry.data.get("Selling Rate") or "",
+            # The system price field is called "Selling Rate" on some schemas and
+            # "Rate" on others (see field_master migration 0003), so accept either -
+            # the same fallback invoicing.views uses when pricing an invoice line.
+            "mrp": entry.data.get("Selling Rate") or entry.data.get("Rate") or "",
             "hsn": entry.data.get("HSN") or "",
             "tags": tags,
             "copies": copies,
