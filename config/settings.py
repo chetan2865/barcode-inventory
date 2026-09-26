@@ -97,9 +97,19 @@ DATABASES = {
     }
 }
 
-# Railway injects DATABASE_URL when a Postgres service is attached. Imported
-# here rather than at the top so the packaged desktop build, which never has
-# this variable, does not need the library at all.
+# Running on SQLite with a Railway Volume attached: keep the database file on
+# the volume. The container's own filesystem is rebuilt on every deploy, so a
+# db.sqlite3 sitting in BASE_DIR would be thrown away along with it - the app
+# would come back up empty each time.
+if os.environ.get('RAILWAY_VOLUME_MOUNT_PATH'):
+    DATABASES['default']['NAME'] = os.path.join(
+        os.environ['RAILWAY_VOLUME_MOUNT_PATH'], 'db.sqlite3'
+    )
+
+# Railway injects DATABASE_URL when a Postgres service is attached; it wins
+# over the SQLite file above. Imported here rather than at the top so the
+# packaged desktop build, which never has this variable, does not need the
+# library at all.
 if os.environ.get('DATABASE_URL'):
     import dj_database_url
 
