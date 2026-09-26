@@ -31,7 +31,10 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
+
+# Django 4 needs the scheme here, or every form POST on Railway fails CSRF.
+CSRF_TRUSTED_ORIGINS = ["https://*.railway.app", "https://*.up.railway.app"]
 
 
 # Application definition
@@ -51,6 +54,10 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # Serves the CSS/JS. Django only serves static files itself under
+    # `runserver`; under gunicorn on Railway nothing would style the pages
+    # without this.
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -89,6 +96,14 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# Railway injects DATABASE_URL when a Postgres service is attached. Imported
+# here rather than at the top so the packaged desktop build, which never has
+# this variable, does not need the library at all.
+if os.environ.get('DATABASE_URL'):
+    import dj_database_url
+
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 
 # Password validation
@@ -131,15 +146,19 @@ STATIC_URL = 'static/'
 # app looks right on a laptop with no internet connection.
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-# Unused in development (the staticfiles app serves from STATICFILES_DIRS while
-# DEBUG is on), but defined here so `collectstatic` has a destination whatever
-# settings module is active. Without it a build step that forgets to select the
-# production settings dies with ImproperlyConfigured. Both settings_production
-# and settings_desktop override it.
+# Where collectstatic writes. Unused while DEBUG is on (the staticfiles app
+# serves straight from STATICFILES_DIRS), but it must exist or collectstatic
+# fails. settings_desktop overrides it.
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# Railway sets this when a Volume is attached. Without a volume the
+# container filesystem is wiped on every deploy, taking the barcode PNGs
+# with it.
+if os.environ.get('RAILWAY_VOLUME_MOUNT_PATH'):
+    MEDIA_ROOT = os.path.join(os.environ['RAILWAY_VOLUME_MOUNT_PATH'], 'media')
+else:
+    MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

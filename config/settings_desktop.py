@@ -65,10 +65,20 @@ STATIC_ROOT = str(DATA_ROOT / "static")
 
 # WhiteNoise serves both the collected static files and, through the extra
 # directory below, the barcode PNGs this app generates at runtime.
+# Base settings already include WhiteNoise, so filter it out here before
+# re-inserting it, or the desktop build ends up running it twice.
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
-    *[m for m in MIDDLEWARE if m != "django.middleware.security.SecurityMiddleware"],  # noqa: F405
+    *[
+        m
+        for m in MIDDLEWARE  # noqa: F405
+        if m
+        not in (
+            "django.middleware.security.SecurityMiddleware",
+            "whitenoise.middleware.WhiteNoiseMiddleware",
+        )
+    ],
 ]
 
 STORAGES = {
