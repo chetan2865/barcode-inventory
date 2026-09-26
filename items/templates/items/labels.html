@@ -1,0 +1,98 @@
+{% extends "items/base.html" %}
+
+{% block title %}Labels &ndash; {{ style_no }}{% endblock %}
+{% block page_context %}Products{% endblock %}
+
+{% block content %}
+<div class="page-header d-print-none">
+    <div>
+        <h1 class="page-title">Hang Tags</h1>
+        <p class="page-subtitle">
+            {{ copies }} tag{{ copies|pluralize }} for entry
+            <span class="code-chip">#{{ entry.pk }}</span>
+            <span class="code-chip code-chip-primary">{{ style_no }}</span>
+            &mdash; each piece carries its own barcode, so no two tags repeat.
+        </p>
+    </div>
+    <div class="page-actions">
+        <form method="get" class="d-flex align-items-center gap-2">
+            <label class="form-label mb-0">Copies</label>
+            <input type="number" name="copies" class="form-control form-control-sm" min="1"
+                   style="width:90px;" value="{{ copies }}">
+            <button class="btn btn-sm btn-outline-secondary">Apply</button>
+        </form>
+        <a href="{% url 'items:barcodes_zip' entry.pk %}" class="btn btn-outline-secondary">Barcodes ZIP</a>
+        <button class="btn btn-primary" onclick="window.print()">Print</button>
+    </div>
+</div>
+
+<div class="tag-sheet">
+    {% for tag in tags %}
+    <div class="tag">
+        <div class="tag-brand">{{ brand }}</div>
+
+        <div class="tag-panel">
+            <table class="tag-specs">
+                <tbody>
+                    <tr>
+                        <th>STYLE NO.</th>
+                        <td>: {{ style_no }}</td>
+                    </tr>
+                    {% for name, value in detail_rows %}
+                    <tr>
+                        <th>{{ name|upper }}</th>
+                        <td>: {{ value|upper }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% if mrp %}
+                    <tr>
+                        <th>MRP (INR)</th>
+                        <td>: <span class="tag-mrp">&#8377;{{ mrp }}</span></td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+            {% if mrp %}<div class="tag-taxnote">(INCL. OF ALL TAXES)</div>{% endif %}
+
+            <div class="tag-rule"></div>
+
+            <img class="tag-barcode" src="data:image/png;base64,{{ tag.image }}" alt="{{ tag.value }}">
+            <div class="tag-made">MADE IN INDIA</div>
+        </div>
+
+        <div class="tag-features">
+            <div class="tag-feature">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="10" r="6"/>
+                    <path d="M9.5 10.2l1.8 1.8 3.4-3.4"/>
+                    <path d="M8.4 15.2L7 22l5-2.2L17 22l-1.4-6.8"/>
+                </svg>
+                <span>PREMIUM<br>QUALITY</span>
+            </div>
+            <div class="tag-feature">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M8.5 3L4 5.5 5.6 10l1.9-.7V21h9V9.3l1.9.7L20 5.5 15.5 3a3.5 3.5 0 01-7 0z"/>
+                </svg>
+                <span>TIMELESS<br>DESIGN</span>
+            </div>
+            <div class="tag-feature">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 19c0-8 5-13 14-13 0 9-4.5 13-14 13z"/>
+                    <path d="M5 19c3-4 6-6.5 10-8.5"/>
+                </svg>
+                <span>RESPONSIBLY<br>MADE</span>
+            </div>
+            <div class="tag-feature">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 20s-7-4.4-7-9.2A3.9 3.9 0 0112 8.4a3.9 3.9 0 017 2.4C19 15.6 12 20 12 20z"/>
+                </svg>
+                <span>MADE<br>FOR YOU</span>
+            </div>
+        </div>
+
+        <div class="tag-thanks">THANK YOU</div>
+        <div class="tag-thanks-sub">FOR SUPPORTING ORIGINAL.</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

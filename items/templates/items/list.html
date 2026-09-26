@@ -183,9 +183,12 @@
                                                                     <td>
                                                                         <div class="row-actions">
                                                                             {% if line.barcode %}
+                                                                            <a href="{% url 'items:labels' line.pk %}"
+                                                                               class="btn btn-sm btn-outline-secondary"
+                                                                               title="Printable hang tags, one per piece">Tags</a>
                                                                             <a href="{% url 'items:barcodes_zip' line.pk %}"
                                                                                class="btn btn-sm btn-outline-secondary"
-                                                                               title="ZIP: 1 lot barcode + {{ line.quantity }} unit barcodes">Labels</a>
+                                                                               title="ZIP: 1 lot barcode + {{ line.quantity }} unit barcodes">ZIP</a>
                                                                             {% endif %}
                                                                             <a href="{% url 'items:edit' line.pk %}"
                                                                                class="btn btn-sm btn-outline-secondary">Edit</a>

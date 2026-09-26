@@ -12,6 +12,7 @@ urlpatterns = [
     path("<int:pk>/edit/", views.item_edit, name="edit"),
     path("<int:pk>/delete/", views.item_delete, name="delete"),
     path("<int:pk>/barcodes.zip", views.entry_barcodes_zip, name="barcodes_zip"),
+    path("<int:pk>/labels/", views.entry_labels, name="labels"),
     path("<int:pk>/duplicate/", views.item_duplicate, name="duplicate"),
     path("<int:item_pk>/sku/add/", views.sku_add, name="sku_add"),
     path("sku-format/", views.sku_format, name="sku_format"),

@@ -1,3 +1,4 @@
+import base64
 import io
 import json
 import re
@@ -667,5 +668,75 @@ def overview(request):
             "field_count": len(schema_fields),
             "recent_entries": recent_entries,
             "recent_invoices": invoices[:6],
+        },
+    )
+
+
+def entry_labels(request, pk):
+    """Print-ready hang tags for one entry.
+
+    One tag per piece, each carrying that piece's own unit barcode
+    (``<sku>-<entry>-<n>``), so two garments of the same lot never share a
+    label. Barcodes are rendered inline as data URIs rather than written to
+    MEDIA_ROOT: nothing is stored, so this works with or without a volume.
+
+    ``?copies=N`` overrides how many tags are laid out, for a short reprint.
+    """
+    entry = get_object_or_404(Item.objects.select_related("sku", "barcode"), pk=pk)
+
+    lot_value = barcode_engine.build_value(entry)
+    if lot_value is None:
+        messages.error(request, f"Entry #{entry.pk} has no SKU yet, so it has no label.")
+        return redirect("items:list")
+
+    try:
+        copies = int(request.GET.get("copies") or 0)
+    except ValueError:
+        copies = 0
+    if copies <= 0:
+        copies = barcode_engine.unit_count(entry) or 1
+    copies = min(copies, MAX_UNIT_LABELS)
+
+    schema_fields = _schema_fields()
+    product_field = _product_field_name(registration_schema(schema_fields))
+
+    # The brand line: the registered seller, falling back to the product name.
+    from invoicing.models import BOTH, COMPANY, Enterprise
+
+    company = Enterprise.objects.filter(role__in=[COMPANY, BOTH]).order_by("pk").first()
+    brand = company.name if company else (entry.data.get(product_field) or "")
+
+    # Variant attributes, exactly as the schema defines them - no hardcoded
+    # Size/Colour, since the field set is user-defined.
+    detail_rows = [
+        (name, value)
+        for name, value in (entry.sku.data or {}).items()
+        if str(value or "").strip()
+    ]
+
+    tags = []
+    for number in range(1, copies + 1):
+        value = barcode_engine.unit_value(entry, number) or lot_value
+        _, content = barcode_engine.generate_image(value)
+        tags.append({
+            "value": value,
+            "number": number,
+            "image": base64.b64encode(content.read()).decode("ascii"),
+        })
+
+    return render(
+        request,
+        "items/labels.html",
+        {
+            "entry": entry,
+            "brand": brand,
+            "product": entry.data.get(product_field) or "",
+            "style_no": entry.sku.code,
+            "detail_rows": detail_rows,
+            "mrp": entry.data.get("Selling Rate") or "",
+            "hsn": entry.data.get("HSN") or "",
+            "tags": tags,
+            "copies": copies,
+            "quantity": barcode_engine.unit_count(entry),
         },
     )
