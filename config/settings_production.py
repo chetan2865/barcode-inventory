@@ -10,16 +10,31 @@ completely unaffected by this file.
 """
 
 import os
+import sys
 
 import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
 
 from .settings import *  # noqa: F401,F403
 from .settings import BASE_DIR, MIDDLEWARE
 
 # --------------------------------------------------------------- security --
-# No key, no boot. A missing SECRET_KEY in production is a hard error rather
-# than a silent fall back to the development value.
-SECRET_KEY = os.environ["BARCODE_SECRET_KEY"]
+# No key, no boot: a missing SECRET_KEY must never fall back silently to the
+# development value. The one exception is the build step - collectstatic signs
+# nothing, and failing the build for a variable it does not use only makes the
+# deployment harder to get right.
+_secret = os.environ.get("BARCODE_SECRET_KEY")
+if not _secret:
+    if "collectstatic" in sys.argv:
+        _secret = "build-step-placeholder-nothing-is-signed-with-this"
+    else:
+        raise ImproperlyConfigured(
+            "BARCODE_SECRET_KEY is not set. Generate one with: "
+            "python -c \"from django.core.management.utils import "
+            "get_random_secret_key as k; print(k())\" "
+            "and add it to the Railway service variables."
+        )
+SECRET_KEY = _secret
 
 DEBUG = os.environ.get("DJANGO_DEBUG", "").lower() in {"1", "true", "yes"}
 

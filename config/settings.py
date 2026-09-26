@@ -131,6 +131,13 @@ STATIC_URL = 'static/'
 # app looks right on a laptop with no internet connection.
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
+# Unused in development (the staticfiles app serves from STATICFILES_DIRS while
+# DEBUG is on), but defined here so `collectstatic` has a destination whatever
+# settings module is active. Without it a build step that forgets to select the
+# production settings dies with ImproperlyConfigured. Both settings_production
+# and settings_desktop override it.
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
