@@ -1,0 +1,1433 @@
+[
+{
+  "model": "field_master.masterschema",
+  "pk": 1,
+  "fields": {
+    "page": "Item Registration",
+    "fields": [
+      {
+        "name": "Product Name",
+        "type": "text",
+        "include_in_sku": false,
+        "include_in_invoice_description": true,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "L",
+        "configuration": {
+          "placeholder": null,
+          "max_length": null
+        },
+        "sku_config": {},
+        "system": true
+      },
+      {
+        "name": "HSN",
+        "type": "text",
+        "include_in_sku": false,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "placeholder": null,
+          "max_length": null
+        },
+        "sku_config": {},
+        "system": true
+      },
+      {
+        "name": "Selling Rate",
+        "type": "number",
+        "include_in_sku": false,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "minimum": 0,
+          "maximum": null,
+          "decimal_places": 2
+        },
+        "sku_config": {},
+        "system": true
+      },
+      {
+        "name": "Manufacturing Cost",
+        "type": "number",
+        "include_in_sku": false,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "minimum": 0,
+          "maximum": null,
+          "decimal_places": 2
+        },
+        "sku_config": {},
+        "system": true
+      },
+      {
+        "name": "GST Rate",
+        "type": "dropdown",
+        "include_in_sku": false,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "options": [
+            "0%",
+            "5%",
+            "12%",
+            "18%",
+            "28%",
+            "40%"
+          ]
+        },
+        "sku_config": {},
+        "system": true
+      },
+      {
+        "name": "Fabric",
+        "type": "dropdown",
+        "include_in_sku": true,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "options": [
+            "Lycra",
+            "Cotton"
+          ]
+        }
+      },
+      {
+        "name": "Sleeve",
+        "type": "dropdown",
+        "include_in_sku": true,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "options": [
+            "Full Sleeve",
+            "Half Sleeve"
+          ]
+        }
+      },
+      {
+        "name": "Color",
+        "type": "dropdown",
+        "include_in_sku": true,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "options": [
+            "Black",
+            "Blue"
+          ]
+        }
+      },
+      {
+        "name": "Pattern",
+        "type": "dropdown",
+        "include_in_sku": true,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "options": [
+            "Plain",
+            "Printed",
+            "Striped",
+            "Checked"
+          ]
+        },
+        "sku_config": {
+          "order": null,
+          "length": null,
+          "transform": null
+        },
+        "system": false
+      },
+      {
+        "name": "material",
+        "type": "dropdown",
+        "include_in_sku": true,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "L",
+        "configuration": {
+          "options": [
+            "A",
+            "B",
+            "C"
+          ]
+        },
+        "sku_config": {
+          "order": null,
+          "length": null,
+          "transform": null
+        },
+        "system": false
+      },
+      {
+        "name": "Quantity",
+        "type": "number",
+        "include_in_sku": true,
+        "include_in_invoice_description": false,
+        "mandatory": true,
+        "hide": false,
+        "field_size": "M",
+        "configuration": {
+          "minimum": 0,
+          "maximum": null,
+          "decimal_places": null
+        },
+        "sku_config": {
+          "order": null,
+          "length": null,
+          "transform": null
+        },
+        "system": false
+      }
+    ],
+    "created_at": "2026-07-14T11:34:48.125Z",
+    "updated_at": "2026-08-16T11:31:50.016Z"
+  }
+},
+{
+  "model": "items.skuformat",
+  "pk": 1,
+  "fields": {
+    "separator": "-",
+    "component_length": 3,
+    "sequence_padding": 3,
+    "transform": "alnum",
+    "uppercase": true,
+    "updated_at": "2026-08-15T12:39:53.726Z"
+  }
+},
+{
+  "model": "items.entry",
+  "pk": 1,
+  "fields": {
+    "product": "Classic Crew Neck T-Shirt",
+    "data": {
+      "Product Name": "Classic Crew Neck T-Shirt",
+      "HSN": "6109",
+      "Selling Rate": "799.00",
+      "Manufacturing Cost": "310.00",
+      "GST Rate": "5%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": null
+    },
+    "created_at": "2026-09-26T20:26:13.025Z"
+  }
+},
+{
+  "model": "items.entry",
+  "pk": 2,
+  "fields": {
+    "product": "Premium Pique Polo",
+    "data": {
+      "Product Name": "Premium Pique Polo",
+      "HSN": "6105",
+      "Selling Rate": "1299.00",
+      "Manufacturing Cost": "520.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": null
+    },
+    "created_at": "2026-09-26T20:26:13.032Z"
+  }
+},
+{
+  "model": "items.entry",
+  "pk": 3,
+  "fields": {
+    "product": "Oxford Casual Shirt",
+    "data": {
+      "Product Name": "Oxford Casual Shirt",
+      "HSN": "6205",
+      "Selling Rate": "1699.00",
+      "Manufacturing Cost": "690.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": null
+    },
+    "created_at": "2026-09-26T20:26:13.036Z"
+  }
+},
+{
+  "model": "items.entry",
+  "pk": 4,
+  "fields": {
+    "product": "Slim Fit Stretch Chinos",
+    "data": {
+      "Product Name": "Slim Fit Stretch Chinos",
+      "HSN": "6203",
+      "Selling Rate": "1899.00",
+      "Manufacturing Cost": "780.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": null
+    },
+    "created_at": "2026-09-26T20:26:13.041Z"
+  }
+},
+{
+  "model": "items.entry",
+  "pk": 5,
+  "fields": {
+    "product": "Fleece Hooded Sweatshirt",
+    "data": {
+      "Product Name": "Fleece Hooded Sweatshirt",
+      "HSN": "6110",
+      "Selling Rate": "2199.00",
+      "Manufacturing Cost": "910.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": null
+    },
+    "created_at": "2026-09-26T20:26:13.044Z"
+  }
+},
+{
+  "model": "items.entry",
+  "pk": 6,
+  "fields": {
+    "product": "Washed Denim Jacket",
+    "data": {
+      "Product Name": "Washed Denim Jacket",
+      "HSN": "6201",
+      "Selling Rate": "2999.00",
+      "Manufacturing Cost": "1240.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": null
+    },
+    "created_at": "2026-09-26T20:26:13.048Z"
+  }
+},
+{
+  "model": "items.entry",
+  "pk": 7,
+  "fields": {
+    "product": "Classic Crew Neck T-Shirt",
+    "data": {
+      "Product Name": "Classic Crew Neck T-Shirt",
+      "HSN": "6109",
+      "Selling Rate": "799.00",
+      "Manufacturing Cost": "310.00",
+      "GST Rate": "5%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": null
+    },
+    "created_at": "2026-09-26T20:26:13.050Z"
+  }
+},
+{
+  "model": "items.entry",
+  "pk": 8,
+  "fields": {
+    "product": "Oxford Casual Shirt",
+    "data": {
+      "Product Name": "Oxford Casual Shirt",
+      "HSN": "6205",
+      "Selling Rate": "1699.00",
+      "Manufacturing Cost": "690.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": null
+    },
+    "created_at": "2026-09-26T20:26:13.051Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 1,
+  "fields": {
+    "data": {
+      "Product Name": "Classic Crew Neck T-Shirt",
+      "HSN": "6109",
+      "Selling Rate": "799.00",
+      "Manufacturing Cost": "310.00",
+      "GST Rate": "5%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 120
+    },
+    "entry": 1,
+    "sku": 1,
+    "created_at": "2026-09-26T20:26:13.029Z",
+    "updated_at": "2026-09-26T20:26:13.029Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 2,
+  "fields": {
+    "data": {
+      "Product Name": "Classic Crew Neck T-Shirt",
+      "HSN": "6109",
+      "Selling Rate": "799.00",
+      "Manufacturing Cost": "310.00",
+      "GST Rate": "5%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 90
+    },
+    "entry": 1,
+    "sku": 2,
+    "created_at": "2026-09-26T20:26:13.031Z",
+    "updated_at": "2026-09-26T20:26:13.031Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 3,
+  "fields": {
+    "data": {
+      "Product Name": "Classic Crew Neck T-Shirt",
+      "HSN": "6109",
+      "Selling Rate": "799.00",
+      "Manufacturing Cost": "310.00",
+      "GST Rate": "5%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 60
+    },
+    "entry": 1,
+    "sku": 3,
+    "created_at": "2026-09-26T20:26:13.032Z",
+    "updated_at": "2026-09-26T20:26:13.032Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 4,
+  "fields": {
+    "data": {
+      "Product Name": "Premium Pique Polo",
+      "HSN": "6105",
+      "Selling Rate": "1299.00",
+      "Manufacturing Cost": "520.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 75
+    },
+    "entry": 2,
+    "sku": 4,
+    "created_at": "2026-09-26T20:26:13.034Z",
+    "updated_at": "2026-09-26T20:26:13.034Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 5,
+  "fields": {
+    "data": {
+      "Product Name": "Premium Pique Polo",
+      "HSN": "6105",
+      "Selling Rate": "1299.00",
+      "Manufacturing Cost": "520.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 65
+    },
+    "entry": 2,
+    "sku": 5,
+    "created_at": "2026-09-26T20:26:13.036Z",
+    "updated_at": "2026-09-26T20:26:13.036Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 6,
+  "fields": {
+    "data": {
+      "Product Name": "Oxford Casual Shirt",
+      "HSN": "6205",
+      "Selling Rate": "1699.00",
+      "Manufacturing Cost": "690.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 48
+    },
+    "entry": 3,
+    "sku": 6,
+    "created_at": "2026-09-26T20:26:13.037Z",
+    "updated_at": "2026-09-26T20:26:13.037Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 7,
+  "fields": {
+    "data": {
+      "Product Name": "Oxford Casual Shirt",
+      "HSN": "6205",
+      "Selling Rate": "1699.00",
+      "Manufacturing Cost": "690.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 42
+    },
+    "entry": 3,
+    "sku": 7,
+    "created_at": "2026-09-26T20:26:13.039Z",
+    "updated_at": "2026-09-26T20:26:13.039Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 8,
+  "fields": {
+    "data": {
+      "Product Name": "Oxford Casual Shirt",
+      "HSN": "6205",
+      "Selling Rate": "1699.00",
+      "Manufacturing Cost": "690.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 36
+    },
+    "entry": 3,
+    "sku": 8,
+    "created_at": "2026-09-26T20:26:13.040Z",
+    "updated_at": "2026-09-26T20:26:13.040Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 9,
+  "fields": {
+    "data": {
+      "Product Name": "Slim Fit Stretch Chinos",
+      "HSN": "6203",
+      "Selling Rate": "1899.00",
+      "Manufacturing Cost": "780.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 54
+    },
+    "entry": 4,
+    "sku": 9,
+    "created_at": "2026-09-26T20:26:13.042Z",
+    "updated_at": "2026-09-26T20:26:13.042Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 10,
+  "fields": {
+    "data": {
+      "Product Name": "Slim Fit Stretch Chinos",
+      "HSN": "6203",
+      "Selling Rate": "1899.00",
+      "Manufacturing Cost": "780.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 40
+    },
+    "entry": 4,
+    "sku": 10,
+    "created_at": "2026-09-26T20:26:13.044Z",
+    "updated_at": "2026-09-26T20:26:13.044Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 11,
+  "fields": {
+    "data": {
+      "Product Name": "Fleece Hooded Sweatshirt",
+      "HSN": "6110",
+      "Selling Rate": "2199.00",
+      "Manufacturing Cost": "910.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 38
+    },
+    "entry": 5,
+    "sku": 11,
+    "created_at": "2026-09-26T20:26:13.046Z",
+    "updated_at": "2026-09-26T20:26:13.046Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 12,
+  "fields": {
+    "data": {
+      "Product Name": "Fleece Hooded Sweatshirt",
+      "HSN": "6110",
+      "Selling Rate": "2199.00",
+      "Manufacturing Cost": "910.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 30
+    },
+    "entry": 5,
+    "sku": 12,
+    "created_at": "2026-09-26T20:26:13.048Z",
+    "updated_at": "2026-09-26T20:26:13.048Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 13,
+  "fields": {
+    "data": {
+      "Product Name": "Washed Denim Jacket",
+      "HSN": "6201",
+      "Selling Rate": "2999.00",
+      "Manufacturing Cost": "1240.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 26
+    },
+    "entry": 6,
+    "sku": 13,
+    "created_at": "2026-09-26T20:26:13.050Z",
+    "updated_at": "2026-09-26T20:26:13.050Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 14,
+  "fields": {
+    "data": {
+      "Product Name": "Classic Crew Neck T-Shirt",
+      "HSN": "6109",
+      "Selling Rate": "799.00",
+      "Manufacturing Cost": "310.00",
+      "GST Rate": "5%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 80
+    },
+    "entry": 7,
+    "sku": 1,
+    "created_at": "2026-09-26T20:26:13.051Z",
+    "updated_at": "2026-09-26T20:26:13.051Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 15,
+  "fields": {
+    "data": {
+      "Product Name": "Oxford Casual Shirt",
+      "HSN": "6205",
+      "Selling Rate": "1699.00",
+      "Manufacturing Cost": "690.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 24
+    },
+    "entry": 8,
+    "sku": 6,
+    "created_at": "2026-09-26T20:26:13.052Z",
+    "updated_at": "2026-09-26T20:26:13.052Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 1,
+  "fields": {
+    "key": "pattern=plain|material=180",
+    "detail": {
+      "Pattern": "Plain",
+      "material": "180"
+    },
+    "number": 1,
+    "created_at": "2026-09-26T20:26:13.028Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 2,
+  "fields": {
+    "key": "pattern=striped|material=180",
+    "detail": {
+      "Pattern": "Striped",
+      "material": "180"
+    },
+    "number": 2,
+    "created_at": "2026-09-26T20:26:13.032Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 3,
+  "fields": {
+    "key": "pattern=plain|material=220",
+    "detail": {
+      "Pattern": "Plain",
+      "material": "220"
+    },
+    "number": 3,
+    "created_at": "2026-09-26T20:26:13.033Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 4,
+  "fields": {
+    "key": "pattern=checked|material=160",
+    "detail": {
+      "Pattern": "Checked",
+      "material": "160"
+    },
+    "number": 4,
+    "created_at": "2026-09-26T20:26:13.037Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 5,
+  "fields": {
+    "key": "pattern=striped|material=160",
+    "detail": {
+      "Pattern": "Striped",
+      "material": "160"
+    },
+    "number": 5,
+    "created_at": "2026-09-26T20:26:13.038Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 6,
+  "fields": {
+    "key": "pattern=plain|material=160",
+    "detail": {
+      "Pattern": "Plain",
+      "material": "160"
+    },
+    "number": 6,
+    "created_at": "2026-09-26T20:26:13.040Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 7,
+  "fields": {
+    "key": "pattern=plain|material=240",
+    "detail": {
+      "Pattern": "Plain",
+      "material": "240"
+    },
+    "number": 7,
+    "created_at": "2026-09-26T20:26:13.042Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 8,
+  "fields": {
+    "key": "pattern=plain|material=320",
+    "detail": {
+      "Pattern": "Plain",
+      "material": "320"
+    },
+    "number": 8,
+    "created_at": "2026-09-26T20:26:13.045Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 9,
+  "fields": {
+    "key": "pattern=printed|material=320",
+    "detail": {
+      "Pattern": "Printed",
+      "material": "320"
+    },
+    "number": 9,
+    "created_at": "2026-09-26T20:26:13.046Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 10,
+  "fields": {
+    "key": "pattern=plain|material=340",
+    "detail": {
+      "Pattern": "Plain",
+      "material": "340"
+    },
+    "number": 10,
+    "created_at": "2026-09-26T20:26:13.049Z"
+  }
+},
+{
+  "model": "items.sku",
+  "pk": 1,
+  "fields": {
+    "data": {
+      "Fabric": "Cotton",
+      "Sleeve": "Half Sleeve",
+      "Color": "Black",
+      "Pattern": "Plain",
+      "material": 180
+    },
+    "code": "COT-HAL-BLA-001",
+    "created_at": "2026-09-26T20:26:13.029Z"
+  }
+},
+{
+  "model": "items.sku",
+  "pk": 2,
+  "fields": {
+    "data": {
+      "Fabric": "Cotton",
+      "Sleeve": "Half Sleeve",
+      "Color": "Blue",
+      "Pattern": "Plain",
+      "material": 180
+    },
+    "code": "COT-HAL-BLU-001",
+    "created_at": "2026-09-26T20:26:13.030Z"
+  }
+},
+{
+  "model": "items.sku",
+  "pk": 3,
+  "fields": {
+    "data": {
+      "Fabric": "Cotton",
+      "Sleeve": "Half Sleeve",
+      "Color": "Black",
+      "Pattern": "Striped",
+      "material": 180
+    },
+    "code": "COT-HAL-BLA-002",
+    "created_at": "2026-09-26T20:26:13.032Z"
+  }
+},
+{
+  "model": "items.sku",
+  "pk": 4,
+  "fields": {
+    "data": {
+      "Fabric": "Cotton",
+      "Sleeve": "Half Sleeve",
+      "Color": "Blue",
+      "Pattern": "Plain",
+      "material": 220
+    },
+    "code": "COT-HAL-BLU-003",
+    "created_at": "2026-09-26T20:26:13.034Z"
+  }
+},
+{
+  "model": "items.sku",
+  "pk": 5,
+  "fields": {
+    "data": {
+      "Fabric": "Cotton",
+      "Sleeve": "Half Sleeve",
+      "Color": "Black",
+      "Pattern": "Plain",
+      "material": 220
+    },
+    "code": "COT-HAL-BLA-003",
+    "created_at": "2026-09-26T20:26:13.035Z"
+  }
+},
+{
+  "model": "items.sku",
+  "pk": 6,
+  "fields": {
+    "data": {
+      "Fabric": "Cotton",
+      "Sleeve": "Full Sleeve",
+      "Color": "Blue",
+      "Pattern": "Checked",
+      "material": 160
+    },
+    "code": "COT-FUL-BLU-004",
+    "created_at": "2026-09-26T20:26:13.037Z"
+  }
+},
+{
+  "model": "items.sku",
+  "pk": 7,
+  "fields": {
+    "data": {
+      "Fabric": "Cotton",
+      "Sleeve": "Full Sleeve",
+      "Color": "Blue",
+      "Pattern": "Striped",
+      "material": 160
+    },
+    "code": "COT-FUL-BLU-005",
+    "created_at": "2026-09-26T20:26:13.039Z"
+  }
+},
+{
+  "model": "items.sku",
+  "pk": 8,
+  "fields": {
+    "data": {
+      "Fabric": "Cotton",
+      "Sleeve": "Full Sleeve",
+      "Color": "Black",
+      "Pattern": "Plain",
+      "material": 160
+    },
+    "code": "COT-FUL-BLA-006",
+    "created_at": "2026-09-26T20:26:13.040Z"
+  }
+},
+{
+  "model": "items.sku",
+  "pk": 9,
+  "fields": {
+    "data": {
+      "Fabric": "Lycra",
+      "Sleeve": "Full Sleeve",
+      "Color": "Black",
+      "Pattern": "Plain",
+      "material": 240
+    },
+    "code": "LYC-FUL-BLA-007",
+    "created_at": "2026-09-26T20:26:13.042Z"
+  }
+},
+{
+  "model": "items.sku",
+  "pk": 10,
+  "fields": {
+    "data": {
+      "Fabric": "Lycra",
+      "Sleeve": "Full Sleeve",
+      "Color": "Blue",
+      "Pattern": "Plain",
+      "material": 240
+    },
+    "code": "LYC-FUL-BLU-007",
+    "created_at": "2026-09-26T20:26:13.043Z"
+  }
+},
+{
+  "model": "items.sku",
+  "pk": 11,
+  "fields": {
+    "data": {
+      "Fabric": "Cotton",
+      "Sleeve": "Full Sleeve",
+      "Color": "Black",
+      "Pattern": "Plain",
+      "material": 320
+    },
+    "code": "COT-FUL-BLA-008",
+    "created_at": "2026-09-26T20:26:13.046Z"
+  }
+},
+{
+  "model": "items.sku",
+  "pk": 12,
+  "fields": {
+    "data": {
+      "Fabric": "Cotton",
+      "Sleeve": "Full Sleeve",
+      "Color": "Blue",
+      "Pattern": "Printed",
+      "material": 320
+    },
+    "code": "COT-FUL-BLU-009",
+    "created_at": "2026-09-26T20:26:13.048Z"
+  }
+},
+{
+  "model": "items.sku",
+  "pk": 13,
+  "fields": {
+    "data": {
+      "Fabric": "Lycra",
+      "Sleeve": "Full Sleeve",
+      "Color": "Blue",
+      "Pattern": "Plain",
+      "material": 340
+    },
+    "code": "LYC-FUL-BLU-010",
+    "created_at": "2026-09-26T20:26:13.049Z"
+  }
+},
+{
+  "model": "items.barcode",
+  "pk": 1,
+  "fields": {
+    "entry": 1,
+    "object_type": "02",
+    "object_id": 1,
+    "value": "COT-HAL-BLA-001-1",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLA-001-1_OlFy8Uc.png",
+    "created_at": "2026-09-26T20:26:13.094Z"
+  }
+},
+{
+  "model": "items.barcode",
+  "pk": 2,
+  "fields": {
+    "entry": 2,
+    "object_type": "02",
+    "object_id": 2,
+    "value": "COT-HAL-BLU-001-2",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLU-001-2_smQSk0Q.png",
+    "created_at": "2026-09-26T20:26:13.100Z"
+  }
+},
+{
+  "model": "items.barcode",
+  "pk": 3,
+  "fields": {
+    "entry": 3,
+    "object_type": "02",
+    "object_id": 3,
+    "value": "COT-HAL-BLA-002-3",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLA-002-3_K3PugQk.png",
+    "created_at": "2026-09-26T20:26:13.105Z"
+  }
+},
+{
+  "model": "items.barcode",
+  "pk": 4,
+  "fields": {
+    "entry": 4,
+    "object_type": "02",
+    "object_id": 4,
+    "value": "COT-HAL-BLU-003-4",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLU-003-4_K3Mt9NB.png",
+    "created_at": "2026-09-26T20:26:13.111Z"
+  }
+},
+{
+  "model": "items.barcode",
+  "pk": 5,
+  "fields": {
+    "entry": 5,
+    "object_type": "02",
+    "object_id": 5,
+    "value": "COT-HAL-BLA-003-5",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLA-003-5_s8DSp67.png",
+    "created_at": "2026-09-26T20:26:13.118Z"
+  }
+},
+{
+  "model": "items.barcode",
+  "pk": 6,
+  "fields": {
+    "entry": 6,
+    "object_type": "02",
+    "object_id": 6,
+    "value": "COT-FUL-BLU-004-6",
+    "source_value": "",
+    "image": "barcodes/COT-FUL-BLU-004-6_yYZs4cf.png",
+    "created_at": "2026-09-26T20:26:13.124Z"
+  }
+},
+{
+  "model": "items.barcode",
+  "pk": 7,
+  "fields": {
+    "entry": 7,
+    "object_type": "02",
+    "object_id": 7,
+    "value": "COT-FUL-BLU-005-7",
+    "source_value": "",
+    "image": "barcodes/COT-FUL-BLU-005-7_Fw3KKOP.png",
+    "created_at": "2026-09-26T20:26:13.131Z"
+  }
+},
+{
+  "model": "items.barcode",
+  "pk": 8,
+  "fields": {
+    "entry": 8,
+    "object_type": "02",
+    "object_id": 8,
+    "value": "COT-FUL-BLA-006-8",
+    "source_value": "",
+    "image": "barcodes/COT-FUL-BLA-006-8_CQdGXZ0.png",
+    "created_at": "2026-09-26T20:26:13.136Z"
+  }
+},
+{
+  "model": "items.barcode",
+  "pk": 9,
+  "fields": {
+    "entry": 9,
+    "object_type": "02",
+    "object_id": 9,
+    "value": "LYC-FUL-BLA-007-9",
+    "source_value": "",
+    "image": "barcodes/LYC-FUL-BLA-007-9_Zu4HmU3.png",
+    "created_at": "2026-09-26T20:26:13.142Z"
+  }
+},
+{
+  "model": "items.barcode",
+  "pk": 10,
+  "fields": {
+    "entry": 10,
+    "object_type": "02",
+    "object_id": 10,
+    "value": "LYC-FUL-BLU-007-10",
+    "source_value": "",
+    "image": "barcodes/LYC-FUL-BLU-007-10_m0ocJbk.png",
+    "created_at": "2026-09-26T20:26:13.148Z"
+  }
+},
+{
+  "model": "items.barcode",
+  "pk": 11,
+  "fields": {
+    "entry": 11,
+    "object_type": "02",
+    "object_id": 11,
+    "value": "COT-FUL-BLA-008-11",
+    "source_value": "",
+    "image": "barcodes/COT-FUL-BLA-008-11_0rCQSKu.png",
+    "created_at": "2026-09-26T20:26:13.152Z"
+  }
+},
+{
+  "model": "items.barcode",
+  "pk": 12,
+  "fields": {
+    "entry": 12,
+    "object_type": "02",
+    "object_id": 12,
+    "value": "COT-FUL-BLU-009-12",
+    "source_value": "",
+    "image": "barcodes/COT-FUL-BLU-009-12_McFrtYR.png",
+    "created_at": "2026-09-26T20:26:13.158Z"
+  }
+},
+{
+  "model": "items.barcode",
+  "pk": 13,
+  "fields": {
+    "entry": 13,
+    "object_type": "02",
+    "object_id": 13,
+    "value": "LYC-FUL-BLU-010-13",
+    "source_value": "",
+    "image": "barcodes/LYC-FUL-BLU-010-13_HMBtbvq.png",
+    "created_at": "2026-09-26T20:26:13.165Z"
+  }
+},
+{
+  "model": "items.barcode",
+  "pk": 14,
+  "fields": {
+    "entry": 14,
+    "object_type": "02",
+    "object_id": 14,
+    "value": "COT-HAL-BLA-001-14",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLA-001-14_olfnUCg.png",
+    "created_at": "2026-09-26T20:26:13.170Z"
+  }
+},
+{
+  "model": "items.barcode",
+  "pk": 15,
+  "fields": {
+    "entry": 15,
+    "object_type": "02",
+    "object_id": 15,
+    "value": "COT-FUL-BLU-004-15",
+    "source_value": "",
+    "image": "barcodes/COT-FUL-BLU-004-15_JJ4Lgiw.png",
+    "created_at": "2026-09-26T20:26:13.178Z"
+  }
+},
+{
+  "model": "invoicing.enterprise",
+  "pk": 1,
+  "fields": {
+    "role": "company",
+    "name": "Be90s Apparel Pvt Ltd",
+    "email": "accounts@be90s.example",
+    "phone": "011 4566 2210",
+    "address": "Unit 14, Okhla Industrial Estate Phase II\nNew Delhi 110020",
+    "state": "Delhi",
+    "state_code": "07",
+    "pan": "AAFCB7291K",
+    "gstin": "07AAFCB7291K1ZP",
+    "extra": {},
+    "created_at": "2026-09-26T20:26:13.180Z",
+    "updated_at": "2026-09-26T20:26:13.180Z"
+  }
+},
+{
+  "model": "invoicing.enterprise",
+  "pk": 2,
+  "fields": {
+    "role": "buyer",
+    "name": "Urban Threads Retail LLP",
+    "email": "purchase@urbanthreads.example",
+    "phone": "022 2845 1190",
+    "address": "Shop 3, Linking Road\nBandra West, Mumbai 400050",
+    "state": "Maharashtra",
+    "state_code": "27",
+    "pan": "AAEFU4417Q",
+    "gstin": "27AAEFU4417Q1ZD",
+    "extra": {},
+    "created_at": "2026-09-26T20:26:13.181Z",
+    "updated_at": "2026-09-26T20:26:13.181Z"
+  }
+},
+{
+  "model": "invoicing.enterprise",
+  "pk": 3,
+  "fields": {
+    "role": "buyer",
+    "name": "Metro Fashion House",
+    "email": "orders@metrofashion.example",
+    "phone": "011 2634 7781",
+    "address": "B-42, Lajpat Nagar II\nNew Delhi 110024",
+    "state": "Delhi",
+    "state_code": "07",
+    "pan": "AADCM9912H",
+    "gstin": "07AADCM9912H1Z8",
+    "extra": {},
+    "created_at": "2026-09-26T20:26:13.182Z",
+    "updated_at": "2026-09-26T20:26:13.182Z"
+  }
+},
+{
+  "model": "invoicing.enterprise",
+  "pk": 4,
+  "fields": {
+    "role": "buyer",
+    "name": "Trendline Stores Pvt Ltd",
+    "email": "buying@trendline.example",
+    "phone": "079 4008 3312",
+    "address": "412, Iscon Emporio, Satellite\nAhmedabad 380015",
+    "state": "Gujarat",
+    "state_code": "24",
+    "pan": "AAHCT6620M",
+    "gstin": "24AAHCT6620M1ZR",
+    "extra": {},
+    "created_at": "2026-09-26T20:26:13.183Z",
+    "updated_at": "2026-09-26T20:26:13.183Z"
+  }
+},
+{
+  "model": "invoicing.invoice",
+  "pk": 1,
+  "fields": {
+    "number": "BE90/26-27/0001",
+    "date": "2026-09-24",
+    "seller": 1,
+    "buyer": 2,
+    "seller_snapshot": {
+      "name": "Be90s Apparel Pvt Ltd",
+      "email": "accounts@be90s.example",
+      "phone": "011 4566 2210",
+      "address": "Unit 14, Okhla Industrial Estate Phase II\nNew Delhi 110020",
+      "state": "Delhi",
+      "state_code": "07",
+      "pan": "AAFCB7291K",
+      "gstin": "07AAFCB7291K1ZP"
+    },
+    "dispatch_snapshot": {
+      "name": "Be90s Apparel Pvt Ltd",
+      "email": "accounts@be90s.example",
+      "phone": "011 4566 2210",
+      "address": "Unit 14, Okhla Industrial Estate Phase II\nNew Delhi 110020",
+      "state": "Delhi",
+      "state_code": "07",
+      "pan": "AAFCB7291K",
+      "gstin": "07AAFCB7291K1ZP"
+    },
+    "buyer_snapshot": {
+      "name": "Urban Threads Retail LLP",
+      "email": "purchase@urbanthreads.example",
+      "phone": "022 2845 1190",
+      "address": "Shop 3, Linking Road\nBandra West, Mumbai 400050",
+      "state": "Maharashtra",
+      "state_code": "27",
+      "pan": "AAEFU4417Q",
+      "gstin": "27AAEFU4417Q1ZD"
+    },
+    "ship_to_snapshot": {
+      "name": "Urban Threads Retail LLP",
+      "email": "purchase@urbanthreads.example",
+      "phone": "022 2845 1190",
+      "address": "Shop 3, Linking Road\nBandra West, Mumbai 400050",
+      "state": "Maharashtra",
+      "state_code": "27",
+      "pan": "AAEFU4417Q",
+      "gstin": "27AAEFU4417Q1ZD"
+    },
+    "reference_no": "PO-4417",
+    "reference_date": null,
+    "po_no": "PO-4417",
+    "po_date": null,
+    "vehicle_no": "DL01AB4417",
+    "payment_mode": "NEFT - 30 days",
+    "bank": null,
+    "note": "",
+    "taxable": "69940.00",
+    "cgst": "0.00",
+    "sgst": "0.00",
+    "ugst": "0.00",
+    "igst": "6155.60",
+    "total": "76095.60",
+    "created_at": "2026-09-26T20:26:13.185Z"
+  }
+},
+{
+  "model": "invoicing.invoiceline",
+  "pk": 1,
+  "fields": {
+    "invoice": 1,
+    "description": "Classic Crew Neck T-Shirt (Cotton, Half Sleeve, Black, Plain)",
+    "hsn": "6109",
+    "scanned_code": "",
+    "sku_code": "COT-HAL-BLA-001",
+    "quantity": "40.00",
+    "unit": "Nos",
+    "rate": "799.00",
+    "gst_rate": "5.00"
+  }
+},
+{
+  "model": "invoicing.invoiceline",
+  "pk": 2,
+  "fields": {
+    "invoice": 1,
+    "description": "Oxford Casual Shirt (Cotton, Full Sleeve, Blue, Checked)",
+    "hsn": "6205",
+    "scanned_code": "",
+    "sku_code": "COT-FUL-BLU-004",
+    "quantity": "12.00",
+    "unit": "Nos",
+    "rate": "1699.00",
+    "gst_rate": "12.00"
+  }
+},
+{
+  "model": "invoicing.invoiceline",
+  "pk": 3,
+  "fields": {
+    "invoice": 1,
+    "description": "Fleece Hooded Sweatshirt (Cotton, Full Sleeve, Black, Plain)",
+    "hsn": "6110",
+    "scanned_code": "",
+    "sku_code": "COT-FUL-BLA-008",
+    "quantity": "8.00",
+    "unit": "Nos",
+    "rate": "2199.00",
+    "gst_rate": "12.00"
+  }
+}
+]
