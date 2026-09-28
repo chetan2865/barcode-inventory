@@ -1,5 +1,6 @@
 {% extends "items/base.html" %}
 {% load items_extras %}
+{% load static %}
 
 {% block title %}Scan Barcode{% endblock %}
 {% block page_context %}Barcode Scanner{% endblock %}
@@ -207,93 +208,6 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-// Counter screen. A USB/Bluetooth reader behaves like a keyboard: it types the
-// code far faster than a person can and then sends Enter. Keystrokes are read
-// at the document level so the reader is heard even when nothing has focus -
-// the operator can scan the moment the page is up, without clicking first.
-(function () {
-    var form = document.getElementById("scan-form");
-    var input = document.getElementById("scan-input");
-    var state = document.getElementById("scan-state");
-    if (!form || !input) return;
-
-    // A reader's keys land within a few ms of each other; a human types far
-    // slower. A gap this size means a new burst has started.
-    var BURST_GAP_MS = 500;
-    // If Enter never arrives (some readers are configured without a suffix),
-    // submit once the keystrokes stop.
-    var IDLE_SUBMIT_MS = 140;
-
-    var buffer = "";
-    var lastKeyAt = 0;
-    var idleTimer = null;
-    var submitted = false;
-
-    function submit(value) {
-        if (submitted) return;
-        var code = (value || "").trim();
-        if (!code) return;
-        submitted = true;
-        clearTimeout(idleTimer);
-        input.value = code;
-        if (state) {
-            state.textContent = "Looking up " + code;
-            state.classList.add("is-busy");
-        }
-        form.submit();
-    }
-
-    document.addEventListener("keydown", function (e) {
-        // Never swallow a shortcut or interfere with another field.
-        if (e.ctrlKey || e.metaKey || e.altKey) return;
-        var typingElsewhere =
-            document.activeElement &&
-            document.activeElement !== input &&
-            /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
-        if (typingElsewhere) return;
-
-        if (e.key === "Enter") {
-            // The reader's own terminator, or the operator pressing Enter.
-            var value = document.activeElement === input ? input.value : buffer;
-            if (value && value.trim()) {
-                e.preventDefault();
-                submit(value);
-            }
-            return;
-        }
-
-        if (e.key.length !== 1) return;   // Shift, Tab, arrows, F-keys...
-
-        var now = Date.now();
-        if (now - lastKeyAt > BURST_GAP_MS) buffer = "";
-        lastKeyAt = now;
-        buffer += e.key;
-
-        // Mirror keystrokes into the box when they landed outside it, so the
-        // operator always sees what the reader sent.
-        if (document.activeElement !== input) {
-            input.value = buffer;
-        } else {
-            buffer = input.value;
-        }
-
-        // Readers without an Enter suffix: submit once input settles.
-        clearTimeout(idleTimer);
-        idleTimer = setTimeout(function () {
-            var value = input.value.trim();
-            // Long enough to be a real code, not someone starting to type.
-            if (value.length >= 6) submit(value);
-        }, IDLE_SUBMIT_MS);
-    });
-
-    // Keep the caret in the box so a reader's keystrokes are never lost, and
-    // so a lookup leaves the field ready for the next scan.
-    input.focus();
-    input.select();
-    setInterval(function () {
-        if (document.activeElement === document.body) input.focus();
-    }, 1000);
-})();
-</script>
+{# Shared with the Returns/Barcode Scanner page - see the file header. #}
+<script src="{% static 'js/scan-capture.js' %}"></script>
 {% endblock %}

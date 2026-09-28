@@ -1,5 +1,6 @@
 {% extends "items/base.html" %}
 {% load items_extras %}
+{% load static %}
 
 {% block title %}Returns{% endblock %}
 {% block page_context %}Returns{% endblock %}
@@ -192,62 +193,6 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-// Same counter-screen capture as the scan page: a reader is heard without the
-// field being focused first.
-(function () {
-    var form = document.getElementById("scan-form");
-    var input = document.getElementById("scan-input");
-    if (!form || !input) return;
-
-    var BURST_GAP_MS = 500;
-    var IDLE_SUBMIT_MS = 140;
-    var buffer = "";
-    var lastKeyAt = 0;
-    var idleTimer = null;
-    var submitted = false;
-
-    function submit(value) {
-        if (submitted) return;
-        var code = (value || "").trim();
-        if (!code) return;
-        submitted = true;
-        clearTimeout(idleTimer);
-        input.value = code;
-        form.submit();
-    }
-
-    document.addEventListener("keydown", function (e) {
-        if (e.ctrlKey || e.metaKey || e.altKey) return;
-        var active = document.activeElement;
-        // Never swallow typing meant for the quantity or reason fields.
-        if (active && active !== input && /^(INPUT|TEXTAREA|SELECT)$/.test(active.tagName)) return;
-
-        if (e.key === "Enter") {
-            var value = active === input ? input.value : buffer;
-            if (value && value.trim()) {
-                e.preventDefault();
-                submit(value);
-            }
-            return;
-        }
-        if (e.key.length !== 1) return;
-
-        var now = Date.now();
-        if (now - lastKeyAt > BURST_GAP_MS) buffer = "";
-        lastKeyAt = now;
-        buffer += e.key;
-
-        if (document.activeElement !== input) input.value = buffer;
-        else buffer = input.value;
-
-        clearTimeout(idleTimer);
-        idleTimer = setTimeout(function () {
-            if (input.value.trim().length >= 6) submit(input.value);
-        }, IDLE_SUBMIT_MS);
-    });
-
-    if (!input.value) input.focus();
-})();
-</script>
+{# Shared with the Returns/Barcode Scanner page - see the file header. #}
+<script src="{% static 'js/scan-capture.js' %}"></script>
 {% endblock %}
