@@ -145,6 +145,7 @@
                                                             <thead class="table-light">
                                                                 <tr>
                                                                     <th style="width:70px;">Line</th>
+                                                                    {% if size_field %}<th style="width:70px;">{{ size_field.name }}</th>{% endif %}
                                                                     {% for field in sku_fields %}<th>{{ field.name }}</th>{% endfor %}
                                                                     <th style="width:170px;">SKU Code</th>
                                                                     <th class="text-end" style="width:80px;">In</th>
@@ -158,6 +159,9 @@
                                                                 {% for line in entry.lines %}
                                                                 <tr>
                                                                     <td class="text-muted">#{{ line.pk }}</td>
+                                                                    {% if size_field %}
+                                                                    <td><span class="size-badge">{{ line.data|get_item:size_field.name|default:"–" }}</span></td>
+                                                                    {% endif %}
                                                                     {% for field in sku_fields %}
                                                                     <td>{{ line.sku.data|get_item:field.name|default:"–" }}</td>
                                                                     {% endfor %}
@@ -208,7 +212,7 @@
                                                                 </tr>
                                                                 {% empty %}
                                                                 <tr>
-                                                                    <td colspan="{{ sku_fields|length|add:7 }}" class="text-center text-muted py-3">
+                                                                    <td colspan="{{ sku_fields|length|add:8 }}" class="text-center text-muted py-3">
                                                                         No SKU in this entry yet.
                                                                     </td>
                                                                 </tr>

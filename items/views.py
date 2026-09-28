@@ -151,6 +151,7 @@ def item_list(request):
             "page_obj": page_obj,
             "product_field": product_field,
             "sku_fields": sku_fields,
+            "size_field": sku_engine.size_field(schema_fields),
             "sku_form_fields": sku_engine.sku_form_fields(schema_fields),
             "qty_name": quantity_engine.quantity_field_name(schema_fields),
             "query": query,
@@ -307,6 +308,8 @@ def _create_entries(product_data, parsed_blocks, schema_fields, sku_fields):
         data=dict(product_data),
     )
 
+    size = sku_engine.size_field(schema_fields)
+
     for submitted in parsed_blocks:
         identity = {field["name"]: submitted.get(field["name"]) for field in sku_fields}
         sku = sku_engine.find_matching_sku(sku_fields, identity)
@@ -316,6 +319,12 @@ def _create_entries(product_data, parsed_blocks, schema_fields, sku_fields):
                 code=sku_engine.generate_sku(schema_fields, identity),
             )
         line = Item(data=dict(product_data), sku=sku, entry=entry)
+
+        # Size varies per entry but is not SKU identity, so it rides in the
+        # entry's own data beside its quantity rather than in the code.
+        if size and submitted.get(size["name"]):
+            line.data[size["name"]] = submitted[size["name"]]
+
         quantity_engine.set_quantity(line, submitted.get(qty_name), schema_fields, save=False)
         line.save()
         created.append(f"#{line.pk} {sku.code}")
@@ -572,6 +581,7 @@ def barcode_scan(request):
         request,
         "items/barcode_scan.html",
         {
+            "size_field": sku_engine.size_field(_schema_fields()),
             "scanned_value": scanned_value,
             "result": result,
             "entries": entries,
@@ -798,6 +808,12 @@ def entry_labels(request, pk):
         for name, value in (entry.sku.data or {}).items()
         if str(value or "").strip()
     ]
+
+    # Size is an entry attribute rather than SKU identity, so it is not in
+    # sku.data - but it is the first thing anyone looks for on a tag.
+    size = sku_engine.size_field(schema_fields)
+    if size and entry.data.get(size["name"]):
+        detail_rows.insert(0, (size["name"], entry.data[size["name"]]))
 
     tags = []
     for number in range(1, copies + 1):

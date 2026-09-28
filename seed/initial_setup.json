@@ -194,13 +194,8 @@
           "field_size": "M",
           "hide": false,
           "include_in_invoice_description": true,
-          "include_in_sku": true,
+          "include_in_sku": false,
           "mandatory": true,
-          "sku_config": {
-            "length": null,
-            "order": null,
-            "transform": null
-          },
           "system": false
         },
         {

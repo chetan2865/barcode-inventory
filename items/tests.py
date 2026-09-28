@@ -194,22 +194,23 @@ class SizeRunTests(SchemaFixtureMixin, TestCase):
     def test_each_size_keeps_its_own_quantity(self):
         self._post({1: 8, 2: 12, 3: 6})
         rows = Item.objects.select_related("sku").order_by("-pk")[:3]
-        # Size is variant identity, so it lives on the Sku; the quantity is
-        # the entry's own and lives on the Item.
+        # Size is not SKU identity: it rides in the entry's own data, beside
+        # the quantity.
         by_size = {
-            r.sku.data.get(self.size["name"]): r.data.get(self.qty_name) for r in rows
+            r.data.get(self.size["name"]): r.data.get(self.qty_name) for r in rows
         }
         self.assertEqual(by_size[self.options[1]], 8)
         self.assertEqual(by_size[self.options[2]], 12)
         self.assertEqual(by_size[self.options[3]], 6)
 
-    def test_each_size_gets_its_own_sku_and_barcode(self):
+    def test_sizes_share_a_sku_code_but_get_their_own_barcode(self):
         self._post({1: 8, 2: 12})
-        rows = list(Item.objects.order_by("-pk")[:2])
+        rows = list(Item.objects.select_related("sku").order_by("-pk")[:2])
         codes = {r.sku.code for r in rows}
-        self.assertEqual(len(codes), 2, "sizes must not share one SKU code")
-        for row in rows:
-            self.assertTrue(hasattr(row, "barcode"))
+        self.assertEqual(len(codes), 1, "size is not part of SKU identity")
+        # The barcode carries the entry id, so each size still scans uniquely.
+        barcodes = {r.barcode.value for r in rows}
+        self.assertEqual(len(barcodes), 2)
 
     def test_sizes_left_blank_create_nothing(self):
         before = Item.objects.count()

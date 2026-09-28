@@ -35,8 +35,12 @@ def registration_schema(schema_fields):
     than identity: it is stored per SKU inside the item's own JSON (see
     items.quantity) and never reaches Sku.data or a code.
     """
+    from .sku import is_size_field
+
     return [
-        {**field, "hide": True} if field.get("include_in_sku") else field
+        {**field, "hide": True}
+        if field.get("include_in_sku") or is_size_field(field)
+        else field
         for field in schema_fields
     ]
 

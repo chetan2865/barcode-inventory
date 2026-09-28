@@ -254,10 +254,13 @@ def is_size_field(field):
 def size_field(schema_fields):
     """The size field, or ``None`` when the schema has no such field.
 
-    Without one the add pages fall back to a single quantity box, exactly as
-    they behaved before size runs existed.
+    Searched across the whole schema rather than the SKU fields: size varies
+    the run but is deliberately not part of SKU identity, so every size of a
+    colourway shares one code and is told apart by its entry. Without a size
+    field the add pages fall back to a single quantity box, exactly as they
+    behaved before size runs existed.
     """
-    for field in get_sku_fields(schema_fields):
+    for field in schema_fields:
         if is_size_field(field):
             return field
     return None

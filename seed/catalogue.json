@@ -194,13 +194,8 @@
         "field_size": "M",
         "hide": false,
         "include_in_invoice_description": true,
-        "include_in_sku": true,
+        "include_in_sku": false,
         "mandatory": true,
-        "sku_config": {
-          "length": null,
-          "order": null,
-          "transform": null
-        },
         "system": false
       },
       {
@@ -242,7 +237,7 @@
 },
 {
   "model": "items.entry",
-  "pk": 20,
+  "pk": 28,
   "fields": {
     "product": "Classic Crew Neck T-Shirt",
     "data": {
@@ -258,12 +253,12 @@
       "material": null,
       "Quantity": null
     },
-    "created_at": "2026-09-28T21:14:37.746Z"
+    "created_at": "2026-09-28T21:19:18.231Z"
   }
 },
 {
   "model": "items.entry",
-  "pk": 21,
+  "pk": 29,
   "fields": {
     "product": "Premium Pique Polo",
     "data": {
@@ -279,12 +274,12 @@
       "material": null,
       "Quantity": null
     },
-    "created_at": "2026-09-28T21:14:37.951Z"
+    "created_at": "2026-09-28T21:19:18.394Z"
   }
 },
 {
   "model": "items.entry",
-  "pk": 22,
+  "pk": 30,
   "fields": {
     "product": "Oxford Casual Shirt",
     "data": {
@@ -300,12 +295,12 @@
       "material": null,
       "Quantity": null
     },
-    "created_at": "2026-09-28T21:14:38.044Z"
+    "created_at": "2026-09-28T21:19:18.453Z"
   }
 },
 {
   "model": "items.entry",
-  "pk": 23,
+  "pk": 31,
   "fields": {
     "product": "Slim Fit Stretch Chinos",
     "data": {
@@ -321,12 +316,12 @@
       "material": null,
       "Quantity": null
     },
-    "created_at": "2026-09-28T21:14:38.160Z"
+    "created_at": "2026-09-28T21:19:18.517Z"
   }
 },
 {
   "model": "items.entry",
-  "pk": 24,
+  "pk": 32,
   "fields": {
     "product": "Fleece Hooded Sweatshirt",
     "data": {
@@ -342,12 +337,12 @@
       "material": null,
       "Quantity": null
     },
-    "created_at": "2026-09-28T21:14:38.220Z"
+    "created_at": "2026-09-28T21:19:18.559Z"
   }
 },
 {
   "model": "items.entry",
-  "pk": 25,
+  "pk": 33,
   "fields": {
     "product": "Washed Denim Jacket",
     "data": {
@@ -363,12 +358,12 @@
       "material": null,
       "Quantity": null
     },
-    "created_at": "2026-09-28T21:14:38.279Z"
+    "created_at": "2026-09-28T21:19:18.615Z"
   }
 },
 {
   "model": "items.entry",
-  "pk": 26,
+  "pk": 34,
   "fields": {
     "product": "Classic Crew Neck T-Shirt",
     "data": {
@@ -384,12 +379,12 @@
       "material": null,
       "Quantity": null
     },
-    "created_at": "2026-09-28T21:14:38.320Z"
+    "created_at": "2026-09-28T21:19:18.638Z"
   }
 },
 {
   "model": "items.entry",
-  "pk": 27,
+  "pk": 35,
   "fields": {
     "product": "Oxford Casual Shirt",
     "data": {
@@ -405,12 +400,12 @@
       "material": null,
       "Quantity": null
     },
-    "created_at": "2026-09-28T21:14:38.348Z"
+    "created_at": "2026-09-28T21:19:18.666Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 62,
+  "pk": 110,
   "fields": {
     "data": {
       "Product Name": "Classic Crew Neck T-Shirt",
@@ -423,17 +418,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 24
+      "Quantity": 24,
+      "Size": "S"
     },
-    "entry": 20,
-    "sku": 51,
-    "created_at": "2026-09-28T21:14:37.751Z",
-    "updated_at": "2026-09-28T21:14:37.751Z"
+    "entry": 28,
+    "sku": 94,
+    "created_at": "2026-09-28T21:19:18.241Z",
+    "updated_at": "2026-09-28T21:19:18.241Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 63,
+  "pk": 111,
   "fields": {
     "data": {
       "Product Name": "Classic Crew Neck T-Shirt",
@@ -446,17 +442,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 40
+      "Quantity": 40,
+      "Size": "M"
     },
-    "entry": 20,
-    "sku": 52,
-    "created_at": "2026-09-28T21:14:37.852Z",
-    "updated_at": "2026-09-28T21:14:37.852Z"
+    "entry": 28,
+    "sku": 94,
+    "created_at": "2026-09-28T21:19:18.293Z",
+    "updated_at": "2026-09-28T21:19:18.293Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 64,
+  "pk": 112,
   "fields": {
     "data": {
       "Product Name": "Classic Crew Neck T-Shirt",
@@ -469,17 +466,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 36
+      "Quantity": 36,
+      "Size": "L"
     },
-    "entry": 20,
-    "sku": 53,
-    "created_at": "2026-09-28T21:14:37.862Z",
-    "updated_at": "2026-09-28T21:14:37.862Z"
+    "entry": 28,
+    "sku": 94,
+    "created_at": "2026-09-28T21:19:18.300Z",
+    "updated_at": "2026-09-28T21:19:18.300Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 65,
+  "pk": 113,
   "fields": {
     "data": {
       "Product Name": "Classic Crew Neck T-Shirt",
@@ -492,17 +490,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 20
+      "Quantity": 20,
+      "Size": "XL"
     },
-    "entry": 20,
-    "sku": 54,
-    "created_at": "2026-09-28T21:14:37.871Z",
-    "updated_at": "2026-09-28T21:14:37.871Z"
+    "entry": 28,
+    "sku": 94,
+    "created_at": "2026-09-28T21:19:18.309Z",
+    "updated_at": "2026-09-28T21:19:18.309Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 66,
+  "pk": 114,
   "fields": {
     "data": {
       "Product Name": "Classic Crew Neck T-Shirt",
@@ -515,17 +514,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 18
+      "Quantity": 18,
+      "Size": "S"
     },
-    "entry": 20,
-    "sku": 55,
-    "created_at": "2026-09-28T21:14:37.879Z",
-    "updated_at": "2026-09-28T21:14:37.879Z"
+    "entry": 28,
+    "sku": 95,
+    "created_at": "2026-09-28T21:19:18.318Z",
+    "updated_at": "2026-09-28T21:19:18.318Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 67,
+  "pk": 115,
   "fields": {
     "data": {
       "Product Name": "Classic Crew Neck T-Shirt",
@@ -538,17 +538,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 30
+      "Quantity": 30,
+      "Size": "M"
     },
-    "entry": 20,
-    "sku": 56,
-    "created_at": "2026-09-28T21:14:37.888Z",
-    "updated_at": "2026-09-28T21:14:37.888Z"
+    "entry": 28,
+    "sku": 95,
+    "created_at": "2026-09-28T21:19:18.325Z",
+    "updated_at": "2026-09-28T21:19:18.325Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 68,
+  "pk": 116,
   "fields": {
     "data": {
       "Product Name": "Classic Crew Neck T-Shirt",
@@ -561,17 +562,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 26
+      "Quantity": 26,
+      "Size": "L"
     },
-    "entry": 20,
-    "sku": 57,
-    "created_at": "2026-09-28T21:14:37.898Z",
-    "updated_at": "2026-09-28T21:14:37.898Z"
+    "entry": 28,
+    "sku": 95,
+    "created_at": "2026-09-28T21:19:18.332Z",
+    "updated_at": "2026-09-28T21:19:18.332Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 69,
+  "pk": 117,
   "fields": {
     "data": {
       "Product Name": "Classic Crew Neck T-Shirt",
@@ -584,17 +586,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 16
+      "Quantity": 16,
+      "Size": "XL"
     },
-    "entry": 20,
-    "sku": 58,
-    "created_at": "2026-09-28T21:14:37.906Z",
-    "updated_at": "2026-09-28T21:14:37.906Z"
+    "entry": 28,
+    "sku": 95,
+    "created_at": "2026-09-28T21:19:18.339Z",
+    "updated_at": "2026-09-28T21:19:18.339Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 70,
+  "pk": 118,
   "fields": {
     "data": {
       "Product Name": "Classic Crew Neck T-Shirt",
@@ -607,17 +610,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 24
+      "Quantity": 24,
+      "Size": "M"
     },
-    "entry": 20,
-    "sku": 59,
-    "created_at": "2026-09-28T21:14:37.916Z",
-    "updated_at": "2026-09-28T21:14:37.916Z"
+    "entry": 28,
+    "sku": 96,
+    "created_at": "2026-09-28T21:19:18.348Z",
+    "updated_at": "2026-09-28T21:19:18.348Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 71,
+  "pk": 119,
   "fields": {
     "data": {
       "Product Name": "Classic Crew Neck T-Shirt",
@@ -630,17 +634,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 22
+      "Quantity": 22,
+      "Size": "L"
     },
-    "entry": 20,
-    "sku": 60,
-    "created_at": "2026-09-28T21:14:37.926Z",
-    "updated_at": "2026-09-28T21:14:37.926Z"
+    "entry": 28,
+    "sku": 96,
+    "created_at": "2026-09-28T21:19:18.370Z",
+    "updated_at": "2026-09-28T21:19:18.370Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 72,
+  "pk": 120,
   "fields": {
     "data": {
       "Product Name": "Classic Crew Neck T-Shirt",
@@ -653,17 +658,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 14
+      "Quantity": 14,
+      "Size": "XL"
     },
-    "entry": 20,
-    "sku": 61,
-    "created_at": "2026-09-28T21:14:37.942Z",
-    "updated_at": "2026-09-28T21:14:37.942Z"
+    "entry": 28,
+    "sku": 96,
+    "created_at": "2026-09-28T21:19:18.384Z",
+    "updated_at": "2026-09-28T21:19:18.384Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 73,
+  "pk": 121,
   "fields": {
     "data": {
       "Product Name": "Premium Pique Polo",
@@ -676,17 +682,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 12
+      "Quantity": 12,
+      "Size": "S"
     },
-    "entry": 21,
-    "sku": 62,
-    "created_at": "2026-09-28T21:14:37.956Z",
-    "updated_at": "2026-09-28T21:14:37.956Z"
+    "entry": 29,
+    "sku": 97,
+    "created_at": "2026-09-28T21:19:18.396Z",
+    "updated_at": "2026-09-28T21:19:18.398Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 74,
+  "pk": 122,
   "fields": {
     "data": {
       "Product Name": "Premium Pique Polo",
@@ -699,17 +706,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 26
+      "Quantity": 26,
+      "Size": "M"
     },
-    "entry": 21,
-    "sku": 63,
-    "created_at": "2026-09-28T21:14:37.966Z",
-    "updated_at": "2026-09-28T21:14:37.966Z"
+    "entry": 29,
+    "sku": 97,
+    "created_at": "2026-09-28T21:19:18.404Z",
+    "updated_at": "2026-09-28T21:19:18.404Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 75,
+  "pk": 123,
   "fields": {
     "data": {
       "Product Name": "Premium Pique Polo",
@@ -722,17 +730,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 24
+      "Quantity": 24,
+      "Size": "L"
     },
-    "entry": 21,
-    "sku": 64,
-    "created_at": "2026-09-28T21:14:37.980Z",
-    "updated_at": "2026-09-28T21:14:37.980Z"
+    "entry": 29,
+    "sku": 97,
+    "created_at": "2026-09-28T21:19:18.411Z",
+    "updated_at": "2026-09-28T21:19:18.411Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 76,
+  "pk": 124,
   "fields": {
     "data": {
       "Product Name": "Premium Pique Polo",
@@ -745,17 +754,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 13
+      "Quantity": 13,
+      "Size": "XL"
     },
-    "entry": 21,
-    "sku": 65,
-    "created_at": "2026-09-28T21:14:37.993Z",
-    "updated_at": "2026-09-28T21:14:37.993Z"
+    "entry": 29,
+    "sku": 97,
+    "created_at": "2026-09-28T21:19:18.418Z",
+    "updated_at": "2026-09-28T21:19:18.418Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 77,
+  "pk": 125,
   "fields": {
     "data": {
       "Product Name": "Premium Pique Polo",
@@ -768,17 +778,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 10
+      "Quantity": 10,
+      "Size": "S"
     },
-    "entry": 21,
-    "sku": 66,
-    "created_at": "2026-09-28T21:14:38.003Z",
-    "updated_at": "2026-09-28T21:14:38.003Z"
+    "entry": 29,
+    "sku": 98,
+    "created_at": "2026-09-28T21:19:18.427Z",
+    "updated_at": "2026-09-28T21:19:18.427Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 78,
+  "pk": 126,
   "fields": {
     "data": {
       "Product Name": "Premium Pique Polo",
@@ -791,17 +802,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 22
+      "Quantity": 22,
+      "Size": "M"
     },
-    "entry": 21,
-    "sku": 67,
-    "created_at": "2026-09-28T21:14:38.014Z",
-    "updated_at": "2026-09-28T21:14:38.014Z"
+    "entry": 29,
+    "sku": 98,
+    "created_at": "2026-09-28T21:19:18.434Z",
+    "updated_at": "2026-09-28T21:19:18.434Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 79,
+  "pk": 127,
   "fields": {
     "data": {
       "Product Name": "Premium Pique Polo",
@@ -814,17 +826,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 21
+      "Quantity": 21,
+      "Size": "L"
     },
-    "entry": 21,
-    "sku": 68,
-    "created_at": "2026-09-28T21:14:38.029Z",
-    "updated_at": "2026-09-28T21:14:38.029Z"
+    "entry": 29,
+    "sku": 98,
+    "created_at": "2026-09-28T21:19:18.441Z",
+    "updated_at": "2026-09-28T21:19:18.441Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 80,
+  "pk": 128,
   "fields": {
     "data": {
       "Product Name": "Premium Pique Polo",
@@ -837,17 +850,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 12
+      "Quantity": 12,
+      "Size": "XL"
     },
-    "entry": 21,
-    "sku": 69,
-    "created_at": "2026-09-28T21:14:38.037Z",
-    "updated_at": "2026-09-28T21:14:38.037Z"
+    "entry": 29,
+    "sku": 98,
+    "created_at": "2026-09-28T21:19:18.446Z",
+    "updated_at": "2026-09-28T21:19:18.446Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 81,
+  "pk": 129,
   "fields": {
     "data": {
       "Product Name": "Oxford Casual Shirt",
@@ -860,17 +874,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 14
+      "Quantity": 14,
+      "Size": "M"
     },
-    "entry": 22,
-    "sku": 70,
-    "created_at": "2026-09-28T21:14:38.047Z",
-    "updated_at": "2026-09-28T21:14:38.047Z"
+    "entry": 30,
+    "sku": 99,
+    "created_at": "2026-09-28T21:19:18.455Z",
+    "updated_at": "2026-09-28T21:19:18.455Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 82,
+  "pk": 130,
   "fields": {
     "data": {
       "Product Name": "Oxford Casual Shirt",
@@ -883,17 +898,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 18
+      "Quantity": 18,
+      "Size": "L"
     },
-    "entry": 22,
-    "sku": 71,
-    "created_at": "2026-09-28T21:14:38.058Z",
-    "updated_at": "2026-09-28T21:14:38.058Z"
+    "entry": 30,
+    "sku": 99,
+    "created_at": "2026-09-28T21:19:18.462Z",
+    "updated_at": "2026-09-28T21:19:18.462Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 83,
+  "pk": 131,
   "fields": {
     "data": {
       "Product Name": "Oxford Casual Shirt",
@@ -906,17 +922,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 16
+      "Quantity": 16,
+      "Size": "XL"
     },
-    "entry": 22,
-    "sku": 72,
-    "created_at": "2026-09-28T21:14:38.073Z",
-    "updated_at": "2026-09-28T21:14:38.073Z"
+    "entry": 30,
+    "sku": 99,
+    "created_at": "2026-09-28T21:19:18.468Z",
+    "updated_at": "2026-09-28T21:19:18.468Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 84,
+  "pk": 132,
   "fields": {
     "data": {
       "Product Name": "Oxford Casual Shirt",
@@ -929,17 +946,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 12
+      "Quantity": 12,
+      "Size": "M"
     },
-    "entry": 22,
-    "sku": 73,
-    "created_at": "2026-09-28T21:14:38.085Z",
-    "updated_at": "2026-09-28T21:14:38.085Z"
+    "entry": 30,
+    "sku": 100,
+    "created_at": "2026-09-28T21:19:18.475Z",
+    "updated_at": "2026-09-28T21:19:18.475Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 85,
+  "pk": 133,
   "fields": {
     "data": {
       "Product Name": "Oxford Casual Shirt",
@@ -952,17 +970,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 16
+      "Quantity": 16,
+      "Size": "L"
     },
-    "entry": 22,
-    "sku": 74,
-    "created_at": "2026-09-28T21:14:38.094Z",
-    "updated_at": "2026-09-28T21:14:38.094Z"
+    "entry": 30,
+    "sku": 100,
+    "created_at": "2026-09-28T21:19:18.481Z",
+    "updated_at": "2026-09-28T21:19:18.481Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 86,
+  "pk": 134,
   "fields": {
     "data": {
       "Product Name": "Oxford Casual Shirt",
@@ -975,17 +994,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 14
+      "Quantity": 14,
+      "Size": "XL"
     },
-    "entry": 22,
-    "sku": 75,
-    "created_at": "2026-09-28T21:14:38.112Z",
-    "updated_at": "2026-09-28T21:14:38.112Z"
+    "entry": 30,
+    "sku": 100,
+    "created_at": "2026-09-28T21:19:18.488Z",
+    "updated_at": "2026-09-28T21:19:18.488Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 87,
+  "pk": 135,
   "fields": {
     "data": {
       "Product Name": "Oxford Casual Shirt",
@@ -998,17 +1018,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 8
+      "Quantity": 8,
+      "Size": "S"
     },
-    "entry": 22,
-    "sku": 76,
-    "created_at": "2026-09-28T21:14:38.128Z",
-    "updated_at": "2026-09-28T21:14:38.128Z"
+    "entry": 30,
+    "sku": 101,
+    "created_at": "2026-09-28T21:19:18.496Z",
+    "updated_at": "2026-09-28T21:19:18.496Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 88,
+  "pk": 136,
   "fields": {
     "data": {
       "Product Name": "Oxford Casual Shirt",
@@ -1021,17 +1042,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 14
+      "Quantity": 14,
+      "Size": "M"
     },
-    "entry": 22,
-    "sku": 77,
-    "created_at": "2026-09-28T21:14:38.141Z",
-    "updated_at": "2026-09-28T21:14:38.141Z"
+    "entry": 30,
+    "sku": 101,
+    "created_at": "2026-09-28T21:19:18.504Z",
+    "updated_at": "2026-09-28T21:19:18.504Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 89,
+  "pk": 137,
   "fields": {
     "data": {
       "Product Name": "Oxford Casual Shirt",
@@ -1044,17 +1066,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 14
+      "Quantity": 14,
+      "Size": "L"
     },
-    "entry": 22,
-    "sku": 78,
-    "created_at": "2026-09-28T21:14:38.152Z",
-    "updated_at": "2026-09-28T21:14:38.152Z"
+    "entry": 30,
+    "sku": 101,
+    "created_at": "2026-09-28T21:19:18.511Z",
+    "updated_at": "2026-09-28T21:19:18.511Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 90,
+  "pk": 138,
   "fields": {
     "data": {
       "Product Name": "Slim Fit Stretch Chinos",
@@ -1067,17 +1090,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 16
+      "Quantity": 16,
+      "Size": "M"
     },
-    "entry": 23,
-    "sku": 79,
-    "created_at": "2026-09-28T21:14:38.162Z",
-    "updated_at": "2026-09-28T21:14:38.162Z"
+    "entry": 31,
+    "sku": 102,
+    "created_at": "2026-09-28T21:19:18.520Z",
+    "updated_at": "2026-09-28T21:19:18.520Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 91,
+  "pk": 139,
   "fields": {
     "data": {
       "Product Name": "Slim Fit Stretch Chinos",
@@ -1090,17 +1114,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 20
+      "Quantity": 20,
+      "Size": "L"
     },
-    "entry": 23,
-    "sku": 80,
-    "created_at": "2026-09-28T21:14:38.175Z",
-    "updated_at": "2026-09-28T21:14:38.175Z"
+    "entry": 31,
+    "sku": 102,
+    "created_at": "2026-09-28T21:19:18.528Z",
+    "updated_at": "2026-09-28T21:19:18.528Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 92,
+  "pk": 140,
   "fields": {
     "data": {
       "Product Name": "Slim Fit Stretch Chinos",
@@ -1113,17 +1138,18 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 18
+      "Quantity": 18,
+      "Size": "XL"
     },
-    "entry": 23,
-    "sku": 81,
-    "created_at": "2026-09-28T21:14:38.186Z",
-    "updated_at": "2026-09-28T21:14:38.186Z"
+    "entry": 31,
+    "sku": 102,
+    "created_at": "2026-09-28T21:19:18.534Z",
+    "updated_at": "2026-09-28T21:19:18.534Z"
   }
 },
 {
   "model": "items.item",
-  "pk": 93,
+  "pk": 141,
   "fields": {
     "data": {
       "Product Name": "Slim Fit Stretch Chinos",
@@ -1136,2145 +1162,1351 @@
       "Color": null,
       "Pattern": null,
       "material": null,
-      "Quantity": 12
+      "Quantity": 12,
+      "Size": "M"
     },
-    "entry": 23,
-    "sku": 82,
-    "created_at": "2026-09-28T21:14:38.196Z",
-    "updated_at": "2026-09-28T21:14:38.198Z"
+    "entry": 31,
+    "sku": 103,
+    "created_at": "2026-09-28T21:19:18.541Z",
+    "updated_at": "2026-09-28T21:19:18.541Z"
   }
 },
 {
   "model": "items.item",
+  "pk": 142,
+  "fields": {
+    "data": {
+      "Product Name": "Slim Fit Stretch Chinos",
+      "HSN": "6203",
+      "Selling Rate": "1899.00",
+      "Manufacturing Cost": "780.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 16,
+      "Size": "L"
+    },
+    "entry": 31,
+    "sku": 103,
+    "created_at": "2026-09-28T21:19:18.546Z",
+    "updated_at": "2026-09-28T21:19:18.546Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 143,
+  "fields": {
+    "data": {
+      "Product Name": "Slim Fit Stretch Chinos",
+      "HSN": "6203",
+      "Selling Rate": "1899.00",
+      "Manufacturing Cost": "780.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 12,
+      "Size": "XL"
+    },
+    "entry": 31,
+    "sku": 103,
+    "created_at": "2026-09-28T21:19:18.553Z",
+    "updated_at": "2026-09-28T21:19:18.553Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 144,
+  "fields": {
+    "data": {
+      "Product Name": "Fleece Hooded Sweatshirt",
+      "HSN": "6110",
+      "Selling Rate": "2199.00",
+      "Manufacturing Cost": "910.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 12,
+      "Size": "M"
+    },
+    "entry": 32,
+    "sku": 104,
+    "created_at": "2026-09-28T21:19:18.562Z",
+    "updated_at": "2026-09-28T21:19:18.562Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 145,
+  "fields": {
+    "data": {
+      "Product Name": "Fleece Hooded Sweatshirt",
+      "HSN": "6110",
+      "Selling Rate": "2199.00",
+      "Manufacturing Cost": "910.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 14,
+      "Size": "L"
+    },
+    "entry": 32,
+    "sku": 104,
+    "created_at": "2026-09-28T21:19:18.571Z",
+    "updated_at": "2026-09-28T21:19:18.571Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 146,
+  "fields": {
+    "data": {
+      "Product Name": "Fleece Hooded Sweatshirt",
+      "HSN": "6110",
+      "Selling Rate": "2199.00",
+      "Manufacturing Cost": "910.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 12,
+      "Size": "XL"
+    },
+    "entry": 32,
+    "sku": 104,
+    "created_at": "2026-09-28T21:19:18.580Z",
+    "updated_at": "2026-09-28T21:19:18.580Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 147,
+  "fields": {
+    "data": {
+      "Product Name": "Fleece Hooded Sweatshirt",
+      "HSN": "6110",
+      "Selling Rate": "2199.00",
+      "Manufacturing Cost": "910.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 10,
+      "Size": "M"
+    },
+    "entry": 32,
+    "sku": 105,
+    "created_at": "2026-09-28T21:19:18.591Z",
+    "updated_at": "2026-09-28T21:19:18.591Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 148,
+  "fields": {
+    "data": {
+      "Product Name": "Fleece Hooded Sweatshirt",
+      "HSN": "6110",
+      "Selling Rate": "2199.00",
+      "Manufacturing Cost": "910.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 12,
+      "Size": "L"
+    },
+    "entry": 32,
+    "sku": 105,
+    "created_at": "2026-09-28T21:19:18.598Z",
+    "updated_at": "2026-09-28T21:19:18.598Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 149,
+  "fields": {
+    "data": {
+      "Product Name": "Fleece Hooded Sweatshirt",
+      "HSN": "6110",
+      "Selling Rate": "2199.00",
+      "Manufacturing Cost": "910.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 8,
+      "Size": "XL"
+    },
+    "entry": 32,
+    "sku": 105,
+    "created_at": "2026-09-28T21:19:18.608Z",
+    "updated_at": "2026-09-28T21:19:18.608Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 150,
+  "fields": {
+    "data": {
+      "Product Name": "Washed Denim Jacket",
+      "HSN": "6201",
+      "Selling Rate": "2999.00",
+      "Manufacturing Cost": "1240.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 8,
+      "Size": "M"
+    },
+    "entry": 33,
+    "sku": 106,
+    "created_at": "2026-09-28T21:19:18.618Z",
+    "updated_at": "2026-09-28T21:19:18.618Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 151,
+  "fields": {
+    "data": {
+      "Product Name": "Washed Denim Jacket",
+      "HSN": "6201",
+      "Selling Rate": "2999.00",
+      "Manufacturing Cost": "1240.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 10,
+      "Size": "L"
+    },
+    "entry": 33,
+    "sku": 106,
+    "created_at": "2026-09-28T21:19:18.625Z",
+    "updated_at": "2026-09-28T21:19:18.625Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 152,
+  "fields": {
+    "data": {
+      "Product Name": "Washed Denim Jacket",
+      "HSN": "6201",
+      "Selling Rate": "2999.00",
+      "Manufacturing Cost": "1240.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 8,
+      "Size": "XL"
+    },
+    "entry": 33,
+    "sku": 106,
+    "created_at": "2026-09-28T21:19:18.632Z",
+    "updated_at": "2026-09-28T21:19:18.632Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 153,
+  "fields": {
+    "data": {
+      "Product Name": "Classic Crew Neck T-Shirt",
+      "HSN": "6109",
+      "Selling Rate": "799.00",
+      "Manufacturing Cost": "310.00",
+      "GST Rate": "5%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 30,
+      "Size": "M"
+    },
+    "entry": 34,
+    "sku": 94,
+    "created_at": "2026-09-28T21:19:18.639Z",
+    "updated_at": "2026-09-28T21:19:18.639Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 154,
+  "fields": {
+    "data": {
+      "Product Name": "Classic Crew Neck T-Shirt",
+      "HSN": "6109",
+      "Selling Rate": "799.00",
+      "Manufacturing Cost": "310.00",
+      "GST Rate": "5%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 30,
+      "Size": "L"
+    },
+    "entry": 34,
+    "sku": 94,
+    "created_at": "2026-09-28T21:19:18.648Z",
+    "updated_at": "2026-09-28T21:19:18.648Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 155,
+  "fields": {
+    "data": {
+      "Product Name": "Classic Crew Neck T-Shirt",
+      "HSN": "6109",
+      "Selling Rate": "799.00",
+      "Manufacturing Cost": "310.00",
+      "GST Rate": "5%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 20,
+      "Size": "XL"
+    },
+    "entry": 34,
+    "sku": 94,
+    "created_at": "2026-09-28T21:19:18.657Z",
+    "updated_at": "2026-09-28T21:19:18.657Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 156,
+  "fields": {
+    "data": {
+      "Product Name": "Oxford Casual Shirt",
+      "HSN": "6205",
+      "Selling Rate": "1699.00",
+      "Manufacturing Cost": "690.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 12,
+      "Size": "L"
+    },
+    "entry": 35,
+    "sku": 99,
+    "created_at": "2026-09-28T21:19:18.668Z",
+    "updated_at": "2026-09-28T21:19:18.668Z"
+  }
+},
+{
+  "model": "items.item",
+  "pk": 157,
+  "fields": {
+    "data": {
+      "Product Name": "Oxford Casual Shirt",
+      "HSN": "6205",
+      "Selling Rate": "1699.00",
+      "Manufacturing Cost": "690.00",
+      "GST Rate": "12%",
+      "Fabric": null,
+      "Sleeve": null,
+      "Color": null,
+      "Pattern": null,
+      "material": null,
+      "Quantity": 12,
+      "Size": "XL"
+    },
+    "entry": 35,
+    "sku": 99,
+    "created_at": "2026-09-28T21:19:18.676Z",
+    "updated_at": "2026-09-28T21:19:18.676Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 49,
+  "fields": {
+    "key": "pattern=plain|material=180",
+    "detail": {
+      "Pattern": "Plain",
+      "material": "180"
+    },
+    "number": 1,
+    "created_at": "2026-09-28T21:19:18.238Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 50,
+  "fields": {
+    "key": "pattern=striped|material=180",
+    "detail": {
+      "Pattern": "Striped",
+      "material": "180"
+    },
+    "number": 2,
+    "created_at": "2026-09-28T21:19:18.346Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 51,
+  "fields": {
+    "key": "pattern=plain|material=220",
+    "detail": {
+      "Pattern": "Plain",
+      "material": "220"
+    },
+    "number": 3,
+    "created_at": "2026-09-28T21:19:18.396Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 52,
+  "fields": {
+    "key": "pattern=checked|material=160",
+    "detail": {
+      "Pattern": "Checked",
+      "material": "160"
+    },
+    "number": 4,
+    "created_at": "2026-09-28T21:19:18.454Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 53,
+  "fields": {
+    "key": "pattern=striped|material=160",
+    "detail": {
+      "Pattern": "Striped",
+      "material": "160"
+    },
+    "number": 5,
+    "created_at": "2026-09-28T21:19:18.475Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 54,
+  "fields": {
+    "key": "pattern=plain|material=160",
+    "detail": {
+      "Pattern": "Plain",
+      "material": "160"
+    },
+    "number": 6,
+    "created_at": "2026-09-28T21:19:18.496Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 55,
+  "fields": {
+    "key": "pattern=plain|material=240",
+    "detail": {
+      "Pattern": "Plain",
+      "material": "240"
+    },
+    "number": 7,
+    "created_at": "2026-09-28T21:19:18.519Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 56,
+  "fields": {
+    "key": "pattern=plain|material=320",
+    "detail": {
+      "Pattern": "Plain",
+      "material": "320"
+    },
+    "number": 8,
+    "created_at": "2026-09-28T21:19:18.560Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 57,
+  "fields": {
+    "key": "pattern=printed|material=320",
+    "detail": {
+      "Pattern": "Printed",
+      "material": "320"
+    },
+    "number": 9,
+    "created_at": "2026-09-28T21:19:18.590Z"
+  }
+},
+{
+  "model": "items.skunumber",
+  "pk": 58,
+  "fields": {
+    "key": "pattern=plain|material=340",
+    "detail": {
+      "Pattern": "Plain",
+      "material": "340"
+    },
+    "number": 10,
+    "created_at": "2026-09-28T21:19:18.616Z"
+  }
+},
+{
+  "model": "items.sku",
   "pk": 94,
   "fields": {
     "data": {
-      "Product Name": "Slim Fit Stretch Chinos",
-      "HSN": "6203",
-      "Selling Rate": "1899.00",
-      "Manufacturing Cost": "780.00",
-      "GST Rate": "12%",
-      "Fabric": null,
-      "Sleeve": null,
-      "Color": null,
-      "Pattern": null,
-      "material": null,
-      "Quantity": 16
+      "Fabric": "Cotton",
+      "Sleeve": "Half Sleeve",
+      "Color": "Black",
+      "Pattern": "Plain",
+      "material": 180
     },
-    "entry": 23,
-    "sku": 83,
-    "created_at": "2026-09-28T21:14:38.207Z",
-    "updated_at": "2026-09-28T21:14:38.207Z"
+    "code": "COT-HAL-BLA-001",
+    "created_at": "2026-09-28T21:19:18.240Z"
   }
 },
 {
-  "model": "items.item",
+  "model": "items.sku",
   "pk": 95,
   "fields": {
     "data": {
-      "Product Name": "Slim Fit Stretch Chinos",
-      "HSN": "6203",
-      "Selling Rate": "1899.00",
-      "Manufacturing Cost": "780.00",
-      "GST Rate": "12%",
-      "Fabric": null,
-      "Sleeve": null,
-      "Color": null,
-      "Pattern": null,
-      "material": null,
-      "Quantity": 12
+      "Fabric": "Cotton",
+      "Sleeve": "Half Sleeve",
+      "Color": "Blue",
+      "Pattern": "Plain",
+      "material": 180
     },
-    "entry": 23,
-    "sku": 84,
-    "created_at": "2026-09-28T21:14:38.215Z",
-    "updated_at": "2026-09-28T21:14:38.215Z"
+    "code": "COT-HAL-BLU-001",
+    "created_at": "2026-09-28T21:19:18.318Z"
   }
 },
 {
-  "model": "items.item",
+  "model": "items.sku",
   "pk": 96,
   "fields": {
     "data": {
-      "Product Name": "Fleece Hooded Sweatshirt",
-      "HSN": "6110",
-      "Selling Rate": "2199.00",
-      "Manufacturing Cost": "910.00",
-      "GST Rate": "12%",
-      "Fabric": null,
-      "Sleeve": null,
-      "Color": null,
-      "Pattern": null,
-      "material": null,
-      "Quantity": 12
+      "Fabric": "Cotton",
+      "Sleeve": "Half Sleeve",
+      "Color": "Black",
+      "Pattern": "Striped",
+      "material": 180
     },
-    "entry": 24,
-    "sku": 85,
-    "created_at": "2026-09-28T21:14:38.223Z",
-    "updated_at": "2026-09-28T21:14:38.223Z"
+    "code": "COT-HAL-BLA-002",
+    "created_at": "2026-09-28T21:19:18.348Z"
   }
 },
 {
-  "model": "items.item",
+  "model": "items.sku",
   "pk": 97,
   "fields": {
     "data": {
-      "Product Name": "Fleece Hooded Sweatshirt",
-      "HSN": "6110",
-      "Selling Rate": "2199.00",
-      "Manufacturing Cost": "910.00",
-      "GST Rate": "12%",
-      "Fabric": null,
-      "Sleeve": null,
-      "Color": null,
-      "Pattern": null,
-      "material": null,
-      "Quantity": 14
+      "Fabric": "Cotton",
+      "Sleeve": "Half Sleeve",
+      "Color": "Blue",
+      "Pattern": "Plain",
+      "material": 220
     },
-    "entry": 24,
-    "sku": 86,
-    "created_at": "2026-09-28T21:14:38.231Z",
-    "updated_at": "2026-09-28T21:14:38.231Z"
+    "code": "COT-HAL-BLU-003",
+    "created_at": "2026-09-28T21:19:18.396Z"
   }
 },
 {
-  "model": "items.item",
+  "model": "items.sku",
   "pk": 98,
   "fields": {
     "data": {
-      "Product Name": "Fleece Hooded Sweatshirt",
-      "HSN": "6110",
-      "Selling Rate": "2199.00",
-      "Manufacturing Cost": "910.00",
-      "GST Rate": "12%",
-      "Fabric": null,
-      "Sleeve": null,
-      "Color": null,
-      "Pattern": null,
-      "material": null,
-      "Quantity": 12
+      "Fabric": "Cotton",
+      "Sleeve": "Half Sleeve",
+      "Color": "Black",
+      "Pattern": "Plain",
+      "material": 220
     },
-    "entry": 24,
-    "sku": 87,
-    "created_at": "2026-09-28T21:14:38.239Z",
-    "updated_at": "2026-09-28T21:14:38.239Z"
+    "code": "COT-HAL-BLA-003",
+    "created_at": "2026-09-28T21:19:18.426Z"
   }
 },
 {
-  "model": "items.item",
+  "model": "items.sku",
   "pk": 99,
   "fields": {
     "data": {
-      "Product Name": "Fleece Hooded Sweatshirt",
-      "HSN": "6110",
-      "Selling Rate": "2199.00",
-      "Manufacturing Cost": "910.00",
-      "GST Rate": "12%",
-      "Fabric": null,
-      "Sleeve": null,
-      "Color": null,
-      "Pattern": null,
-      "material": null,
-      "Quantity": 10
+      "Fabric": "Cotton",
+      "Sleeve": "Full Sleeve",
+      "Color": "Blue",
+      "Pattern": "Checked",
+      "material": 160
     },
-    "entry": 24,
-    "sku": 88,
-    "created_at": "2026-09-28T21:14:38.246Z",
-    "updated_at": "2026-09-28T21:14:38.246Z"
+    "code": "COT-FUL-BLU-004",
+    "created_at": "2026-09-28T21:19:18.455Z"
   }
 },
 {
-  "model": "items.item",
+  "model": "items.sku",
   "pk": 100,
   "fields": {
     "data": {
-      "Product Name": "Fleece Hooded Sweatshirt",
-      "HSN": "6110",
-      "Selling Rate": "2199.00",
-      "Manufacturing Cost": "910.00",
-      "GST Rate": "12%",
-      "Fabric": null,
-      "Sleeve": null,
-      "Color": null,
-      "Pattern": null,
-      "material": null,
-      "Quantity": 12
+      "Fabric": "Cotton",
+      "Sleeve": "Full Sleeve",
+      "Color": "Blue",
+      "Pattern": "Striped",
+      "material": 160
     },
-    "entry": 24,
-    "sku": 89,
-    "created_at": "2026-09-28T21:14:38.256Z",
-    "updated_at": "2026-09-28T21:14:38.256Z"
+    "code": "COT-FUL-BLU-005",
+    "created_at": "2026-09-28T21:19:18.475Z"
   }
 },
 {
-  "model": "items.item",
+  "model": "items.sku",
   "pk": 101,
   "fields": {
     "data": {
-      "Product Name": "Fleece Hooded Sweatshirt",
-      "HSN": "6110",
-      "Selling Rate": "2199.00",
-      "Manufacturing Cost": "910.00",
-      "GST Rate": "12%",
-      "Fabric": null,
-      "Sleeve": null,
-      "Color": null,
-      "Pattern": null,
-      "material": null,
-      "Quantity": 8
+      "Fabric": "Cotton",
+      "Sleeve": "Full Sleeve",
+      "Color": "Black",
+      "Pattern": "Plain",
+      "material": 160
     },
-    "entry": 24,
-    "sku": 90,
-    "created_at": "2026-09-28T21:14:38.271Z",
-    "updated_at": "2026-09-28T21:14:38.271Z"
+    "code": "COT-FUL-BLA-006",
+    "created_at": "2026-09-28T21:19:18.496Z"
   }
 },
 {
-  "model": "items.item",
+  "model": "items.sku",
   "pk": 102,
   "fields": {
     "data": {
-      "Product Name": "Washed Denim Jacket",
-      "HSN": "6201",
-      "Selling Rate": "2999.00",
-      "Manufacturing Cost": "1240.00",
-      "GST Rate": "12%",
-      "Fabric": null,
-      "Sleeve": null,
-      "Color": null,
-      "Pattern": null,
-      "material": null,
-      "Quantity": 8
+      "Fabric": "Lycra",
+      "Sleeve": "Full Sleeve",
+      "Color": "Black",
+      "Pattern": "Plain",
+      "material": 240
     },
-    "entry": 25,
-    "sku": 91,
-    "created_at": "2026-09-28T21:14:38.283Z",
-    "updated_at": "2026-09-28T21:14:38.283Z"
+    "code": "LYC-FUL-BLA-007",
+    "created_at": "2026-09-28T21:19:18.520Z"
   }
 },
 {
-  "model": "items.item",
+  "model": "items.sku",
   "pk": 103,
   "fields": {
     "data": {
-      "Product Name": "Washed Denim Jacket",
-      "HSN": "6201",
-      "Selling Rate": "2999.00",
-      "Manufacturing Cost": "1240.00",
-      "GST Rate": "12%",
-      "Fabric": null,
-      "Sleeve": null,
-      "Color": null,
-      "Pattern": null,
-      "material": null,
-      "Quantity": 10
+      "Fabric": "Lycra",
+      "Sleeve": "Full Sleeve",
+      "Color": "Blue",
+      "Pattern": "Plain",
+      "material": 240
     },
-    "entry": 25,
-    "sku": 92,
-    "created_at": "2026-09-28T21:14:38.298Z",
-    "updated_at": "2026-09-28T21:14:38.298Z"
+    "code": "LYC-FUL-BLU-007",
+    "created_at": "2026-09-28T21:19:18.540Z"
   }
 },
 {
-  "model": "items.item",
+  "model": "items.sku",
   "pk": 104,
   "fields": {
     "data": {
-      "Product Name": "Washed Denim Jacket",
-      "HSN": "6201",
-      "Selling Rate": "2999.00",
-      "Manufacturing Cost": "1240.00",
-      "GST Rate": "12%",
-      "Fabric": null,
-      "Sleeve": null,
-      "Color": null,
-      "Pattern": null,
-      "material": null,
-      "Quantity": 8
+      "Fabric": "Cotton",
+      "Sleeve": "Full Sleeve",
+      "Color": "Black",
+      "Pattern": "Plain",
+      "material": 320
     },
-    "entry": 25,
-    "sku": 93,
-    "created_at": "2026-09-28T21:14:38.311Z",
-    "updated_at": "2026-09-28T21:14:38.311Z"
+    "code": "COT-FUL-BLA-008",
+    "created_at": "2026-09-28T21:19:18.562Z"
   }
 },
 {
-  "model": "items.item",
+  "model": "items.sku",
   "pk": 105,
   "fields": {
     "data": {
-      "Product Name": "Classic Crew Neck T-Shirt",
-      "HSN": "6109",
-      "Selling Rate": "799.00",
-      "Manufacturing Cost": "310.00",
-      "GST Rate": "5%",
-      "Fabric": null,
-      "Sleeve": null,
-      "Color": null,
-      "Pattern": null,
-      "material": null,
-      "Quantity": 30
+      "Fabric": "Cotton",
+      "Sleeve": "Full Sleeve",
+      "Color": "Blue",
+      "Pattern": "Printed",
+      "material": 320
     },
-    "entry": 26,
-    "sku": 52,
-    "created_at": "2026-09-28T21:14:38.321Z",
-    "updated_at": "2026-09-28T21:14:38.321Z"
+    "code": "COT-FUL-BLU-009",
+    "created_at": "2026-09-28T21:19:18.591Z"
   }
 },
 {
-  "model": "items.item",
+  "model": "items.sku",
   "pk": 106,
   "fields": {
     "data": {
-      "Product Name": "Classic Crew Neck T-Shirt",
-      "HSN": "6109",
-      "Selling Rate": "799.00",
-      "Manufacturing Cost": "310.00",
-      "GST Rate": "5%",
-      "Fabric": null,
-      "Sleeve": null,
-      "Color": null,
-      "Pattern": null,
-      "material": null,
-      "Quantity": 30
-    },
-    "entry": 26,
-    "sku": 53,
-    "created_at": "2026-09-28T21:14:38.334Z",
-    "updated_at": "2026-09-28T21:14:38.334Z"
-  }
-},
-{
-  "model": "items.item",
-  "pk": 107,
-  "fields": {
-    "data": {
-      "Product Name": "Classic Crew Neck T-Shirt",
-      "HSN": "6109",
-      "Selling Rate": "799.00",
-      "Manufacturing Cost": "310.00",
-      "GST Rate": "5%",
-      "Fabric": null,
-      "Sleeve": null,
-      "Color": null,
-      "Pattern": null,
-      "material": null,
-      "Quantity": 20
-    },
-    "entry": 26,
-    "sku": 54,
-    "created_at": "2026-09-28T21:14:38.341Z",
-    "updated_at": "2026-09-28T21:14:38.341Z"
-  }
-},
-{
-  "model": "items.item",
-  "pk": 108,
-  "fields": {
-    "data": {
-      "Product Name": "Oxford Casual Shirt",
-      "HSN": "6205",
-      "Selling Rate": "1699.00",
-      "Manufacturing Cost": "690.00",
-      "GST Rate": "12%",
-      "Fabric": null,
-      "Sleeve": null,
-      "Color": null,
-      "Pattern": null,
-      "material": null,
-      "Quantity": 12
-    },
-    "entry": 27,
-    "sku": 71,
-    "created_at": "2026-09-28T21:14:38.349Z",
-    "updated_at": "2026-09-28T21:14:38.349Z"
-  }
-},
-{
-  "model": "items.item",
-  "pk": 109,
-  "fields": {
-    "data": {
-      "Product Name": "Oxford Casual Shirt",
-      "HSN": "6205",
-      "Selling Rate": "1699.00",
-      "Manufacturing Cost": "690.00",
-      "GST Rate": "12%",
-      "Fabric": null,
-      "Sleeve": null,
-      "Color": null,
-      "Pattern": null,
-      "material": null,
-      "Quantity": 12
-    },
-    "entry": 27,
-    "sku": 72,
-    "created_at": "2026-09-28T21:14:38.360Z",
-    "updated_at": "2026-09-28T21:14:38.360Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 17,
-  "fields": {
-    "key": "pattern=plain|material=180|size=s",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "180",
-      "Size": "S"
-    },
-    "number": 1,
-    "created_at": "2026-09-28T21:14:37.750Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 18,
-  "fields": {
-    "key": "pattern=plain|material=180|size=m",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "180",
-      "Size": "M"
-    },
-    "number": 2,
-    "created_at": "2026-09-28T21:14:37.851Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 19,
-  "fields": {
-    "key": "pattern=plain|material=180|size=l",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "180",
-      "Size": "L"
-    },
-    "number": 3,
-    "created_at": "2026-09-28T21:14:37.860Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 20,
-  "fields": {
-    "key": "pattern=plain|material=180|size=xl",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "180",
-      "Size": "XL"
-    },
-    "number": 4,
-    "created_at": "2026-09-28T21:14:37.870Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 21,
-  "fields": {
-    "key": "pattern=striped|material=180|size=m",
-    "detail": {
-      "Pattern": "Striped",
-      "material": "180",
-      "Size": "M"
-    },
-    "number": 5,
-    "created_at": "2026-09-28T21:14:37.915Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 22,
-  "fields": {
-    "key": "pattern=striped|material=180|size=l",
-    "detail": {
-      "Pattern": "Striped",
-      "material": "180",
-      "Size": "L"
-    },
-    "number": 6,
-    "created_at": "2026-09-28T21:14:37.925Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 23,
-  "fields": {
-    "key": "pattern=striped|material=180|size=xl",
-    "detail": {
-      "Pattern": "Striped",
-      "material": "180",
-      "Size": "XL"
-    },
-    "number": 7,
-    "created_at": "2026-09-28T21:14:37.941Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 24,
-  "fields": {
-    "key": "pattern=plain|material=220|size=s",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "220",
-      "Size": "S"
-    },
-    "number": 8,
-    "created_at": "2026-09-28T21:14:37.954Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 25,
-  "fields": {
-    "key": "pattern=plain|material=220|size=m",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "220",
-      "Size": "M"
-    },
-    "number": 9,
-    "created_at": "2026-09-28T21:14:37.965Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 26,
-  "fields": {
-    "key": "pattern=plain|material=220|size=l",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "220",
-      "Size": "L"
-    },
-    "number": 10,
-    "created_at": "2026-09-28T21:14:37.979Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 27,
-  "fields": {
-    "key": "pattern=plain|material=220|size=xl",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "220",
-      "Size": "XL"
-    },
-    "number": 11,
-    "created_at": "2026-09-28T21:14:37.992Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 28,
-  "fields": {
-    "key": "pattern=checked|material=160|size=m",
-    "detail": {
-      "Pattern": "Checked",
-      "material": "160",
-      "Size": "M"
-    },
-    "number": 12,
-    "created_at": "2026-09-28T21:14:38.046Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 29,
-  "fields": {
-    "key": "pattern=checked|material=160|size=l",
-    "detail": {
-      "Pattern": "Checked",
-      "material": "160",
-      "Size": "L"
-    },
-    "number": 13,
-    "created_at": "2026-09-28T21:14:38.055Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 30,
-  "fields": {
-    "key": "pattern=checked|material=160|size=xl",
-    "detail": {
-      "Pattern": "Checked",
-      "material": "160",
-      "Size": "XL"
-    },
-    "number": 14,
-    "created_at": "2026-09-28T21:14:38.072Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 31,
-  "fields": {
-    "key": "pattern=striped|material=160|size=m",
-    "detail": {
-      "Pattern": "Striped",
-      "material": "160",
-      "Size": "M"
-    },
-    "number": 15,
-    "created_at": "2026-09-28T21:14:38.083Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 32,
-  "fields": {
-    "key": "pattern=striped|material=160|size=l",
-    "detail": {
-      "Pattern": "Striped",
-      "material": "160",
-      "Size": "L"
-    },
-    "number": 16,
-    "created_at": "2026-09-28T21:14:38.093Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 33,
-  "fields": {
-    "key": "pattern=striped|material=160|size=xl",
-    "detail": {
-      "Pattern": "Striped",
-      "material": "160",
-      "Size": "XL"
-    },
-    "number": 17,
-    "created_at": "2026-09-28T21:14:38.110Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 34,
-  "fields": {
-    "key": "pattern=plain|material=160|size=s",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "160",
-      "Size": "S"
-    },
-    "number": 18,
-    "created_at": "2026-09-28T21:14:38.127Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 35,
-  "fields": {
-    "key": "pattern=plain|material=160|size=m",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "160",
-      "Size": "M"
-    },
-    "number": 19,
-    "created_at": "2026-09-28T21:14:38.140Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 36,
-  "fields": {
-    "key": "pattern=plain|material=160|size=l",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "160",
-      "Size": "L"
-    },
-    "number": 20,
-    "created_at": "2026-09-28T21:14:38.151Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 37,
-  "fields": {
-    "key": "pattern=plain|material=240|size=m",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "240",
-      "Size": "M"
-    },
-    "number": 21,
-    "created_at": "2026-09-28T21:14:38.161Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 38,
-  "fields": {
-    "key": "pattern=plain|material=240|size=l",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "240",
-      "Size": "L"
-    },
-    "number": 22,
-    "created_at": "2026-09-28T21:14:38.175Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 39,
-  "fields": {
-    "key": "pattern=plain|material=240|size=xl",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "240",
-      "Size": "XL"
-    },
-    "number": 23,
-    "created_at": "2026-09-28T21:14:38.185Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 40,
-  "fields": {
-    "key": "pattern=plain|material=320|size=m",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "320",
-      "Size": "M"
-    },
-    "number": 24,
-    "created_at": "2026-09-28T21:14:38.222Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 41,
-  "fields": {
-    "key": "pattern=plain|material=320|size=l",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "320",
-      "Size": "L"
-    },
-    "number": 25,
-    "created_at": "2026-09-28T21:14:38.230Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 42,
-  "fields": {
-    "key": "pattern=plain|material=320|size=xl",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "320",
-      "Size": "XL"
-    },
-    "number": 26,
-    "created_at": "2026-09-28T21:14:38.238Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 43,
-  "fields": {
-    "key": "pattern=printed|material=320|size=m",
-    "detail": {
-      "Pattern": "Printed",
-      "material": "320",
-      "Size": "M"
-    },
-    "number": 27,
-    "created_at": "2026-09-28T21:14:38.245Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 44,
-  "fields": {
-    "key": "pattern=printed|material=320|size=l",
-    "detail": {
-      "Pattern": "Printed",
-      "material": "320",
-      "Size": "L"
-    },
-    "number": 28,
-    "created_at": "2026-09-28T21:14:38.255Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 45,
-  "fields": {
-    "key": "pattern=printed|material=320|size=xl",
-    "detail": {
-      "Pattern": "Printed",
-      "material": "320",
-      "Size": "XL"
-    },
-    "number": 29,
-    "created_at": "2026-09-28T21:14:38.269Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 46,
-  "fields": {
-    "key": "pattern=plain|material=340|size=m",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "340",
-      "Size": "M"
-    },
-    "number": 30,
-    "created_at": "2026-09-28T21:14:38.282Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 47,
-  "fields": {
-    "key": "pattern=plain|material=340|size=l",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "340",
-      "Size": "L"
-    },
-    "number": 31,
-    "created_at": "2026-09-28T21:14:38.296Z"
-  }
-},
-{
-  "model": "items.skunumber",
-  "pk": 48,
-  "fields": {
-    "key": "pattern=plain|material=340|size=xl",
-    "detail": {
-      "Pattern": "Plain",
-      "material": "340",
-      "Size": "XL"
-    },
-    "number": 32,
-    "created_at": "2026-09-28T21:14:38.310Z"
-  }
-},
-{
-  "model": "items.sku",
-  "pk": 51,
-  "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 180,
-      "Size": "S"
-    },
-    "code": "COT-HAL-BLA-001",
-    "created_at": "2026-09-28T21:14:37.750Z"
-  }
-},
-{
-  "model": "items.sku",
-  "pk": 52,
-  "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 180,
-      "Size": "M"
-    },
-    "code": "COT-HAL-BLA-002",
-    "created_at": "2026-09-28T21:14:37.852Z"
-  }
-},
-{
-  "model": "items.sku",
-  "pk": 53,
-  "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 180,
-      "Size": "L"
-    },
-    "code": "COT-HAL-BLA-003",
-    "created_at": "2026-09-28T21:14:37.862Z"
-  }
-},
-{
-  "model": "items.sku",
-  "pk": 54,
-  "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 180,
-      "Size": "XL"
-    },
-    "code": "COT-HAL-BLA-004",
-    "created_at": "2026-09-28T21:14:37.870Z"
-  }
-},
-{
-  "model": "items.sku",
-  "pk": 55,
-  "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
+      "Fabric": "Lycra",
+      "Sleeve": "Full Sleeve",
       "Color": "Blue",
       "Pattern": "Plain",
-      "material": 180,
-      "Size": "S"
+      "material": 340
     },
-    "code": "COT-HAL-BLU-001",
-    "created_at": "2026-09-28T21:14:37.878Z"
+    "code": "LYC-FUL-BLU-010",
+    "created_at": "2026-09-28T21:19:18.618Z"
   }
 },
 {
-  "model": "items.sku",
-  "pk": 56,
-  "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Blue",
-      "Pattern": "Plain",
-      "material": 180,
-      "Size": "M"
-    },
-    "code": "COT-HAL-BLU-002",
-    "created_at": "2026-09-28T21:14:37.888Z"
-  }
-},
-{
-  "model": "items.sku",
-  "pk": 57,
-  "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Blue",
-      "Pattern": "Plain",
-      "material": 180,
-      "Size": "L"
-    },
-    "code": "COT-HAL-BLU-003",
-    "created_at": "2026-09-28T21:14:37.898Z"
-  }
-},
-{
-  "model": "items.sku",
-  "pk": 58,
-  "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Blue",
-      "Pattern": "Plain",
-      "material": 180,
-      "Size": "XL"
-    },
-    "code": "COT-HAL-BLU-004",
-    "created_at": "2026-09-28T21:14:37.905Z"
-  }
-},
-{
-  "model": "items.sku",
-  "pk": 59,
-  "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Black",
-      "Pattern": "Striped",
-      "material": 180,
-      "Size": "M"
-    },
-    "code": "COT-HAL-BLA-005",
-    "created_at": "2026-09-28T21:14:37.915Z"
-  }
-},
-{
-  "model": "items.sku",
-  "pk": 60,
-  "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Black",
-      "Pattern": "Striped",
-      "material": 180,
-      "Size": "L"
-    },
-    "code": "COT-HAL-BLA-006",
-    "created_at": "2026-09-28T21:14:37.926Z"
-  }
-},
-{
-  "model": "items.sku",
-  "pk": 61,
-  "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Black",
-      "Pattern": "Striped",
-      "material": 180,
-      "Size": "XL"
-    },
-    "code": "COT-HAL-BLA-007",
-    "created_at": "2026-09-28T21:14:37.941Z"
-  }
-},
-{
-  "model": "items.sku",
-  "pk": 62,
-  "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Blue",
-      "Pattern": "Plain",
-      "material": 220,
-      "Size": "S"
-    },
-    "code": "COT-HAL-BLU-008",
-    "created_at": "2026-09-28T21:14:37.955Z"
-  }
-},
-{
-  "model": "items.sku",
-  "pk": 63,
-  "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Blue",
-      "Pattern": "Plain",
-      "material": 220,
-      "Size": "M"
-    },
-    "code": "COT-HAL-BLU-009",
-    "created_at": "2026-09-28T21:14:37.966Z"
-  }
-},
-{
-  "model": "items.sku",
-  "pk": 64,
-  "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Blue",
-      "Pattern": "Plain",
-      "material": 220,
-      "Size": "L"
-    },
-    "code": "COT-HAL-BLU-010",
-    "created_at": "2026-09-28T21:14:37.980Z"
-  }
-},
-{
-  "model": "items.sku",
-  "pk": 65,
-  "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Blue",
-      "Pattern": "Plain",
-      "material": 220,
-      "Size": "XL"
-    },
-    "code": "COT-HAL-BLU-011",
-    "created_at": "2026-09-28T21:14:37.993Z"
-  }
-},
-{
-  "model": "items.sku",
-  "pk": 66,
-  "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 220,
-      "Size": "S"
-    },
-    "code": "COT-HAL-BLA-008",
-    "created_at": "2026-09-28T21:14:38.002Z"
-  }
-},
-{
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 67,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 220,
-      "Size": "M"
-    },
-    "code": "COT-HAL-BLA-009",
-    "created_at": "2026-09-28T21:14:38.014Z"
+    "entry": 110,
+    "object_type": "02",
+    "object_id": 110,
+    "value": "COT-HAL-BLA-001-110",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLA-001-110.png",
+    "created_at": "2026-09-28T21:19:18.292Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 68,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 220,
-      "Size": "L"
-    },
-    "code": "COT-HAL-BLA-010",
-    "created_at": "2026-09-28T21:14:38.029Z"
+    "entry": 111,
+    "object_type": "02",
+    "object_id": 111,
+    "value": "COT-HAL-BLA-001-111",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLA-001-111.png",
+    "created_at": "2026-09-28T21:19:18.299Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 69,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Half Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 220,
-      "Size": "XL"
-    },
-    "code": "COT-HAL-BLA-011",
-    "created_at": "2026-09-28T21:14:38.037Z"
+    "entry": 112,
+    "object_type": "02",
+    "object_id": 112,
+    "value": "COT-HAL-BLA-001-112",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLA-001-112.png",
+    "created_at": "2026-09-28T21:19:18.308Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 70,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Full Sleeve",
-      "Color": "Blue",
-      "Pattern": "Checked",
-      "material": 160,
-      "Size": "M"
-    },
-    "code": "COT-FUL-BLU-012",
-    "created_at": "2026-09-28T21:14:38.046Z"
+    "entry": 113,
+    "object_type": "02",
+    "object_id": 113,
+    "value": "COT-HAL-BLA-001-113",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLA-001-113.png",
+    "created_at": "2026-09-28T21:19:18.315Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 71,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Full Sleeve",
-      "Color": "Blue",
-      "Pattern": "Checked",
-      "material": 160,
-      "Size": "L"
-    },
-    "code": "COT-FUL-BLU-013",
-    "created_at": "2026-09-28T21:14:38.056Z"
+    "entry": 114,
+    "object_type": "02",
+    "object_id": 114,
+    "value": "COT-HAL-BLU-001-114",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLU-001-114.png",
+    "created_at": "2026-09-28T21:19:18.325Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 72,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Full Sleeve",
-      "Color": "Blue",
-      "Pattern": "Checked",
-      "material": 160,
-      "Size": "XL"
-    },
-    "code": "COT-FUL-BLU-014",
-    "created_at": "2026-09-28T21:14:38.072Z"
+    "entry": 115,
+    "object_type": "02",
+    "object_id": 115,
+    "value": "COT-HAL-BLU-001-115",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLU-001-115.png",
+    "created_at": "2026-09-28T21:19:18.331Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 73,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Full Sleeve",
-      "Color": "Blue",
-      "Pattern": "Striped",
-      "material": 160,
-      "Size": "M"
-    },
-    "code": "COT-FUL-BLU-015",
-    "created_at": "2026-09-28T21:14:38.084Z"
+    "entry": 116,
+    "object_type": "02",
+    "object_id": 116,
+    "value": "COT-HAL-BLU-001-116",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLU-001-116.png",
+    "created_at": "2026-09-28T21:19:18.339Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 74,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Full Sleeve",
-      "Color": "Blue",
-      "Pattern": "Striped",
-      "material": 160,
-      "Size": "L"
-    },
-    "code": "COT-FUL-BLU-016",
-    "created_at": "2026-09-28T21:14:38.094Z"
+    "entry": 117,
+    "object_type": "02",
+    "object_id": 117,
+    "value": "COT-HAL-BLU-001-117",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLU-001-117.png",
+    "created_at": "2026-09-28T21:19:18.344Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 75,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Full Sleeve",
-      "Color": "Blue",
-      "Pattern": "Striped",
-      "material": 160,
-      "Size": "XL"
-    },
-    "code": "COT-FUL-BLU-017",
-    "created_at": "2026-09-28T21:14:38.111Z"
+    "entry": 118,
+    "object_type": "02",
+    "object_id": 118,
+    "value": "COT-HAL-BLA-002-118",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLA-002-118.png",
+    "created_at": "2026-09-28T21:19:18.368Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 76,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Full Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 160,
-      "Size": "S"
-    },
-    "code": "COT-FUL-BLA-018",
-    "created_at": "2026-09-28T21:14:38.128Z"
+    "entry": 119,
+    "object_type": "02",
+    "object_id": 119,
+    "value": "COT-HAL-BLA-002-119",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLA-002-119.png",
+    "created_at": "2026-09-28T21:19:18.383Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 77,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Full Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 160,
-      "Size": "M"
-    },
-    "code": "COT-FUL-BLA-019",
-    "created_at": "2026-09-28T21:14:38.140Z"
+    "entry": 120,
+    "object_type": "02",
+    "object_id": 120,
+    "value": "COT-HAL-BLA-002-120",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLA-002-120.png",
+    "created_at": "2026-09-28T21:19:18.394Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 78,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Full Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 160,
-      "Size": "L"
-    },
-    "code": "COT-FUL-BLA-020",
-    "created_at": "2026-09-28T21:14:38.152Z"
+    "entry": 121,
+    "object_type": "02",
+    "object_id": 121,
+    "value": "COT-HAL-BLU-003-121",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLU-003-121.png",
+    "created_at": "2026-09-28T21:19:18.404Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 79,
   "fields": {
-    "data": {
-      "Fabric": "Lycra",
-      "Sleeve": "Full Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 240,
-      "Size": "M"
-    },
-    "code": "LYC-FUL-BLA-021",
-    "created_at": "2026-09-28T21:14:38.162Z"
+    "entry": 122,
+    "object_type": "02",
+    "object_id": 122,
+    "value": "COT-HAL-BLU-003-122",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLU-003-122.png",
+    "created_at": "2026-09-28T21:19:18.410Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 80,
   "fields": {
-    "data": {
-      "Fabric": "Lycra",
-      "Sleeve": "Full Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 240,
-      "Size": "L"
-    },
-    "code": "LYC-FUL-BLA-022",
-    "created_at": "2026-09-28T21:14:38.175Z"
+    "entry": 123,
+    "object_type": "02",
+    "object_id": 123,
+    "value": "COT-HAL-BLU-003-123",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLU-003-123.png",
+    "created_at": "2026-09-28T21:19:18.418Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 81,
   "fields": {
-    "data": {
-      "Fabric": "Lycra",
-      "Sleeve": "Full Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 240,
-      "Size": "XL"
-    },
-    "code": "LYC-FUL-BLA-023",
-    "created_at": "2026-09-28T21:14:38.186Z"
+    "entry": 124,
+    "object_type": "02",
+    "object_id": 124,
+    "value": "COT-HAL-BLU-003-124",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLU-003-124.png",
+    "created_at": "2026-09-28T21:19:18.425Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 82,
   "fields": {
-    "data": {
-      "Fabric": "Lycra",
-      "Sleeve": "Full Sleeve",
-      "Color": "Blue",
-      "Pattern": "Plain",
-      "material": 240,
-      "Size": "M"
-    },
-    "code": "LYC-FUL-BLU-021",
-    "created_at": "2026-09-28T21:14:38.196Z"
+    "entry": 125,
+    "object_type": "02",
+    "object_id": 125,
+    "value": "COT-HAL-BLA-003-125",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLA-003-125.png",
+    "created_at": "2026-09-28T21:19:18.433Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 83,
   "fields": {
-    "data": {
-      "Fabric": "Lycra",
-      "Sleeve": "Full Sleeve",
-      "Color": "Blue",
-      "Pattern": "Plain",
-      "material": 240,
-      "Size": "L"
-    },
-    "code": "LYC-FUL-BLU-022",
-    "created_at": "2026-09-28T21:14:38.207Z"
+    "entry": 126,
+    "object_type": "02",
+    "object_id": 126,
+    "value": "COT-HAL-BLA-003-126",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLA-003-126.png",
+    "created_at": "2026-09-28T21:19:18.440Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 84,
   "fields": {
-    "data": {
-      "Fabric": "Lycra",
-      "Sleeve": "Full Sleeve",
-      "Color": "Blue",
-      "Pattern": "Plain",
-      "material": 240,
-      "Size": "XL"
-    },
-    "code": "LYC-FUL-BLU-023",
-    "created_at": "2026-09-28T21:14:38.215Z"
+    "entry": 127,
+    "object_type": "02",
+    "object_id": 127,
+    "value": "COT-HAL-BLA-003-127",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLA-003-127.png",
+    "created_at": "2026-09-28T21:19:18.446Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 85,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Full Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 320,
-      "Size": "M"
-    },
-    "code": "COT-FUL-BLA-024",
-    "created_at": "2026-09-28T21:14:38.222Z"
+    "entry": 128,
+    "object_type": "02",
+    "object_id": 128,
+    "value": "COT-HAL-BLA-003-128",
+    "source_value": "",
+    "image": "barcodes/COT-HAL-BLA-003-128.png",
+    "created_at": "2026-09-28T21:19:18.452Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 86,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Full Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 320,
-      "Size": "L"
-    },
-    "code": "COT-FUL-BLA-025",
-    "created_at": "2026-09-28T21:14:38.230Z"
+    "entry": 129,
+    "object_type": "02",
+    "object_id": 129,
+    "value": "COT-FUL-BLU-004-129",
+    "source_value": "",
+    "image": "barcodes/COT-FUL-BLU-004-129.png",
+    "created_at": "2026-09-28T21:19:18.461Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 87,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Full Sleeve",
-      "Color": "Black",
-      "Pattern": "Plain",
-      "material": 320,
-      "Size": "XL"
-    },
-    "code": "COT-FUL-BLA-026",
-    "created_at": "2026-09-28T21:14:38.239Z"
+    "entry": 130,
+    "object_type": "02",
+    "object_id": 130,
+    "value": "COT-FUL-BLU-004-130",
+    "source_value": "",
+    "image": "barcodes/COT-FUL-BLU-004-130.png",
+    "created_at": "2026-09-28T21:19:18.466Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 88,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Full Sleeve",
-      "Color": "Blue",
-      "Pattern": "Printed",
-      "material": 320,
-      "Size": "M"
-    },
-    "code": "COT-FUL-BLU-027",
-    "created_at": "2026-09-28T21:14:38.246Z"
+    "entry": 131,
+    "object_type": "02",
+    "object_id": 131,
+    "value": "COT-FUL-BLU-004-131",
+    "source_value": "",
+    "image": "barcodes/COT-FUL-BLU-004-131.png",
+    "created_at": "2026-09-28T21:19:18.473Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 89,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Full Sleeve",
-      "Color": "Blue",
-      "Pattern": "Printed",
-      "material": 320,
-      "Size": "L"
-    },
-    "code": "COT-FUL-BLU-028",
-    "created_at": "2026-09-28T21:14:38.255Z"
+    "entry": 132,
+    "object_type": "02",
+    "object_id": 132,
+    "value": "COT-FUL-BLU-005-132",
+    "source_value": "",
+    "image": "barcodes/COT-FUL-BLU-005-132.png",
+    "created_at": "2026-09-28T21:19:18.481Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 90,
   "fields": {
-    "data": {
-      "Fabric": "Cotton",
-      "Sleeve": "Full Sleeve",
-      "Color": "Blue",
-      "Pattern": "Printed",
-      "material": 320,
-      "Size": "XL"
-    },
-    "code": "COT-FUL-BLU-029",
-    "created_at": "2026-09-28T21:14:38.270Z"
+    "entry": 133,
+    "object_type": "02",
+    "object_id": 133,
+    "value": "COT-FUL-BLU-005-133",
+    "source_value": "",
+    "image": "barcodes/COT-FUL-BLU-005-133.png",
+    "created_at": "2026-09-28T21:19:18.488Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 91,
   "fields": {
-    "data": {
-      "Fabric": "Lycra",
-      "Sleeve": "Full Sleeve",
-      "Color": "Blue",
-      "Pattern": "Plain",
-      "material": 340,
-      "Size": "M"
-    },
-    "code": "LYC-FUL-BLU-030",
-    "created_at": "2026-09-28T21:14:38.283Z"
+    "entry": 134,
+    "object_type": "02",
+    "object_id": 134,
+    "value": "COT-FUL-BLU-005-134",
+    "source_value": "",
+    "image": "barcodes/COT-FUL-BLU-005-134.png",
+    "created_at": "2026-09-28T21:19:18.494Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 92,
   "fields": {
-    "data": {
-      "Fabric": "Lycra",
-      "Sleeve": "Full Sleeve",
-      "Color": "Blue",
-      "Pattern": "Plain",
-      "material": 340,
-      "Size": "L"
-    },
-    "code": "LYC-FUL-BLU-031",
-    "created_at": "2026-09-28T21:14:38.298Z"
+    "entry": 135,
+    "object_type": "02",
+    "object_id": 135,
+    "value": "COT-FUL-BLA-006-135",
+    "source_value": "",
+    "image": "barcodes/COT-FUL-BLA-006-135.png",
+    "created_at": "2026-09-28T21:19:18.503Z"
   }
 },
 {
-  "model": "items.sku",
+  "model": "items.barcode",
   "pk": 93,
   "fields": {
-    "data": {
-      "Fabric": "Lycra",
-      "Sleeve": "Full Sleeve",
-      "Color": "Blue",
-      "Pattern": "Plain",
-      "material": 340,
-      "Size": "XL"
-    },
-    "code": "LYC-FUL-BLU-032",
-    "created_at": "2026-09-28T21:14:38.311Z"
+    "entry": 136,
+    "object_type": "02",
+    "object_id": 136,
+    "value": "COT-FUL-BLA-006-136",
+    "source_value": "",
+    "image": "barcodes/COT-FUL-BLA-006-136.png",
+    "created_at": "2026-09-28T21:19:18.510Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 19,
+  "pk": 94,
   "fields": {
-    "entry": 62,
+    "entry": 137,
     "object_type": "02",
-    "object_id": 62,
-    "value": "COT-HAL-BLA-001-62",
+    "object_id": 137,
+    "value": "COT-FUL-BLA-006-137",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLA-001-62.png",
-    "created_at": "2026-09-28T21:14:37.846Z"
+    "image": "barcodes/COT-FUL-BLA-006-137.png",
+    "created_at": "2026-09-28T21:19:18.517Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 20,
+  "pk": 95,
   "fields": {
-    "entry": 63,
+    "entry": 138,
     "object_type": "02",
-    "object_id": 63,
-    "value": "COT-HAL-BLA-002-63",
+    "object_id": 138,
+    "value": "LYC-FUL-BLA-007-138",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLA-002-63.png",
-    "created_at": "2026-09-28T21:14:37.858Z"
+    "image": "barcodes/LYC-FUL-BLA-007-138.png",
+    "created_at": "2026-09-28T21:19:18.527Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 21,
+  "pk": 96,
   "fields": {
-    "entry": 64,
+    "entry": 139,
     "object_type": "02",
-    "object_id": 64,
-    "value": "COT-HAL-BLA-003-64",
+    "object_id": 139,
+    "value": "LYC-FUL-BLA-007-139",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLA-003-64.png",
-    "created_at": "2026-09-28T21:14:37.868Z"
+    "image": "barcodes/LYC-FUL-BLA-007-139.png",
+    "created_at": "2026-09-28T21:19:18.533Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 22,
+  "pk": 97,
   "fields": {
-    "entry": 65,
+    "entry": 140,
     "object_type": "02",
-    "object_id": 65,
-    "value": "COT-HAL-BLA-004-65",
+    "object_id": 140,
+    "value": "LYC-FUL-BLA-007-140",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLA-004-65.png",
-    "created_at": "2026-09-28T21:14:37.876Z"
+    "image": "barcodes/LYC-FUL-BLA-007-140.png",
+    "created_at": "2026-09-28T21:19:18.539Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 23,
+  "pk": 98,
   "fields": {
-    "entry": 66,
+    "entry": 141,
     "object_type": "02",
-    "object_id": 66,
-    "value": "COT-HAL-BLU-001-66",
+    "object_id": 141,
+    "value": "LYC-FUL-BLU-007-141",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLU-001-66.png",
-    "created_at": "2026-09-28T21:14:37.884Z"
+    "image": "barcodes/LYC-FUL-BLU-007-141.png",
+    "created_at": "2026-09-28T21:19:18.546Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 24,
+  "pk": 99,
   "fields": {
-    "entry": 67,
+    "entry": 142,
     "object_type": "02",
-    "object_id": 67,
-    "value": "COT-HAL-BLU-002-67",
+    "object_id": 142,
+    "value": "LYC-FUL-BLU-007-142",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLU-002-67.png",
-    "created_at": "2026-09-28T21:14:37.896Z"
+    "image": "barcodes/LYC-FUL-BLU-007-142.png",
+    "created_at": "2026-09-28T21:19:18.552Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 25,
+  "pk": 100,
   "fields": {
-    "entry": 68,
+    "entry": 143,
     "object_type": "02",
-    "object_id": 68,
-    "value": "COT-HAL-BLU-003-68",
+    "object_id": 143,
+    "value": "LYC-FUL-BLU-007-143",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLU-003-68.png",
-    "created_at": "2026-09-28T21:14:37.904Z"
+    "image": "barcodes/LYC-FUL-BLU-007-143.png",
+    "created_at": "2026-09-28T21:19:18.559Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 26,
+  "pk": 101,
   "fields": {
-    "entry": 69,
+    "entry": 144,
     "object_type": "02",
-    "object_id": 69,
-    "value": "COT-HAL-BLU-004-69",
+    "object_id": 144,
+    "value": "COT-FUL-BLA-008-144",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLU-004-69.png",
-    "created_at": "2026-09-28T21:14:37.913Z"
+    "image": "barcodes/COT-FUL-BLA-008-144.png",
+    "created_at": "2026-09-28T21:19:18.570Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 27,
+  "pk": 102,
   "fields": {
-    "entry": 70,
+    "entry": 145,
     "object_type": "02",
-    "object_id": 70,
-    "value": "COT-HAL-BLA-005-70",
+    "object_id": 145,
+    "value": "COT-FUL-BLA-008-145",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLA-005-70.png",
-    "created_at": "2026-09-28T21:14:37.923Z"
+    "image": "barcodes/COT-FUL-BLA-008-145.png",
+    "created_at": "2026-09-28T21:19:18.579Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 28,
+  "pk": 103,
   "fields": {
-    "entry": 71,
+    "entry": 146,
     "object_type": "02",
-    "object_id": 71,
-    "value": "COT-HAL-BLA-006-71",
+    "object_id": 146,
+    "value": "COT-FUL-BLA-008-146",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLA-006-71.png",
-    "created_at": "2026-09-28T21:14:37.939Z"
+    "image": "barcodes/COT-FUL-BLA-008-146.png",
+    "created_at": "2026-09-28T21:19:18.588Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 29,
+  "pk": 104,
   "fields": {
-    "entry": 72,
+    "entry": 147,
     "object_type": "02",
-    "object_id": 72,
-    "value": "COT-HAL-BLA-007-72",
+    "object_id": 147,
+    "value": "COT-FUL-BLU-009-147",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLA-007-72.png",
-    "created_at": "2026-09-28T21:14:37.951Z"
+    "image": "barcodes/COT-FUL-BLU-009-147.png",
+    "created_at": "2026-09-28T21:19:18.597Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 30,
+  "pk": 105,
   "fields": {
-    "entry": 73,
+    "entry": 148,
     "object_type": "02",
-    "object_id": 73,
-    "value": "COT-HAL-BLU-008-73",
+    "object_id": 148,
+    "value": "COT-FUL-BLU-009-148",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLU-008-73.png",
-    "created_at": "2026-09-28T21:14:37.963Z"
+    "image": "barcodes/COT-FUL-BLU-009-148.png",
+    "created_at": "2026-09-28T21:19:18.606Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 31,
+  "pk": 106,
   "fields": {
-    "entry": 74,
+    "entry": 149,
     "object_type": "02",
-    "object_id": 74,
-    "value": "COT-HAL-BLU-009-74",
+    "object_id": 149,
+    "value": "COT-FUL-BLU-009-149",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLU-009-74.png",
-    "created_at": "2026-09-28T21:14:37.976Z"
+    "image": "barcodes/COT-FUL-BLU-009-149.png",
+    "created_at": "2026-09-28T21:19:18.614Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 32,
+  "pk": 107,
   "fields": {
-    "entry": 75,
+    "entry": 150,
     "object_type": "02",
-    "object_id": 75,
-    "value": "COT-HAL-BLU-010-75",
+    "object_id": 150,
+    "value": "LYC-FUL-BLU-010-150",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLU-010-75.png",
-    "created_at": "2026-09-28T21:14:37.988Z"
+    "image": "barcodes/LYC-FUL-BLU-010-150.png",
+    "created_at": "2026-09-28T21:19:18.624Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 33,
+  "pk": 108,
   "fields": {
-    "entry": 76,
+    "entry": 151,
     "object_type": "02",
-    "object_id": 76,
-    "value": "COT-HAL-BLU-011-76",
+    "object_id": 151,
+    "value": "LYC-FUL-BLU-010-151",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLU-011-76.png",
-    "created_at": "2026-09-28T21:14:38.001Z"
+    "image": "barcodes/LYC-FUL-BLU-010-151.png",
+    "created_at": "2026-09-28T21:19:18.631Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 34,
+  "pk": 109,
   "fields": {
-    "entry": 77,
+    "entry": 152,
     "object_type": "02",
-    "object_id": 77,
-    "value": "COT-HAL-BLA-008-77",
+    "object_id": 152,
+    "value": "LYC-FUL-BLU-010-152",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLA-008-77.png",
-    "created_at": "2026-09-28T21:14:38.012Z"
+    "image": "barcodes/LYC-FUL-BLU-010-152.png",
+    "created_at": "2026-09-28T21:19:18.637Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 35,
+  "pk": 110,
   "fields": {
-    "entry": 78,
+    "entry": 153,
     "object_type": "02",
-    "object_id": 78,
-    "value": "COT-HAL-BLA-009-78",
+    "object_id": 153,
+    "value": "COT-HAL-BLA-001-153",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLA-009-78.png",
-    "created_at": "2026-09-28T21:14:38.027Z"
+    "image": "barcodes/COT-HAL-BLA-001-153.png",
+    "created_at": "2026-09-28T21:19:18.646Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 36,
+  "pk": 111,
   "fields": {
-    "entry": 79,
+    "entry": 154,
     "object_type": "02",
-    "object_id": 79,
-    "value": "COT-HAL-BLA-010-79",
+    "object_id": 154,
+    "value": "COT-HAL-BLA-001-154",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLA-010-79.png",
-    "created_at": "2026-09-28T21:14:38.035Z"
+    "image": "barcodes/COT-HAL-BLA-001-154.png",
+    "created_at": "2026-09-28T21:19:18.657Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 37,
+  "pk": 112,
   "fields": {
-    "entry": 80,
+    "entry": 155,
     "object_type": "02",
-    "object_id": 80,
-    "value": "COT-HAL-BLA-011-80",
+    "object_id": 155,
+    "value": "COT-HAL-BLA-001-155",
     "source_value": "",
-    "image": "barcodes/COT-HAL-BLA-011-80.png",
-    "created_at": "2026-09-28T21:14:38.043Z"
+    "image": "barcodes/COT-HAL-BLA-001-155.png",
+    "created_at": "2026-09-28T21:19:18.665Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 38,
+  "pk": 113,
   "fields": {
-    "entry": 81,
+    "entry": 156,
     "object_type": "02",
-    "object_id": 81,
-    "value": "COT-FUL-BLU-012-81",
+    "object_id": 156,
+    "value": "COT-FUL-BLU-004-156",
     "source_value": "",
-    "image": "barcodes/COT-FUL-BLU-012-81.png",
-    "created_at": "2026-09-28T21:14:38.053Z"
+    "image": "barcodes/COT-FUL-BLU-004-156.png",
+    "created_at": "2026-09-28T21:19:18.676Z"
   }
 },
 {
   "model": "items.barcode",
-  "pk": 39,
+  "pk": 114,
   "fields": {
-    "entry": 82,
+    "entry": 157,
     "object_type": "02",
-    "object_id": 82,
-    "value": "COT-FUL-BLU-013-82",
+    "object_id": 157,
+    "value": "COT-FUL-BLU-004-157",
     "source_value": "",
-    "image": "barcodes/COT-FUL-BLU-013-82.png",
-    "created_at": "2026-09-28T21:14:38.069Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 40,
-  "fields": {
-    "entry": 83,
-    "object_type": "02",
-    "object_id": 83,
-    "value": "COT-FUL-BLU-014-83",
-    "source_value": "",
-    "image": "barcodes/COT-FUL-BLU-014-83.png",
-    "created_at": "2026-09-28T21:14:38.080Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 41,
-  "fields": {
-    "entry": 84,
-    "object_type": "02",
-    "object_id": 84,
-    "value": "COT-FUL-BLU-015-84",
-    "source_value": "",
-    "image": "barcodes/COT-FUL-BLU-015-84.png",
-    "created_at": "2026-09-28T21:14:38.091Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 42,
-  "fields": {
-    "entry": 85,
-    "object_type": "02",
-    "object_id": 85,
-    "value": "COT-FUL-BLU-016-85",
-    "source_value": "",
-    "image": "barcodes/COT-FUL-BLU-016-85.png",
-    "created_at": "2026-09-28T21:14:38.106Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 43,
-  "fields": {
-    "entry": 86,
-    "object_type": "02",
-    "object_id": 86,
-    "value": "COT-FUL-BLU-017-86",
-    "source_value": "",
-    "image": "barcodes/COT-FUL-BLU-017-86.png",
-    "created_at": "2026-09-28T21:14:38.123Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 44,
-  "fields": {
-    "entry": 87,
-    "object_type": "02",
-    "object_id": 87,
-    "value": "COT-FUL-BLA-018-87",
-    "source_value": "",
-    "image": "barcodes/COT-FUL-BLA-018-87.png",
-    "created_at": "2026-09-28T21:14:38.136Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 45,
-  "fields": {
-    "entry": 88,
-    "object_type": "02",
-    "object_id": 88,
-    "value": "COT-FUL-BLA-019-88",
-    "source_value": "",
-    "image": "barcodes/COT-FUL-BLA-019-88.png",
-    "created_at": "2026-09-28T21:14:38.149Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 46,
-  "fields": {
-    "entry": 89,
-    "object_type": "02",
-    "object_id": 89,
-    "value": "COT-FUL-BLA-020-89",
-    "source_value": "",
-    "image": "barcodes/COT-FUL-BLA-020-89.png",
-    "created_at": "2026-09-28T21:14:38.160Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 47,
-  "fields": {
-    "entry": 90,
-    "object_type": "02",
-    "object_id": 90,
-    "value": "LYC-FUL-BLA-021-90",
-    "source_value": "",
-    "image": "barcodes/LYC-FUL-BLA-021-90.png",
-    "created_at": "2026-09-28T21:14:38.170Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 48,
-  "fields": {
-    "entry": 91,
-    "object_type": "02",
-    "object_id": 91,
-    "value": "LYC-FUL-BLA-022-91",
-    "source_value": "",
-    "image": "barcodes/LYC-FUL-BLA-022-91.png",
-    "created_at": "2026-09-28T21:14:38.182Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 49,
-  "fields": {
-    "entry": 92,
-    "object_type": "02",
-    "object_id": 92,
-    "value": "LYC-FUL-BLA-023-92",
-    "source_value": "",
-    "image": "barcodes/LYC-FUL-BLA-023-92.png",
-    "created_at": "2026-09-28T21:14:38.194Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 50,
-  "fields": {
-    "entry": 93,
-    "object_type": "02",
-    "object_id": 93,
-    "value": "LYC-FUL-BLU-021-93",
-    "source_value": "",
-    "image": "barcodes/LYC-FUL-BLU-021-93.png",
-    "created_at": "2026-09-28T21:14:38.205Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 51,
-  "fields": {
-    "entry": 94,
-    "object_type": "02",
-    "object_id": 94,
-    "value": "LYC-FUL-BLU-022-94",
-    "source_value": "",
-    "image": "barcodes/LYC-FUL-BLU-022-94.png",
-    "created_at": "2026-09-28T21:14:38.213Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 52,
-  "fields": {
-    "entry": 95,
-    "object_type": "02",
-    "object_id": 95,
-    "value": "LYC-FUL-BLU-023-95",
-    "source_value": "",
-    "image": "barcodes/LYC-FUL-BLU-023-95.png",
-    "created_at": "2026-09-28T21:14:38.220Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 53,
-  "fields": {
-    "entry": 96,
-    "object_type": "02",
-    "object_id": 96,
-    "value": "COT-FUL-BLA-024-96",
-    "source_value": "",
-    "image": "barcodes/COT-FUL-BLA-024-96.png",
-    "created_at": "2026-09-28T21:14:38.228Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 54,
-  "fields": {
-    "entry": 97,
-    "object_type": "02",
-    "object_id": 97,
-    "value": "COT-FUL-BLA-025-97",
-    "source_value": "",
-    "image": "barcodes/COT-FUL-BLA-025-97.png",
-    "created_at": "2026-09-28T21:14:38.236Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 55,
-  "fields": {
-    "entry": 98,
-    "object_type": "02",
-    "object_id": 98,
-    "value": "COT-FUL-BLA-026-98",
-    "source_value": "",
-    "image": "barcodes/COT-FUL-BLA-026-98.png",
-    "created_at": "2026-09-28T21:14:38.243Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 56,
-  "fields": {
-    "entry": 99,
-    "object_type": "02",
-    "object_id": 99,
-    "value": "COT-FUL-BLU-027-99",
-    "source_value": "",
-    "image": "barcodes/COT-FUL-BLU-027-99.png",
-    "created_at": "2026-09-28T21:14:38.253Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 57,
-  "fields": {
-    "entry": 100,
-    "object_type": "02",
-    "object_id": 100,
-    "value": "COT-FUL-BLU-028-100",
-    "source_value": "",
-    "image": "barcodes/COT-FUL-BLU-028-100.png",
-    "created_at": "2026-09-28T21:14:38.265Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 58,
-  "fields": {
-    "entry": 101,
-    "object_type": "02",
-    "object_id": 101,
-    "value": "COT-FUL-BLU-029-101",
-    "source_value": "",
-    "image": "barcodes/COT-FUL-BLU-029-101.png",
-    "created_at": "2026-09-28T21:14:38.279Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 59,
-  "fields": {
-    "entry": 102,
-    "object_type": "02",
-    "object_id": 102,
-    "value": "LYC-FUL-BLU-030-102",
-    "source_value": "",
-    "image": "barcodes/LYC-FUL-BLU-030-102.png",
-    "created_at": "2026-09-28T21:14:38.293Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 60,
-  "fields": {
-    "entry": 103,
-    "object_type": "02",
-    "object_id": 103,
-    "value": "LYC-FUL-BLU-031-103",
-    "source_value": "",
-    "image": "barcodes/LYC-FUL-BLU-031-103.png",
-    "created_at": "2026-09-28T21:14:38.306Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 61,
-  "fields": {
-    "entry": 104,
-    "object_type": "02",
-    "object_id": 104,
-    "value": "LYC-FUL-BLU-032-104",
-    "source_value": "",
-    "image": "barcodes/LYC-FUL-BLU-032-104.png",
-    "created_at": "2026-09-28T21:14:38.318Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 62,
-  "fields": {
-    "entry": 105,
-    "object_type": "02",
-    "object_id": 105,
-    "value": "COT-HAL-BLA-002-105",
-    "source_value": "",
-    "image": "barcodes/COT-HAL-BLA-002-105.png",
-    "created_at": "2026-09-28T21:14:38.330Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 63,
-  "fields": {
-    "entry": 106,
-    "object_type": "02",
-    "object_id": 106,
-    "value": "COT-HAL-BLA-003-106",
-    "source_value": "",
-    "image": "barcodes/COT-HAL-BLA-003-106.png",
-    "created_at": "2026-09-28T21:14:38.340Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 64,
-  "fields": {
-    "entry": 107,
-    "object_type": "02",
-    "object_id": 107,
-    "value": "COT-HAL-BLA-004-107",
-    "source_value": "",
-    "image": "barcodes/COT-HAL-BLA-004-107.png",
-    "created_at": "2026-09-28T21:14:38.348Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 65,
-  "fields": {
-    "entry": 108,
-    "object_type": "02",
-    "object_id": 108,
-    "value": "COT-FUL-BLU-013-108",
-    "source_value": "",
-    "image": "barcodes/COT-FUL-BLU-013-108.png",
-    "created_at": "2026-09-28T21:14:38.358Z"
-  }
-},
-{
-  "model": "items.barcode",
-  "pk": 66,
-  "fields": {
-    "entry": 109,
-    "object_type": "02",
-    "object_id": 109,
-    "value": "COT-FUL-BLU-014-109",
-    "source_value": "",
-    "image": "barcodes/COT-FUL-BLU-014-109.png",
-    "created_at": "2026-09-28T21:14:38.367Z"
+    "image": "barcodes/COT-FUL-BLU-004-157.png",
+    "created_at": "2026-09-28T21:19:18.685Z"
   }
 },
 {
   "model": "invoicing.enterprise",
-  "pk": 6,
+  "pk": 10,
   "fields": {
     "role": "company",
     "name": "Be90s Apparel Pvt Ltd",
@@ -3286,13 +2518,13 @@
     "pan": "AAFCB7291K",
     "gstin": "07AAFCB7291K1ZP",
     "extra": {},
-    "created_at": "2026-09-28T21:14:38.371Z",
-    "updated_at": "2026-09-28T21:14:38.371Z"
+    "created_at": "2026-09-28T21:19:18.691Z",
+    "updated_at": "2026-09-28T21:19:18.691Z"
   }
 },
 {
   "model": "invoicing.enterprise",
-  "pk": 7,
+  "pk": 11,
   "fields": {
     "role": "buyer",
     "name": "Urban Threads Retail LLP",
@@ -3304,13 +2536,13 @@
     "pan": "AAEFU4417Q",
     "gstin": "27AAEFU4417Q1ZD",
     "extra": {},
-    "created_at": "2026-09-28T21:14:38.372Z",
-    "updated_at": "2026-09-28T21:14:38.372Z"
+    "created_at": "2026-09-28T21:19:18.692Z",
+    "updated_at": "2026-09-28T21:19:18.692Z"
   }
 },
 {
   "model": "invoicing.enterprise",
-  "pk": 8,
+  "pk": 12,
   "fields": {
     "role": "buyer",
     "name": "Metro Fashion House",
@@ -3322,13 +2554,13 @@
     "pan": "AADCM9912H",
     "gstin": "07AADCM9912H1Z8",
     "extra": {},
-    "created_at": "2026-09-28T21:14:38.373Z",
-    "updated_at": "2026-09-28T21:14:38.373Z"
+    "created_at": "2026-09-28T21:19:18.693Z",
+    "updated_at": "2026-09-28T21:19:18.693Z"
   }
 },
 {
   "model": "invoicing.enterprise",
-  "pk": 9,
+  "pk": 13,
   "fields": {
     "role": "buyer",
     "name": "Trendline Stores Pvt Ltd",
@@ -3340,8 +2572,8 @@
     "pan": "AAHCT6620M",
     "gstin": "24AAHCT6620M1ZR",
     "extra": {},
-    "created_at": "2026-09-28T21:14:38.374Z",
-    "updated_at": "2026-09-28T21:14:38.374Z"
+    "created_at": "2026-09-28T21:19:18.694Z",
+    "updated_at": "2026-09-28T21:19:18.694Z"
   }
 },
 {
@@ -3372,12 +2604,12 @@
 },
 {
   "model": "invoicing.invoice",
-  "pk": 8,
+  "pk": 9,
   "fields": {
     "number": "BE90/26-27/0001",
     "date": "2026-09-24",
-    "seller": 6,
-    "buyer": 7,
+    "seller": 10,
+    "buyer": 11,
     "seller_snapshot": {
       "name": "Be90s Apparel Pvt Ltd",
       "email": "accounts@be90s.example",
@@ -3432,14 +2664,14 @@
     "ugst": "0.00",
     "igst": "6155.60",
     "total": "76095.60",
-    "created_at": "2026-09-28T21:14:38.375Z"
+    "created_at": "2026-09-28T21:19:18.696Z"
   }
 },
 {
   "model": "invoicing.invoiceline",
-  "pk": 12,
+  "pk": 15,
   "fields": {
-    "invoice": 8,
+    "invoice": 9,
     "description": "Classic Crew Neck T-Shirt (Cotton, Half Sleeve, Black, Plain)",
     "hsn": "6109",
     "scanned_code": "",
@@ -3452,9 +2684,9 @@
 },
 {
   "model": "invoicing.invoiceline",
-  "pk": 13,
+  "pk": 16,
   "fields": {
-    "invoice": 8,
+    "invoice": 9,
     "description": "Oxford Casual Shirt (Cotton, Full Sleeve, Blue, Checked)",
     "hsn": "6205",
     "scanned_code": "",
@@ -3467,9 +2699,9 @@
 },
 {
   "model": "invoicing.invoiceline",
-  "pk": 14,
+  "pk": 17,
   "fields": {
-    "invoice": 8,
+    "invoice": 9,
     "description": "Fleece Hooded Sweatshirt (Cotton, Full Sleeve, Black, Plain)",
     "hsn": "6110",
     "scanned_code": "",

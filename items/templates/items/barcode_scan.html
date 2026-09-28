@@ -111,6 +111,12 @@
                     </tr>
                     {% endif %}
                     {% endif %}
+                    {% if size_field and result.entry %}
+                    <tr>
+                        <th>{{ size_field.name }}</th>
+                        <td><span class="size-badge">{{ result.entry.data|get_item:size_field.name|default:"&ndash;" }}</span></td>
+                    </tr>
+                    {% endif %}
                     <tr>
                         <th>SKU ID (database)</th>
                         <td class="text-muted">{{ result.sku_id }}</td>

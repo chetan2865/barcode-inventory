@@ -1114,6 +1114,21 @@ textarea.form-control { line-height: 1.5; }
     box-shadow: inset 2px 0 0 var(--app-success);
 }
 
+/* Size reads as a label rather than a value: it is what anyone scans for. */
+.size-badge {
+    display: inline-block;
+    min-width: 30px;
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--app-text);
+    background: var(--app-surface-alt);
+    border: 1px solid var(--app-border-strong);
+    border-radius: var(--app-radius-sm);
+    padding: 1px 6px;
+}
+
 /* ------------------------------------------------------- size runs -- */
 /* Apparel arrives as "8 small, 12 medium, 6 large" in one intake, so size
    gets an axis of its own rather than a box like every other attribute. */
