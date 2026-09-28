@@ -327,3 +327,75 @@ class HideRoundTripTests(SchemaFixtureMixin, TestCase):
         self._toggle("Pattern")
         after = next(f for f in get_schema().fields if f["name"] == "Pattern")
         self.assertFalse(after["mandatory"])
+
+
+class TagPrintingTests(SchemaFixtureMixin, TestCase):
+    """Tags follow the shelf: sold pieces lose theirs, returns earn one back."""
+
+    def setUp(self):
+        self.schema = get_schema().fields
+        qty_name = quantity_engine.quantity_field_name(self.schema)
+        sku_fields = sku_engine.get_sku_fields(self.schema)
+
+        product = {f["name"]: None for f in self.schema}
+        product.update({"Product Name": "Tag Tee", "HSN": "6109"})
+        block = {f["name"]: None for f in sku_fields}
+        block[qty_name] = 20
+        for f in sku_fields:
+            options = (f.get("configuration") or {}).get("options") or []
+            if options:
+                block[f["name"]] = options[0]
+
+        _create_entries(product, [block], self.schema, sku_fields)
+        self.entry = Item.objects.order_by("-pk").first()
+        self.url = reverse("items:labels", args=[self.entry.pk])
+
+    def _tag_count(self, **params):
+        response = self.client.get(self.url, params)
+        self.assertEqual(response.status_code, 200)
+        return response.context["copies"], response.context["available"]
+
+    def test_every_piece_is_tagged_before_anything_sells(self):
+        copies, available = self._tag_count()
+        self.assertEqual(copies, 20)
+        self.assertEqual(available, 20)
+
+    def test_sold_pieces_are_not_tagged_again(self):
+        StockMovement.objects.create(
+            entry=self.entry, kind=StockMovement.SALE, quantity=Decimal("-8")
+        )
+        copies, available = self._tag_count()
+        self.assertEqual(copies, 12)
+        self.assertEqual(available, 12)
+
+    def test_a_return_makes_a_tag_printable_again(self):
+        StockMovement.objects.create(
+            entry=self.entry, kind=StockMovement.SALE, quantity=Decimal("-8")
+        )
+        StockMovement.objects.create(
+            entry=self.entry, kind=StockMovement.RETURN, quantity=Decimal("3")
+        )
+        copies, available = self._tag_count()
+        self.assertEqual(copies, 15)
+        self.assertEqual(available, 15)
+
+    def test_nothing_is_tagged_once_the_lot_is_sold_out(self):
+        StockMovement.objects.create(
+            entry=self.entry, kind=StockMovement.SALE, quantity=Decimal("-20")
+        )
+        copies, available = self._tag_count()
+        self.assertEqual(copies, 0)
+        self.assertEqual(available, 0)
+        self.assertEqual(len(self.client.get(self.url).context["tags"]), 0)
+
+    def test_asking_for_more_than_the_shelf_holds_is_capped(self):
+        StockMovement.objects.create(
+            entry=self.entry, kind=StockMovement.SALE, quantity=Decimal("-15")
+        )
+        copies, available = self._tag_count(copies="20")
+        self.assertEqual(available, 5)
+        self.assertEqual(copies, 5, "must not print tags for stock that is gone")
+
+    def test_a_short_reprint_is_allowed(self):
+        copies, _ = self._tag_count(copies="3")
+        self.assertEqual(copies, 3)

@@ -1542,6 +1542,24 @@ textarea.form-control { line-height: 1.5; }
     .card-body.p-0 { overflow-x: auto; }
 }
 
+/* The sum behind the tag count, so the number is never a surprise. */
+.tag-summary {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--app-sp-2);
+    background: var(--app-surface);
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius);
+    padding: 9px var(--app-sp-4);
+    margin-bottom: var(--app-sp-3);
+    font-size: var(--app-fs-help);
+    color: var(--app-text-secondary);
+}
+.tag-summary strong { color: var(--app-text); font-variant-numeric: tabular-nums; }
+.tag-summary-sep { color: #94A3B8; padding: 0 2px; }
+.tag-summary-total strong { color: var(--app-primary-hover); }
+
 /* ================================================== HANG TAGS (printable) ==
    Garment tags laid out for A4. Deliberately its own visual world: this is a
    printed product tag, not app chrome, so it uses the tag's own warm paper

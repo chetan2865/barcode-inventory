@@ -11,20 +11,52 @@
             {{ copies }} tag{{ copies|pluralize }} for entry
             <span class="code-chip">#{{ entry.pk }}</span>
             <span class="code-chip code-chip-primary">{{ style_no }}</span>
-            &mdash; each piece carries its own barcode, so no two tags repeat.
+            &mdash; one per piece on the shelf. Sold pieces left with their tags on,
+            so no tag is printed for them{% if returned %}; anything returned is tagged again{% endif %}.
         </p>
     </div>
     <div class="page-actions">
+        {% if available %}
         <form method="get" class="d-flex align-items-center gap-2">
             <label class="form-label mb-0">Copies</label>
             <input type="number" name="copies" class="form-control form-control-sm" min="1"
-                   style="width:90px;" value="{{ copies }}">
+                   max="{{ available }}" style="width:90px;" value="{{ copies }}">
             <button class="btn btn-sm btn-outline-secondary">Apply</button>
         </form>
+        {% endif %}
         <a href="{% url 'items:barcodes_zip' entry.pk %}" class="btn btn-outline-secondary">Barcodes ZIP</a>
+        {% if available %}
         <button class="btn btn-primary" onclick="window.print()">Print</button>
+        {% endif %}
     </div>
 </div>
+
+<div class="tag-summary d-print-none">
+    <span><strong>{{ quantity }}</strong> taken in</span>
+    <span class="tag-summary-sep">&minus;</span>
+    <span><strong>{{ sold|floatformat:"-2" }}</strong> sold</span>
+    {% if returned %}
+    <span class="tag-summary-sep">+</span>
+    <span><strong>{{ returned|floatformat:"-2" }}</strong> returned</span>
+    {% endif %}
+    <span class="tag-summary-sep">=</span>
+    <span class="tag-summary-total"><strong>{{ available }}</strong> to tag</span>
+</div>
+
+{% if not available %}
+<div class="card d-print-none">
+    <div class="card-body">
+        <div class="empty-state">
+            <div class="empty-state-title">Nothing left to tag</div>
+            <div class="empty-state-text">
+                All {{ quantity }} of entry #{{ entry.pk }} have been sold, and each left with its
+                tag on it. Take a piece back on the Returns page and its tag can be printed again.
+            </div>
+            <a href="{% url 'items:returns' %}?value={{ entry.barcode.value }}" class="btn btn-sm btn-primary">Open Returns</a>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <div class="tag-sheet">
     {% for tag in tags %}

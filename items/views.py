@@ -775,7 +775,13 @@ def entry_labels(request, pk):
     label. Barcodes are rendered inline as data URIs rather than written to
     MEDIA_ROOT: nothing is stored, so this works with or without a volume.
 
-    ``?copies=N`` overrides how many tags are laid out, for a short reprint.
+    How many are laid out follows what is actually on the shelf, not what was
+    taken in: a piece that has been sold has left with its tag on it, so
+    printing one for it again would only produce a duplicate. A return puts
+    that piece back and its tag becomes printable once more.
+
+    ``?copies=N`` asks for fewer - for a short reprint - and is capped at what
+    is available.
     """
     entry = get_object_or_404(Item.objects.select_related("sku", "barcode"), pk=pk)
 
@@ -784,15 +790,25 @@ def entry_labels(request, pk):
         messages.error(request, f"Entry #{entry.pk} has no SKU yet, so it has no label.")
         return redirect("items:list")
 
+    schema_fields = _schema_fields()
+    available = int(quantity_engine.available_quantity(entry, schema_fields))
+    available = max(0, available)
+
     try:
-        copies = int(request.GET.get("copies") or 0)
+        requested = int(request.GET.get("copies") or 0)
     except ValueError:
-        copies = 0
-    if copies <= 0:
-        copies = barcode_engine.unit_count(entry) or 1
+        requested = 0
+
+    copies = requested if requested > 0 else available
+    if copies > available:
+        messages.warning(
+            request,
+            f"Only {available} of entry #{entry.pk} are on the shelf, so {available} "
+            f"tag{'' if available == 1 else 's'} are laid out rather than {requested}.",
+        )
+        copies = available
     copies = min(copies, MAX_UNIT_LABELS)
 
-    schema_fields = _schema_fields()
     product_field = _product_field_name(registration_schema(schema_fields))
 
     # The brand line: the registered seller, falling back to the product name.
@@ -842,6 +858,9 @@ def entry_labels(request, pk):
             "tags": tags,
             "copies": copies,
             "quantity": barcode_engine.unit_count(entry),
+            "available": available,
+            "sold": quantity_engine.sold_quantity(entry),
+            "returned": quantity_engine.returned_quantity(entry),
         },
     )
 

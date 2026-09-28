@@ -161,8 +161,8 @@
         "type": "dropdown",
         "include_in_sku": true,
         "include_in_invoice_description": false,
-        "mandatory": true,
-        "hide": false,
+        "mandatory": false,
+        "hide": true,
         "field_size": "L",
         "configuration": {
           "options": [
@@ -176,7 +176,8 @@
           "length": null,
           "transform": null
         },
-        "system": false
+        "system": false,
+        "mandatory_before_hide": true
       },
       {
         "name": "Size",
@@ -220,7 +221,7 @@
       }
     ],
     "created_at": "2026-07-14T11:34:48.125Z",
-    "updated_at": "2026-09-28T21:30:48.851Z"
+    "updated_at": "2026-09-28T21:33:31.085Z"
   }
 },
 {
@@ -2505,6 +2506,18 @@
   }
 },
 {
+  "model": "items.stockmovement",
+  "pk": 1,
+  "fields": {
+    "entry": 155,
+    "kind": "sale",
+    "quantity": "-10.00",
+    "invoice": 10,
+    "note": "Invoice inv07/25-26",
+    "created_at": "2026-09-28T21:35:43.046Z"
+  }
+},
+{
   "model": "invoicing.enterprise",
   "pk": 10,
   "fields": {
@@ -2593,7 +2606,7 @@
   "fields": {
     "prefix": "inv",
     "suffix": "/25-26",
-    "next_number": 7,
+    "next_number": 8,
     "auto_increment": true,
     "declaration": "We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.",
     "terms": "887363633",
@@ -2668,6 +2681,71 @@
   }
 },
 {
+  "model": "invoicing.invoice",
+  "pk": 10,
+  "fields": {
+    "number": "inv07/25-26",
+    "date": "2026-09-29",
+    "seller": 10,
+    "buyer": 12,
+    "seller_snapshot": {
+      "name": "Be90s Apparel Pvt Ltd",
+      "email": "accounts@be90s.example",
+      "phone": "011 4566 2210",
+      "address": "Unit 14, Okhla Industrial Estate Phase IINew Delhi 110020",
+      "state": "Delhi",
+      "state_code": "07",
+      "pan": "AAFCB7291K",
+      "gstin": "07AAFCB7291K1ZP"
+    },
+    "dispatch_snapshot": {
+      "name": "Be90s Apparel Pvt Ltd",
+      "email": "accounts@be90s.example",
+      "phone": "011 4566 2210",
+      "address": "Unit 14, Okhla Industrial Estate Phase IINew Delhi 110020",
+      "state": "Delhi",
+      "state_code": "07",
+      "pan": "AAFCB7291K",
+      "gstin": "07AAFCB7291K1ZP"
+    },
+    "buyer_snapshot": {
+      "name": "Metro Fashion House",
+      "email": "orders@metrofashion.example",
+      "phone": "011 2634 7781",
+      "address": "B-42, Lajpat Nagar IINew Delhi 110024",
+      "state": "Delhi",
+      "state_code": "07",
+      "pan": "AADCM9912H",
+      "gstin": "07AADCM9912H1Z8"
+    },
+    "ship_to_snapshot": {
+      "name": "Metro Fashion House",
+      "email": "orders@metrofashion.example",
+      "phone": "011 2634 7781",
+      "address": "B-42, Lajpat Nagar IINew Delhi 110024",
+      "state": "Delhi",
+      "state_code": "07",
+      "pan": "AADCM9912H",
+      "gstin": "07AADCM9912H1Z8"
+    },
+    "reference_no": "",
+    "reference_date": null,
+    "po_no": "",
+    "po_date": null,
+    "vehicle_no": "",
+    "payment_mode": "",
+    "bank": null,
+    "note": "",
+    "taxable": "7990.00",
+    "cgst": "199.75",
+    "sgst": "0.00",
+    "ugst": "199.75",
+    "igst": "0.00",
+    "total": "8389.50",
+    "created_at": "2026-09-28T21:35:43.000Z"
+  }
+},
+{
   "model": "invoicing.invoiceline",
   "pk": 15,
   "fields": {
@@ -2710,6 +2788,21 @@
     "unit": "Nos",
     "rate": "2199.00",
     "gst_rate": "12.00"
+  }
+},
+{
+  "model": "invoicing.invoiceline",
+  "pk": 18,
+  "fields": {
+    "invoice": 10,
+    "description": "Classic Crew Neck T-Shirt (Fabric: Cotton, Sleeve: Half Sleeve, Color: Black, Pattern: Plain, material: 180)",
+    "hsn": "6109",
+    "scanned_code": "COT-HAL-BLA-001-155-20",
+    "sku_code": "COT-HAL-BLA-001",
+    "quantity": "10.00",
+    "unit": "Nos",
+    "rate": "799.00",
+    "gst_rate": "5.00"
   }
 }
 ]
