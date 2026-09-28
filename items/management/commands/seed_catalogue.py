@@ -29,10 +29,10 @@ CATALOGUE = [
         "rate": "799.00",
         "cost": "310.00",
         "gst": "5%",
-        "skus": [
-            {"Fabric": "Cotton", "Sleeve": "Half Sleeve", "Color": "Black", "Pattern": "Plain", "material": 180, "Quantity": 120},
-            {"Fabric": "Cotton", "Sleeve": "Half Sleeve", "Color": "Blue", "Pattern": "Plain", "material": 180, "Quantity": 90},
-            {"Fabric": "Cotton", "Sleeve": "Half Sleeve", "Color": "Black", "Pattern": "Striped", "material": 180, "Quantity": 60},
+        "runs": [
+            {"Fabric": "Cotton", "Sleeve": "Half Sleeve", "Color": "Black", "Pattern": "Plain", "material": 180, "sizes": {"S": 24, "M": 40, "L": 36, "XL": 20}},
+            {"Fabric": "Cotton", "Sleeve": "Half Sleeve", "Color": "Blue", "Pattern": "Plain", "material": 180, "sizes": {"S": 18, "M": 30, "L": 26, "XL": 16}},
+            {"Fabric": "Cotton", "Sleeve": "Half Sleeve", "Color": "Black", "Pattern": "Striped", "material": 180, "sizes": {"M": 24, "L": 22, "XL": 14}},
         ],
     },
     {
@@ -41,9 +41,9 @@ CATALOGUE = [
         "rate": "1299.00",
         "cost": "520.00",
         "gst": "12%",
-        "skus": [
-            {"Fabric": "Cotton", "Sleeve": "Half Sleeve", "Color": "Blue", "Pattern": "Plain", "material": 220, "Quantity": 75},
-            {"Fabric": "Cotton", "Sleeve": "Half Sleeve", "Color": "Black", "Pattern": "Plain", "material": 220, "Quantity": 65},
+        "runs": [
+            {"Fabric": "Cotton", "Sleeve": "Half Sleeve", "Color": "Blue", "Pattern": "Plain", "material": 220, "sizes": {"S": 12, "M": 26, "L": 24, "XL": 13}},
+            {"Fabric": "Cotton", "Sleeve": "Half Sleeve", "Color": "Black", "Pattern": "Plain", "material": 220, "sizes": {"S": 10, "M": 22, "L": 21, "XL": 12}},
         ],
     },
     {
@@ -52,10 +52,10 @@ CATALOGUE = [
         "rate": "1699.00",
         "cost": "690.00",
         "gst": "12%",
-        "skus": [
-            {"Fabric": "Cotton", "Sleeve": "Full Sleeve", "Color": "Blue", "Pattern": "Checked", "material": 160, "Quantity": 48},
-            {"Fabric": "Cotton", "Sleeve": "Full Sleeve", "Color": "Blue", "Pattern": "Striped", "material": 160, "Quantity": 42},
-            {"Fabric": "Cotton", "Sleeve": "Full Sleeve", "Color": "Black", "Pattern": "Plain", "material": 160, "Quantity": 36},
+        "runs": [
+            {"Fabric": "Cotton", "Sleeve": "Full Sleeve", "Color": "Blue", "Pattern": "Checked", "material": 160, "sizes": {"M": 14, "L": 18, "XL": 16}},
+            {"Fabric": "Cotton", "Sleeve": "Full Sleeve", "Color": "Blue", "Pattern": "Striped", "material": 160, "sizes": {"M": 12, "L": 16, "XL": 14}},
+            {"Fabric": "Cotton", "Sleeve": "Full Sleeve", "Color": "Black", "Pattern": "Plain", "material": 160, "sizes": {"S": 8, "M": 14, "L": 14}},
         ],
     },
     {
@@ -64,9 +64,9 @@ CATALOGUE = [
         "rate": "1899.00",
         "cost": "780.00",
         "gst": "12%",
-        "skus": [
-            {"Fabric": "Lycra", "Sleeve": "Full Sleeve", "Color": "Black", "Pattern": "Plain", "material": 240, "Quantity": 54},
-            {"Fabric": "Lycra", "Sleeve": "Full Sleeve", "Color": "Blue", "Pattern": "Plain", "material": 240, "Quantity": 40},
+        "runs": [
+            {"Fabric": "Lycra", "Sleeve": "Full Sleeve", "Color": "Black", "Pattern": "Plain", "material": 240, "sizes": {"M": 16, "L": 20, "XL": 18}},
+            {"Fabric": "Lycra", "Sleeve": "Full Sleeve", "Color": "Blue", "Pattern": "Plain", "material": 240, "sizes": {"M": 12, "L": 16, "XL": 12}},
         ],
     },
     {
@@ -75,9 +75,9 @@ CATALOGUE = [
         "rate": "2199.00",
         "cost": "910.00",
         "gst": "12%",
-        "skus": [
-            {"Fabric": "Cotton", "Sleeve": "Full Sleeve", "Color": "Black", "Pattern": "Plain", "material": 320, "Quantity": 38},
-            {"Fabric": "Cotton", "Sleeve": "Full Sleeve", "Color": "Blue", "Pattern": "Printed", "material": 320, "Quantity": 30},
+        "runs": [
+            {"Fabric": "Cotton", "Sleeve": "Full Sleeve", "Color": "Black", "Pattern": "Plain", "material": 320, "sizes": {"M": 12, "L": 14, "XL": 12}},
+            {"Fabric": "Cotton", "Sleeve": "Full Sleeve", "Color": "Blue", "Pattern": "Printed", "material": 320, "sizes": {"M": 10, "L": 12, "XL": 8}},
         ],
     },
     {
@@ -86,8 +86,8 @@ CATALOGUE = [
         "rate": "2999.00",
         "cost": "1240.00",
         "gst": "12%",
-        "skus": [
-            {"Fabric": "Lycra", "Sleeve": "Full Sleeve", "Color": "Blue", "Pattern": "Plain", "material": 340, "Quantity": 26},
+        "runs": [
+            {"Fabric": "Lycra", "Sleeve": "Full Sleeve", "Color": "Blue", "Pattern": "Plain", "material": 340, "sizes": {"M": 8, "L": 10, "XL": 8}},
         ],
     },
 ]
@@ -97,14 +97,14 @@ CATALOGUE = [
 RESTOCK = [
     {
         "product": "Classic Crew Neck T-Shirt",
-        "skus": [
-            {"Fabric": "Cotton", "Sleeve": "Half Sleeve", "Color": "Black", "Pattern": "Plain", "material": 180, "Quantity": 80},
+        "runs": [
+            {"Fabric": "Cotton", "Sleeve": "Half Sleeve", "Color": "Black", "Pattern": "Plain", "material": 180, "sizes": {"M": 30, "L": 30, "XL": 20}},
         ],
     },
     {
         "product": "Oxford Casual Shirt",
-        "skus": [
-            {"Fabric": "Cotton", "Sleeve": "Full Sleeve", "Color": "Blue", "Pattern": "Checked", "material": 160, "Quantity": 24},
+        "runs": [
+            {"Fabric": "Cotton", "Sleeve": "Full Sleeve", "Color": "Blue", "Pattern": "Checked", "material": 160, "sizes": {"L": 12, "XL": 12}},
         ],
     },
 ]
@@ -142,6 +142,29 @@ PARTIES = [
         "pan": "AAHCT6620M", "gstin": "24AAHCT6620M1ZR",
     },
 ]
+
+
+def _expand(runs, schema_fields):
+    """Turn each size curve into one block per size, as the add page does."""
+    from items import quantity as quantity_engine
+    from items import sku as sku_engine
+
+    size = sku_engine.size_field(schema_fields)
+    qty_name = quantity_engine.quantity_field_name(schema_fields)
+
+    blocks = []
+    for run in runs:
+        sizes = run.get("sizes")
+        if not size or not sizes:
+            blocks.append({k: v for k, v in run.items() if k != "sizes"})
+            continue
+        base = {k: v for k, v in run.items() if k != "sizes"}
+        for value, amount in sizes.items():
+            block = dict(base)
+            block[size["name"]] = value
+            block[qty_name] = amount
+            blocks.append(block)
+    return blocks
 
 
 class Command(BaseCommand):
@@ -186,7 +209,9 @@ class Command(BaseCommand):
                 "material": None,
                 "Quantity": None,
             }
-            lines = _create_entries(product_data, row["skus"], schema_fields, sku_fields)
+            lines = _create_entries(
+                product_data, _expand(row["runs"], schema_fields), schema_fields, sku_fields
+            )
             created_lines += len(lines)
             self.stdout.write(f"  {source['product']:<30} {', '.join(lines)}")
 

@@ -38,6 +38,20 @@ Included inside the {% block scripts %} of both add pages.
     function values(block) {
         const out = [];
         block.querySelectorAll("[data-field-name]").forEach(function (wrapper) {
+            const run = wrapper.querySelectorAll(".size-qty");
+            if (run.length) {
+                // A size run reads as "Size: M 12, L 8" rather than one value.
+                const parts = [];
+                run.forEach(function (input) {
+                    const amount = String(input.value).trim();
+                    if (amount && Number(amount) > 0) {
+                        const label = input.closest(".size-cell").querySelector(".size-cell-label");
+                        parts.push((label ? label.textContent.trim() : "") + " " + amount);
+                    }
+                });
+                if (parts.length) out.push(wrapper.dataset.fieldName + ": " + parts.join(", "));
+                return;
+            }
             const input = wrapper.querySelector("[name]");
             if (input && String(input.value).trim() !== "") {
                 out.push(wrapper.dataset.fieldName + ": " + input.value);
@@ -46,6 +60,23 @@ Included inside the {% block scripts %} of both add pages.
         return out;
     }
 
+    // Running total under the grid, so the intake can be checked at a glance.
+    function refreshTotals(scope) {
+        (scope || blocksEl).querySelectorAll(".size-run").forEach(function (run) {
+            let total = 0;
+            run.querySelectorAll(".size-qty").forEach(function (input) {
+                const amount = Number(input.value);
+                if (!isNaN(amount) && amount > 0) total += amount;
+            });
+            const out = run.querySelector(".run-total");
+            if (out) out.textContent = total;
+        });
+    }
+
+    blocksEl.addEventListener("input", function (e) {
+        if (e.target.classList.contains("size-qty")) refreshTotals();
+    });
+
     function isBlank(block) {
         return Array.from(block.querySelectorAll("[name]")).every(function (i) {
             return String(i.value).trim() === "";
@@ -53,6 +84,10 @@ Included inside the {% block scripts %} of both add pages.
     }
 
     function isComplete(block) {
+        const run = Array.from(block.querySelectorAll(".size-qty"));
+        if (run.length && !run.some(function (i) { return Number(i.value) > 0; })) {
+            return false;   // no size has a quantity yet
+        }
         const required = Array.from(block.querySelectorAll("[required]"));
         if (!required.length) return !isBlank(block);
         return required.every(function (i) { return String(i.value).trim() !== ""; });
@@ -70,6 +105,8 @@ Included inside the {% block scripts %} of both add pages.
         fresh.querySelector(".sku-summary").textContent = "";
         fresh.querySelector(".sku-body").classList.remove("d-none");
         blocksEl.appendChild(fresh);
+        const total = fresh.querySelector(".run-total");
+        if (total) total.textContent = "0";
         refresh();
         return fresh;
     }
@@ -82,6 +119,15 @@ Included inside the {% block scripts %} of both add pages.
         });
         if (invalid) {
             invalid.reportValidity();
+            return false;
+        }
+
+        // Attributes chosen but no size filled in would save nothing at all.
+        const run = Array.from(block.querySelectorAll(".size-qty"));
+        if (run.length && !run.some(function (i) { return Number(i.value) > 0; })) {
+            run[0].setCustomValidity("Enter a quantity against at least one size.");
+            run[0].reportValidity();
+            run[0].setCustomValidity("");
             return false;
         }
         block.classList.add("border-success");
@@ -146,5 +192,6 @@ Included inside the {% block scripts %} of both add pages.
     });
 
     refresh();
+    refreshTotals();
 })();
 </script>

@@ -48,11 +48,44 @@ first .sku-block to create new ones, and its click handler tests
                     </span>
                 </div>
                 <div class="sku-body">
+                    {% if size_options %}
+                    {# Size runs: the attributes are chosen once, then a quantity per size. #}
+                    <div class="row g-3">
+                        {% for field in run_fields %}
+                        {% include "items/_field_row.html" with field=field index=field.form_index item=None posted=None %}
+                        {% endfor %}
+                    </div>
+
+                    <div class="size-run" data-field-name="{{ size_field.name }}">
+                        <div class="size-run-head">
+                            <span class="form-section-title mb-0">{{ size_field.name }} run</span>
+                            <span class="form-text mt-0">
+                                Enter how many of each. Every size you fill becomes its own entry,
+                                with its own SKU code and barcode.
+                            </span>
+                        </div>
+                        <div class="size-run-grid">
+                            {% for option in size_options %}
+                            <label class="size-cell">
+                                <span class="size-cell-label">{{ option }}</span>
+                                <input type="number" min="0" step="1" class="form-control size-qty"
+                                       name="sku_0_qty_{{ forloop.counter0 }}"
+                                       autocomplete="off" placeholder="0">
+                            </label>
+                            {% endfor %}
+                        </div>
+                        <div class="size-run-total">
+                            Total this run: <strong class="run-total">0</strong>
+                        </div>
+                    </div>
+                    {% else %}
                     <div class="row g-3">
                         {% for field in sku_form_fields %}
                         {% include "items/_field_row.html" with field=field index=forloop.counter0 item=None posted=None %}
                         {% endfor %}
                     </div>
+                    {% endif %}
+
                     <div class="sku-block-foot">
                         <button type="button" class="btn btn-outline-success btn-sm save-sku">Save SKU</button>
                     </div>

@@ -183,7 +183,9 @@ def item_add(request):
 
     if request.method == "POST":
         product_data, errors = parse_item_data(fields, request.POST, request.FILES)
-        parsed, block_errors = _parse_sku_blocks(request.POST, request.FILES, form_fields)
+        parsed, block_errors = _parse_sku_blocks(
+            request.POST, request.FILES, form_fields, schema_fields
+        )
         errors.extend(block_errors)
 
         if scanned_code:
@@ -220,6 +222,9 @@ def item_add(request):
             "fields": fields,
             "sku_fields": sku_fields,
             "sku_form_fields": form_fields,
+            "size_field": sku_engine.size_field(schema_fields),
+            "size_options": sku_engine.size_options(schema_fields),
+            "run_fields": _run_form_fields(form_fields, schema_fields),
             "qty_name": quantity_engine.quantity_field_name(schema_fields),
             "posted": request.POST if request.method == "POST" else None,
             "scanned_code": scanned_code,
@@ -228,13 +233,61 @@ def item_add(request):
     )
 
 
-def _parse_sku_blocks(post, files, form_fields):
-    """Parse every posted SKU block. Returns ``(parsed, errors)``."""
+def _parse_sku_blocks(post, files, form_fields, schema_fields=None):
+    """Parse every posted SKU block. Returns ``(parsed, errors)``.
+
+    A block carrying a size run expands into one parsed block per size that
+    was given a quantity, each identical but for its size and its own
+    quantity - so "8 small, 12 medium" saves as two entries with two SKU
+    codes and two barcodes, from one pass of the form.
+    """
+    schema_fields = schema_fields if schema_fields is not None else _schema_fields()
+    size = sku_engine.size_field(schema_fields)
+    options = sku_engine.size_options(schema_fields)
+    qty_name = quantity_engine.quantity_field_name(schema_fields)
+
+    # Where size and quantity sit among the rendered inputs: the grid supplies
+    # both, so their own boxes are never posted and validation would call them
+    # missing. They are filled in from the run before the block is validated.
+    size_key = qty_key = None
+    for position, field in enumerate(form_fields):
+        if size and field["name"] == size["name"]:
+            size_key = input_name(position)
+        elif field["name"] == qty_name:
+            qty_key = input_name(position)
+
     parsed, errors = [], []
     for index, values in _sku_blocks(post, form_fields):
+        run = values.pop("__run__", {})
+
+        filled = {
+            option_index: quantity_engine.to_number(raw)
+            for option_index, raw in run.items()
+            if quantity_engine.to_number(raw)
+        }
+
+        if size and filled:
+            first = sorted(filled)[0]
+            if size_key and first < len(options):
+                values[size_key] = options[first]
+            if qty_key:
+                values[qty_key] = str(filled[first])
+
         data, block_errors = parse_item_data(form_fields, values, files)
         errors.extend(f"SKU {index + 1}: {message}" for message in block_errors)
-        parsed.append(data)
+
+        if not size or not filled:
+            parsed.append(data)
+            continue
+
+        for option_index in sorted(filled):
+            if option_index >= len(options):
+                continue
+            row = dict(data)
+            row[size["name"]] = options[option_index]
+            row[qty_name] = filled[option_index]
+            parsed.append(row)
+
     return parsed, errors
 
 
@@ -294,7 +347,9 @@ def add_existing(request):
 
     if request.method == "POST":
         product_data, errors = parse_item_data(fields, request.POST, request.FILES)
-        parsed, block_errors = _parse_sku_blocks(request.POST, request.FILES, form_fields)
+        parsed, block_errors = _parse_sku_blocks(
+            request.POST, request.FILES, form_fields, schema_fields
+        )
         errors.extend(block_errors)
 
         if not parsed:
@@ -318,6 +373,9 @@ def add_existing(request):
             "fields": fields,
             "sku_fields": sku_fields,
             "sku_form_fields": form_fields,
+            "size_field": sku_engine.size_field(schema_fields),
+            "size_options": sku_engine.size_options(schema_fields),
+            "run_fields": _run_form_fields(form_fields, schema_fields),
             "products": products,
             "products_json": json.dumps(known, default=str),
             "product_field": product_field,
@@ -344,14 +402,35 @@ def _sku_blocks(post, form_fields):
 
     Blocks left completely blank (the trailing empty one the page always keeps
     ready) are dropped rather than saved as empty entries.
+
+    A block may also carry a size run - ``sku_<block>_qty_<option>`` inputs,
+    one per size - which counts as content even though no ``field_<n>`` box
+    was filled.
     """
     names = [input_name(index) for index in range(len(form_fields))]
-    indices = sorted({int(match.group(1)) for match in (re.match(r"sku_(\d+)_field_\d+$", key) for key in post) if match})
+    indices = sorted(
+        {
+            int(match.group(1))
+            for match in (
+                re.match(r"sku_(\d+)_(?:field_\d+|qty_\d+)$", key) for key in post
+            )
+            if match
+        }
+    )
 
     blocks = []
     for index in indices:
         values = {name: (post.get(f"sku_{index}_{name}") or "") for name in names}
-        if any(str(value).strip() for value in values.values()):
+        run = {
+            int(match.group(1)): (post.get(key) or "")
+            for key in post
+            for match in [re.match(rf"sku_{index}_qty_(\d+)$", key)]
+            if match
+        }
+        has_values = any(str(value).strip() for value in values.values())
+        has_run = any(str(value).strip() for value in run.values())
+        if has_values or has_run:
+            values["__run__"] = run
             blocks.append((len(blocks), values))
     return blocks
 
@@ -827,3 +906,24 @@ def returns(request):
         })
 
     return render(request, "items/returns.html", context)
+
+
+def _run_form_fields(form_fields, schema_fields):
+    """The SKU inputs rendered beside a size run.
+
+    Size and quantity are both carried by the grid, so neither gets an input
+    of its own; everything else is chosen once for the whole run. With no size
+    field in the schema this returns the fields unchanged and the page falls
+    back to a single quantity box.
+    """
+    size = sku_engine.size_field(schema_fields)
+    if not size:
+        return list(form_fields)
+
+    qty_name = quantity_engine.quantity_field_name(schema_fields)
+    skip = {size["name"], qty_name}
+    return [
+        {**field, "form_index": position}
+        for position, field in enumerate(form_fields)
+        if field["name"] not in skip
+    ]

@@ -237,3 +237,40 @@ def generate_sku(schema_fields, item_data):
         # silently attaching this variant to someone else's code.
         raise IntegrityError(f"Generated code '{code}' already belongs to SKU #{clash.pk}.")
     return code
+
+
+# The variant attribute entered as a run of quantities rather than one value.
+# Apparel is bought "8 smalls, 12 mediums, 6 larges" in a single intake, so the
+# add pages put this field on an axis of its own: everything else is chosen
+# once, and each size with a quantity becomes its own entry.
+SIZE_FIELD_NAMES = {"size", "sizes"}
+
+
+def is_size_field(field):
+    """True when this field is the one that varies across a size run."""
+    return (field.get("name") or "").strip().lower() in SIZE_FIELD_NAMES
+
+
+def size_field(schema_fields):
+    """The size field, or ``None`` when the schema has no such field.
+
+    Without one the add pages fall back to a single quantity box, exactly as
+    they behaved before size runs existed.
+    """
+    for field in get_sku_fields(schema_fields):
+        if is_size_field(field):
+            return field
+    return None
+
+
+def size_options(schema_fields):
+    """The size values a run can be entered against (empty when none)."""
+    field = size_field(schema_fields)
+    if not field:
+        return []
+    return list((field.get("configuration") or {}).get("options") or [])
+
+
+def sku_identity_fields(schema_fields):
+    """SKU identity fields excluding size - the ones chosen once per run."""
+    return [f for f in get_sku_fields(schema_fields) if not is_size_field(f)]

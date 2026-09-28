@@ -1114,6 +1114,67 @@ textarea.form-control { line-height: 1.5; }
     box-shadow: inset 2px 0 0 var(--app-success);
 }
 
+/* ------------------------------------------------------- size runs -- */
+/* Apparel arrives as "8 small, 12 medium, 6 large" in one intake, so size
+   gets an axis of its own rather than a box like every other attribute. */
+.size-run {
+    margin-top: var(--app-sp-4);
+    padding-top: var(--app-sp-3);
+    border-top: 1px dashed var(--app-border);
+}
+
+.size-run-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--app-sp-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--app-sp-3);
+}
+
+.size-run-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(74px, 1fr));
+    gap: var(--app-sp-2);
+}
+
+.size-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+}
+
+.size-cell-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--app-text-secondary);
+    text-align: center;
+}
+
+.size-qty {
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    padding: 6px 4px;
+}
+/* A size that was actually filled stands out from the empty ones. */
+.size-qty:not(:placeholder-shown) {
+    border-color: var(--app-primary);
+    background: var(--app-primary-soft);
+    font-weight: 600;
+}
+
+.size-run-total {
+    margin-top: var(--app-sp-3);
+    font-size: var(--app-fs-help);
+    color: var(--app-text-secondary);
+}
+.size-run-total .run-total {
+    color: var(--app-text);
+    font-variant-numeric: tabular-nums;
+}
+
 /* ================================================ ITEM DISPLAY (nesting) ==
    Product -> Entry -> SKU, three folds deep. Each level steps in and takes a
    slightly cooler surface, so depth is readable without heavy borders.
