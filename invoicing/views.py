@@ -247,6 +247,35 @@ def _lines_from_post(post):
     return lines
 
 
+def _record_sales(invoice):
+    """Take the invoiced quantities off the shelf.
+
+    Each line carries the barcode that put it there, which resolves to one
+    exact entry - so the stock comes off the lot that was actually picked,
+    not off some pooled total. A line typed in without a scan has nothing to
+    resolve and is skipped rather than guessed at.
+    """
+    from items import barcode as barcode_engine
+    from items.models import StockMovement
+
+    for line in invoice.lines.all():
+        if not line.scanned_code:
+            continue
+
+        result = barcode_engine.resolve(line.scanned_code)
+        entry = (result or {}).get("entry")
+        if entry is None:
+            continue
+
+        StockMovement.objects.create(
+            entry=entry,
+            kind=StockMovement.SALE,
+            quantity=-line.quantity,
+            invoice=invoice,
+            note=f"Invoice {invoice.number}",
+        )
+
+
 def _save_invoice(request, setting):
     seller = _party_from_post(request.POST, "seller")
     buyer = _party_from_post(request.POST, "buyer")
@@ -293,6 +322,7 @@ def _save_invoice(request, setting):
     for line in lines:
         InvoiceLine.objects.create(invoice=invoice, **line)
     invoice.recalculate()
+    _record_sales(invoice)
 
     if setting.auto_increment:
         setting.next_number += 1

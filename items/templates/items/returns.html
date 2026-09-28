@@ -1,0 +1,253 @@
+{% extends "items/base.html" %}
+{% load items_extras %}
+
+{% block title %}Returns{% endblock %}
+{% block page_context %}Returns{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Returns</h1>
+        <p class="page-subtitle">
+            Scan the label that came back. The pieces go onto the exact entry they were sold
+            from, so the lot&rsquo;s own cost and quantity stay straight.
+        </p>
+    </div>
+    <div class="page-actions">
+        <a href="{% url 'items:list' %}" class="btn btn-outline-secondary">All products</a>
+    </div>
+</div>
+
+<div class="scan-panel">
+    <form method="get" class="scan-form" id="scan-form">
+        <div class="scan-head">
+            <label class="scan-label" for="scan-input">Barcode Value</label>
+            <span class="scan-state" id="scan-state">Listening for scans</span>
+        </div>
+        <div class="scan-input-row">
+            <input type="text" name="value" id="scan-input" class="form-control form-control-lg scan-input"
+                   autocomplete="off" spellcheck="false"
+                   placeholder="e.g. COT-HAL-BLA-001-33" value="{{ scanned_value }}">
+            <button type="submit" class="btn btn-primary btn-lg">Find</button>
+        </div>
+        <p class="scan-hint">
+            A reader is heard anywhere on this page &mdash; nothing needs to be focused first.
+        </p>
+    </form>
+</div>
+
+{% if entry %}
+<div class="card mb-3">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>
+            Entry <span class="code-chip">#{{ entry.pk }}</span>
+            {% if entry.sku %}<span class="code-chip code-chip-primary ms-1">{{ entry.sku.code }}</span>{% endif %}
+        </span>
+        <span class="text-muted small fw-normal">{{ entry.data|get_item:"Product Name" }}</span>
+    </div>
+    <div class="card-body">
+        <div class="stat-grid mb-4">
+            <div class="stat">
+                <div class="stat-label">Taken in</div>
+                <div class="stat-value">{{ intake|floatformat:"-2" }}</div>
+                <div class="stat-meta">the intake figure &mdash; never changes</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Sold</div>
+                <div class="stat-value">{{ sold|floatformat:"-2" }}</div>
+                <div class="stat-meta">out on invoices</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Returned</div>
+                <div class="stat-value">{{ returned|floatformat:"-2" }}</div>
+                <div class="stat-meta">already come back</div>
+            </div>
+            <div class="stat stat--accent">
+                <div class="stat-label">Available now</div>
+                <div class="stat-value">{{ available|floatformat:"-2" }}</div>
+                <div class="stat-meta">on the shelf</div>
+            </div>
+        </div>
+
+        {% if outstanding > 0 %}
+        <form method="post" action="{% url 'items:returns' %}">
+            {% csrf_token %}
+            <input type="hidden" name="value" value="{{ scanned_value }}">
+            <div class="form-section">
+                <p class="form-section-title">Take stock back</p>
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-3">
+                        <label class="form-label">{{ qty_name }} returned <span class="text-danger">*</span></label>
+                        <input type="number" name="quantity" class="form-control" min="1" step="1"
+                               max="{{ outstanding|floatformat:'-2' }}" required autocomplete="off">
+                        <div class="form-text">{{ outstanding|floatformat:"-2" }} still out on invoices.</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Reason</label>
+                        <input type="text" name="note" class="form-control"
+                               placeholder="e.g. size exchange, damaged in transit" autocomplete="off">
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary w-100">Accept return</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        {% else %}
+        <div class="empty-state py-4">
+            <div class="empty-state-title">Nothing out on invoices</div>
+            <div class="empty-state-text">
+                None of this entry has been sold yet, so there is nothing to take back.
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if history %}
+<div class="card">
+    <div class="card-header">Movement history &mdash; entry #{{ entry.pk }}</div>
+    <div class="card-body p-0">
+        <table class="table table-sm align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th style="width:120px;">Kind</th>
+                    <th class="text-end" style="width:110px;">Change</th>
+                    <th>Reference</th>
+                    <th style="width:160px;">When</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for move in history %}
+                <tr>
+                    <td>
+                        {% if move.kind == "sale" %}<span class="badge bg-warning">Sale</span>
+                        {% elif move.kind == "return" %}<span class="badge bg-success">Return</span>
+                        {% else %}<span class="badge bg-secondary">Adjustment</span>{% endif %}
+                    </td>
+                    <td class="text-end num {% if move.quantity < 0 %}text-danger{% else %}text-success{% endif %}">
+                        <strong>{{ move.quantity|floatformat:"-2" }}</strong>
+                    </td>
+                    <td class="text-muted">
+                        {% if move.invoice %}
+                        <a href="{% url 'invoicing:invoice_detail' move.invoice.pk %}">{{ move.note|default:move.invoice.number }}</a>
+                        {% else %}{{ move.note|default:"&ndash;" }}{% endif %}
+                    </td>
+                    <td class="text-muted small">{{ move.created_at|date:"d M Y, H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% elif not scanned_value %}
+<div class="card">
+    <div class="card-header">Recent movements</div>
+    <div class="card-body p-0">
+        {% if recent %}
+        <table class="table table-sm align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th style="width:120px;">Kind</th>
+                    <th>Entry</th>
+                    <th class="text-end" style="width:110px;">Change</th>
+                    <th>Reference</th>
+                    <th style="width:160px;">When</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for move in recent %}
+                <tr>
+                    <td>
+                        {% if move.kind == "sale" %}<span class="badge bg-warning">Sale</span>
+                        {% elif move.kind == "return" %}<span class="badge bg-success">Return</span>
+                        {% else %}<span class="badge bg-secondary">Adjustment</span>{% endif %}
+                    </td>
+                    <td>
+                        <span class="code-chip">#{{ move.entry_id }}</span>
+                        {% if move.entry.sku %}<span class="code-chip code-chip-primary ms-1">{{ move.entry.sku.code }}</span>{% endif %}
+                    </td>
+                    <td class="text-end num {% if move.quantity < 0 %}text-danger{% else %}text-success{% endif %}">
+                        <strong>{{ move.quantity|floatformat:"-2" }}</strong>
+                    </td>
+                    <td class="text-muted">{{ move.note|default:"&ndash;" }}</td>
+                    <td class="text-muted small">{{ move.created_at|date:"d M Y, H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-state-title">No stock movements yet</div>
+            <div class="empty-state-text">
+                Sales post themselves when an invoice is saved. Returns appear here once you take one back.
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Same counter-screen capture as the scan page: a reader is heard without the
+// field being focused first.
+(function () {
+    var form = document.getElementById("scan-form");
+    var input = document.getElementById("scan-input");
+    if (!form || !input) return;
+
+    var BURST_GAP_MS = 500;
+    var IDLE_SUBMIT_MS = 140;
+    var buffer = "";
+    var lastKeyAt = 0;
+    var idleTimer = null;
+    var submitted = false;
+
+    function submit(value) {
+        if (submitted) return;
+        var code = (value || "").trim();
+        if (!code) return;
+        submitted = true;
+        clearTimeout(idleTimer);
+        input.value = code;
+        form.submit();
+    }
+
+    document.addEventListener("keydown", function (e) {
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+        var active = document.activeElement;
+        // Never swallow typing meant for the quantity or reason fields.
+        if (active && active !== input && /^(INPUT|TEXTAREA|SELECT)$/.test(active.tagName)) return;
+
+        if (e.key === "Enter") {
+            var value = active === input ? input.value : buffer;
+            if (value && value.trim()) {
+                e.preventDefault();
+                submit(value);
+            }
+            return;
+        }
+        if (e.key.length !== 1) return;
+
+        var now = Date.now();
+        if (now - lastKeyAt > BURST_GAP_MS) buffer = "";
+        lastKeyAt = now;
+        buffer += e.key;
+
+        if (document.activeElement !== input) input.value = buffer;
+        else buffer = input.value;
+
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(function () {
+            if (input.value.trim().length >= 6) submit(input.value);
+        }, IDLE_SUBMIT_MS);
+    });
+
+    if (!input.value) input.focus();
+})();
+</script>
+{% endblock %}

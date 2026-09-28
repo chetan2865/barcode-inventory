@@ -73,6 +73,15 @@ Plus:
                     </svg>
                     Barcode Scanner
                 </a>
+
+                <a class="app-nav-link {% if view_name == 'items:returns' %}active{% endif %}"
+                   href="{% url 'items:returns' %}">
+                    <svg class="app-nav-icon" viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M6 3.5L2.5 7 6 10.5"/>
+                        <path d="M2.5 7h7a4 4 0 010 8H6"/>
+                    </svg>
+                    Returns
+                </a>
             </div>
 
             <div class="app-nav-group">

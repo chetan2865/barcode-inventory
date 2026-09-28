@@ -147,7 +147,9 @@
                                                                     <th style="width:70px;">Line</th>
                                                                     {% for field in sku_fields %}<th>{{ field.name }}</th>{% endfor %}
                                                                     <th style="width:170px;">SKU Code</th>
-                                                                    <th class="text-end" style="width:90px;">{{ qty_name }}</th>
+                                                                    <th class="text-end" style="width:80px;">In</th>
+                                                                    <th class="text-end" style="width:80px;">Sold</th>
+                                                                    <th class="text-end" style="width:100px;">Available</th>
                                                                     <th style="width:180px;">Barcode</th>
                                                                     <th class="text-end" style="width:210px;">Actions</th>
                                                                 </tr>
@@ -164,7 +166,11 @@
                                                                         <span class="code-chip code-chip-primary">{{ line.sku.code }}</span>
                                                                         {% else %}<span class="tick-no">&ndash;</span>{% endif %}
                                                                     </td>
-                                                                    <td class="text-end"><strong>{{ line.quantity }}</strong></td>
+                                                                    <td class="text-end num text-muted">{{ line.quantity }}</td>
+                                                                    <td class="text-end num {% if line.sold %}text-warning-emphasis{% else %}text-muted{% endif %}">{{ line.sold|floatformat:"-2" }}</td>
+                                                                    <td class="text-end num">
+                                                                        <strong class="{% if line.available <= 0 %}text-danger{% endif %}">{{ line.available|floatformat:"-2" }}</strong>
+                                                                    </td>
                                                                     <td>
                                                                         {% if line.barcode %}
                                                                         <img class="barcode-img" src="{{ line.barcode.image.url }}"
@@ -202,7 +208,7 @@
                                                                 </tr>
                                                                 {% empty %}
                                                                 <tr>
-                                                                    <td colspan="{{ sku_fields|length|add:5 }}" class="text-center text-muted py-3">
+                                                                    <td colspan="{{ sku_fields|length|add:7 }}" class="text-center text-muted py-3">
                                                                         No SKU in this entry yet.
                                                                     </td>
                                                                 </tr>

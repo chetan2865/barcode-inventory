@@ -4,11 +4,14 @@ import json
 import re
 import zipfile
 
+from decimal import Decimal, InvalidOperation
+
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db import models
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 
 from field_master.views import get_schema
 
@@ -99,6 +102,9 @@ def item_list(request):
     for line in lines:
         line.json_pretty = json.dumps(quantity_engine.entry_json(line), indent=4, default=str)
         line.quantity = quantity_engine.entry_quantity(line, schema_fields)
+        # What is actually left: intake less sales, plus anything returned.
+        line.available = quantity_engine.available_quantity(line, schema_fields)
+        line.sold = quantity_engine.sold_quantity(line)
 
     # Group lines by their entry, then entries by product name. Both keep the
     # newest-first order the lines arrived in.
@@ -743,3 +749,81 @@ def entry_labels(request, pk):
             "quantity": barcode_engine.unit_count(entry),
         },
     )
+
+
+def returns(request):
+    """Take stock back in: scan the label, say how many came back.
+
+    A return is posted as a positive movement against the exact entry the
+    barcode identifies, so the goods go back onto the lot they were sold from
+    rather than onto a pooled total. Nothing is edited in place - the intake
+    figure stays as it was and the return stands beside it in the history.
+    """
+    from .models import StockMovement
+
+    schema_fields = _schema_fields()
+    qty_name = quantity_engine.quantity_field_name(schema_fields)
+
+    scanned_value = (request.GET.get("value") or request.POST.get("value") or "").strip()
+    entry = None
+    result = None
+
+    if scanned_value:
+        result = barcode_engine.resolve(scanned_value)
+        entry = (result or {}).get("entry")
+        if entry is None:
+            messages.error(request, f'No entry found for barcode "{scanned_value}".')
+
+    if request.method == "POST" and entry is not None:
+        try:
+            amount = Decimal(str(request.POST.get("quantity") or "0"))
+        except (InvalidOperation, ValueError):
+            amount = Decimal("0")
+
+        sold = quantity_engine.sold_quantity(entry)
+        returned = quantity_engine.returned_quantity(entry)
+        outstanding = sold - returned
+
+        if amount <= 0:
+            messages.error(request, "Enter how many pieces came back.")
+        elif amount > outstanding:
+            # Returning more than ever went out would invent stock.
+            messages.error(
+                request,
+                f"Only {outstanding:g} piece(s) of entry #{entry.pk} are out on invoices - "
+                f"cannot take {amount:g} back.",
+            )
+        else:
+            StockMovement.objects.create(
+                entry=entry,
+                kind=StockMovement.RETURN,
+                quantity=amount,
+                note=(request.POST.get("note") or "").strip(),
+            )
+            messages.success(
+                request,
+                f"Took back {amount:g} of {entry.sku.code if entry.sku else 'entry'} "
+                f"#{entry.pk}. Available is now "
+                f"{quantity_engine.available_quantity(entry, schema_fields):g}.",
+            )
+            return redirect(f"{reverse('items:returns')}?value={scanned_value}")
+
+    context = {
+        "scanned_value": scanned_value,
+        "entry": entry,
+        "result": result,
+        "qty_name": qty_name,
+        "recent": StockMovement.objects.select_related("entry", "entry__sku")[:12],
+    }
+
+    if entry is not None:
+        context.update({
+            "intake": quantity_engine.entry_quantity(entry, schema_fields),
+            "sold": quantity_engine.sold_quantity(entry),
+            "returned": quantity_engine.returned_quantity(entry),
+            "available": quantity_engine.available_quantity(entry, schema_fields),
+            "outstanding": quantity_engine.sold_quantity(entry) - quantity_engine.returned_quantity(entry),
+            "history": entry.movements.select_related("invoice")[:20],
+        })
+
+    return render(request, "items/returns.html", context)

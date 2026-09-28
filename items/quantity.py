@@ -79,3 +79,56 @@ def entry_json(item, schema_fields=None):
         "sku": item.sku.code if item.sku else None,
         "sku_detail": dict(item.sku.data) if item.sku else {},
     }
+
+
+def _as_number(total):
+    """A Decimal aggregate as a plain number, sign intact.
+
+    Deliberately not ``to_number``: that one parses loose user input by
+    keeping only digits and dots, which throws away a leading minus - and
+    every sale movement is negative.
+    """
+    if total is None:
+        return 0
+    number = float(total)
+    return int(number) if number.is_integer() else number
+
+
+def movement_total(item):
+    """The net of every movement posted against this entry (0 when none)."""
+    from django.db.models import Sum
+
+    return _as_number(item.movements.aggregate(total=Sum("quantity"))["total"])
+
+
+def available_quantity(item, schema_fields=None):
+    """What this entry still holds: what came in, plus every movement since.
+
+    Sales are negative movements and returns positive, so this is the number
+    that matters on a shelf. ``entry_quantity`` stays the intake figure.
+    """
+    return entry_quantity(item, schema_fields) + movement_total(item)
+
+
+def sold_quantity(item):
+    """How much of this entry has gone out on invoices (a positive number)."""
+    from django.db.models import Sum
+
+    from .models import StockMovement
+
+    total = item.movements.filter(kind=StockMovement.SALE).aggregate(
+        total=Sum("quantity")
+    )["total"]
+    return -_as_number(total)
+
+
+def returned_quantity(item):
+    """How much of this entry has come back (a positive number)."""
+    from django.db.models import Sum
+
+    from .models import StockMovement
+
+    total = item.movements.filter(kind=StockMovement.RETURN).aggregate(
+        total=Sum("quantity")
+    )["total"]
+    return _as_number(total)

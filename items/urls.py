@@ -16,6 +16,7 @@ urlpatterns = [
     path("<int:pk>/duplicate/", views.item_duplicate, name="duplicate"),
     path("<int:item_pk>/sku/add/", views.sku_add, name="sku_add"),
     path("sku-format/", views.sku_format, name="sku_format"),
+    path("returns/", views.returns, name="returns"),
     path("barcode/scan/", views.barcode_scan, name="barcode_scan"),
     path("barcode/scan/test/", views.barcode_scan_test, name="barcode_scan_test"),
     path("barcode/lookup/", views.barcode_lookup, name="barcode_lookup"),

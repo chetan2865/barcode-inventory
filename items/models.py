@@ -195,3 +195,52 @@ class Barcode(models.Model):
 
     def __str__(self):
         return self.value
+
+
+class StockMovement(models.Model):
+    """One change to what an entry actually holds.
+
+    ``Item.data[<quantity field>]`` is the quantity an entry was *taken in*
+    with, and it deliberately never changes - it is the intake record. What is
+    left on the shelf is that number plus every movement against it:
+
+        available = intake + sum(movement.quantity)
+
+    Movements are signed: a sale is negative, a return positive. Nothing is
+    ever edited or deleted in place, so the history of a lot stays readable and
+    a wrong entry is corrected by posting its opposite.
+    """
+
+    SALE = "sale"
+    RETURN = "return"
+    ADJUST = "adjust"
+    KIND_CHOICES = [
+        (SALE, "Sale"),
+        (RETURN, "Return"),
+        (ADJUST, "Adjustment"),
+    ]
+
+    entry = models.ForeignKey(Item, related_name="movements", on_delete=models.CASCADE)
+    kind = models.CharField(max_length=10, choices=KIND_CHOICES)
+
+    # Signed: negative takes stock off the shelf, positive puts it back.
+    quantity = models.DecimalField(max_digits=12, decimal_places=2)
+
+    # The invoice that caused it, when there was one. Kept as a lazy reference
+    # so items does not import invoicing at module level.
+    invoice = models.ForeignKey(
+        "invoicing.Invoice",
+        null=True,
+        blank=True,
+        related_name="stock_movements",
+        on_delete=models.SET_NULL,
+    )
+
+    note = models.CharField(max_length=300, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("-created_at", "-pk")
+
+    def __str__(self):
+        return f"{self.get_kind_display()} {self.quantity:+} on entry #{self.entry_id}"

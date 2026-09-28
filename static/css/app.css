@@ -1184,6 +1184,13 @@ textarea.form-control { line-height: 1.5; }
 .json-details > summary:hover { background: var(--app-surface-alt); color: var(--app-text); }
 .json-details .json-view { border: 1px solid var(--app-border); border-radius: var(--app-radius); }
 
+/* The tile that answers "how many are actually on the shelf". */
+.stat--accent {
+    border-color: #C7DAFC;
+    background: var(--app-primary-soft);
+}
+.stat--accent .stat-value { color: var(--app-primary-hover); }
+
 /* ------------------------------------------------------- pagination -- */
 .pagination {
     --bs-pagination-font-size: 13px;
