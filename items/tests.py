@@ -221,3 +221,109 @@ class SizeRunTests(SchemaFixtureMixin, TestCase):
         self._post({1: 8, 2: 12, 3: 6})
         rows = Item.objects.order_by("-pk")[:3]
         self.assertEqual(len({r.entry_id for r in rows}), 1)
+
+
+class HiddenSkuFieldTests(SchemaFixtureMixin, TestCase):
+    """Retiring a SKU field: new SKUs drop it, existing ones keep their codes."""
+
+    def setUp(self):
+        self.schema = get_schema().fields
+        self.sku_names = [f["name"] for f in sku_engine.get_sku_fields(self.schema)]
+
+    def _hide(self, name):
+        from field_master.views import get_schema as fm_schema
+
+        schema = fm_schema()
+        fields = list(schema.fields)
+        index = next(i for i, f in enumerate(fields) if f["name"] == name)
+        response = self.client.post(reverse("field_master:toggle_hide", args=[index]))
+        return response, index
+
+    def test_a_sku_field_starts_in_the_sku(self):
+        self.assertIn("Pattern", self.sku_names)
+
+    def test_hiding_drops_it_from_new_skus(self):
+        self._hide("Pattern")
+        names = [f["name"] for f in sku_engine.get_sku_fields(get_schema().fields)]
+        self.assertNotIn("Pattern", names)
+
+    def test_hiding_clears_mandatory(self):
+        # A hidden field is never rendered, so it must not stay required.
+        self._hide("Pattern")
+        field = next(f for f in get_schema().fields if f["name"] == "Pattern")
+        self.assertTrue(field["hide"])
+        self.assertFalse(field["mandatory"])
+
+    def test_the_field_is_not_deleted(self):
+        self._hide("Pattern")
+        names = [f["name"] for f in get_schema().fields]
+        self.assertIn("Pattern", names)
+
+    def test_existing_skus_keep_their_data_and_code(self):
+        qty_name = quantity_engine.quantity_field_name(self.schema)
+        sku_fields = sku_engine.get_sku_fields(self.schema)
+        product = {f["name"]: None for f in self.schema}
+        product.update({"Product Name": "Retire Tee", "HSN": "6109"})
+        block = {f["name"]: None for f in sku_fields}
+        block[qty_name] = 10
+        for f in sku_fields:
+            options = (f.get("configuration") or {}).get("options") or []
+            if options:
+                block[f["name"]] = options[0]
+        _create_entries(product, [block], self.schema, sku_fields)
+
+        row = Item.objects.select_related("sku").order_by("-pk").first()
+        code_before = row.sku.code
+        data_before = dict(row.sku.data)
+        self.assertIn("Pattern", data_before)
+
+        self._hide("Pattern")
+
+        row.refresh_from_db()
+        self.assertEqual(row.sku.code, code_before)
+        self.assertEqual(row.sku.data, data_before)
+
+    def test_showing_it_again_restores_it(self):
+        self._hide("Pattern")
+        self._hide("Pattern")
+        names = [f["name"] for f in sku_engine.get_sku_fields(get_schema().fields)]
+        self.assertIn("Pattern", names)
+
+
+class HideRoundTripTests(SchemaFixtureMixin, TestCase):
+    """Showing a field again must leave it as it was before it was hidden."""
+
+    def _toggle(self, name):
+        from field_master.views import get_schema as fm_schema
+
+        fields = list(fm_schema().fields)
+        index = next(i for i, f in enumerate(fields) if f["name"] == name)
+        self.client.post(reverse("field_master:toggle_hide", args=[index]))
+
+    def test_mandatory_survives_a_hide_and_show(self):
+        before = next(f for f in get_schema().fields if f["name"] == "Pattern")
+        self.assertTrue(before["mandatory"])
+
+        self._toggle("Pattern")
+        hidden = next(f for f in get_schema().fields if f["name"] == "Pattern")
+        self.assertFalse(hidden["mandatory"], "a hidden field cannot be required")
+
+        self._toggle("Pattern")
+        after = next(f for f in get_schema().fields if f["name"] == "Pattern")
+        self.assertTrue(after["mandatory"], "mandatory must come back")
+        self.assertNotIn("mandatory_before_hide", after)
+
+    def test_an_optional_field_stays_optional(self):
+        from field_master.views import get_schema as fm_schema
+
+        schema = fm_schema()
+        fields = list(schema.fields)
+        index = next(i for i, f in enumerate(fields) if f["name"] == "Pattern")
+        fields[index] = {**fields[index], "mandatory": False}
+        schema.fields = fields
+        schema.save()
+
+        self._toggle("Pattern")
+        self._toggle("Pattern")
+        after = next(f for f in get_schema().fields if f["name"] == "Pattern")
+        self.assertFalse(after["mandatory"])

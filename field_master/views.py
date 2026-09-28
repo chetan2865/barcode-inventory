@@ -200,3 +200,53 @@ def field_move(request, index, direction):
         else:
             messages.error(request, "Cannot move that field.")
     return redirect("field_master:list")
+
+
+def field_toggle_hide(request, index):
+    """Retire a field, or bring it back.
+
+    Hiding is the answer to "stop using this" for a field that cannot be
+    deleted. A field taking part in SKU identity can never be removed - codes
+    already printed on labels were built from it - but it can be retired: the
+    registration form stops asking for it and no new SKU is built with it,
+    while every existing SKU keeps its data and its code.
+    """
+    if request.method != "POST":
+        return redirect("field_master:list")
+
+    schema = get_schema()
+    fields = list(schema.fields)
+
+    if not 0 <= index < len(fields):
+        messages.error(request, "No such field.")
+        return redirect("field_master:list")
+
+    field = dict(fields[index])
+    hiding = not field.get("hide")
+    field["hide"] = hiding
+
+    # A hidden field is never rendered, so it cannot be filled in - leaving it
+    # mandatory would be a requirement nobody can satisfy. The old setting is
+    # remembered, or showing the field again would silently leave it optional.
+    if hiding:
+        if field.get("mandatory"):
+            field["mandatory_before_hide"] = True
+            field["mandatory"] = False
+    else:
+        if field.pop("mandatory_before_hide", False):
+            field["mandatory"] = True
+
+    fields[index] = field
+    schema.fields = fields
+    schema.save()
+
+    if hiding:
+        messages.success(
+            request,
+            f'"{field["name"]}" is hidden. It stays on existing records and their '
+            "SKU codes, but new entries will not use it.",
+        )
+    else:
+        messages.success(request, f'"{field["name"]}" is visible again.')
+
+    return redirect("field_master:list")

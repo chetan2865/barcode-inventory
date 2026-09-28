@@ -1496,6 +1496,11 @@ textarea.form-control { line-height: 1.5; }
 .sku-seq-arrow { color: #94A3B8; font-size: 13px; }
 .sku-seq-arrow:last-child { display: none; }
 
+/* A retired field: still in the schema for the records built with it, but
+   no longer asked for. Greyed rather than hidden, so it stays reorderable. */
+.table > tbody > tr.is-retired > td { background: #FBFBFC; }
+.table > tbody > tr.is-retired > td:not(:last-child) { opacity: .55; }
+
 /* Raw JSON / debug output panes. */
 .json-view {
     background: var(--app-surface-alt);

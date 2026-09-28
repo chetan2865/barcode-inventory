@@ -50,10 +50,22 @@ def is_quantity_field(field):
 def is_sku_field(field):
     """True when a field genuinely takes part in SKU identity.
 
-    "Include in SKU" alone is not enough: a quantity field is always excluded,
-    no matter how it is configured.
+    "Include in SKU" alone is not enough:
+
+    * a quantity field is always excluded, no matter how it is configured;
+    * a hidden field is retired. It stays in the schema so existing SKUs keep
+      their meaning and their codes, but it is not asked for again and takes
+      no part in any code minted from now on.
+
+    Retiring rather than deleting matters because a code already printed on a
+    label cannot be recalled: the field has to keep existing for the SKUs that
+    were built with it.
     """
-    return bool(field.get("include_in_sku")) and not is_quantity_field(field)
+    return (
+        bool(field.get("include_in_sku"))
+        and not is_quantity_field(field)
+        and not field.get("hide")
+    )
 
 
 def quantity_fields(schema_fields):

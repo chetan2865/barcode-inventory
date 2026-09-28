@@ -35,17 +35,18 @@
                     <th class="text-center" style="width:80px;">Invoice</th>
                     <th class="text-center" style="width:100px;">Mandatory</th>
                     <th class="text-center" style="width:74px;">Hidden</th>
-                    <th class="text-end" style="width:210px;">Actions</th>
+                    <th class="text-end" style="width:270px;">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for field in fields %}
-                <tr>
+                <tr {% if field.hide %}class="is-retired"{% endif %}>
                     <td class="text-muted">{{ forloop.counter }}</td>
                     <td>
                         <strong>{{ field.name }}</strong>
                         {% if field.system %}<span class="badge bg-dark ms-1">System</span>{% endif %}
-                        {% if field.include_in_sku %}<span class="badge bg-info ms-1">SKU</span>{% endif %}
+                        {% if field.include_in_sku and not field.hide %}<span class="badge bg-info ms-1">SKU</span>{% endif %}
+                        {% if field.hide %}<span class="badge bg-warning ms-1">Hidden</span>{% endif %}
                     </td>
                     <td><span class="badge bg-secondary text-uppercase">{{ field.type }}</span></td>
                     <td class="text-muted">{{ field.field_size }}</td>
@@ -65,13 +66,18 @@
                                 <button class="btn btn-sm btn-outline-secondary btn-step" title="Move down"
                                     {% if forloop.last %}disabled{% endif %}>&darr;</button>
                             </form>
+                            <form method="post" action="{% url 'field_master:toggle_hide' forloop.counter0 %}">
+                                {% csrf_token %}
+                                <button class="btn btn-sm btn-outline-secondary"
+                                        title="{% if field.hide %}Start using this field again{% else %}Stop asking for this field on new entries. Existing records and SKU codes keep it.{% endif %}">{% if field.hide %}Show{% else %}Hide{% endif %}</button>
+                            </form>
                             {% if field.system %}
                             <span class="lock-note" title="System field &mdash; cannot be edited or removed">Locked</span>
                             {% else %}
                             <a href="{% url 'field_master:edit' forloop.counter0 %}" class="btn btn-sm btn-outline-secondary">Edit</a>
                             {% if field.include_in_sku %}
                             <button class="btn btn-sm btn-outline-danger" disabled
-                                    title="Part of the SKU configuration &mdash; cannot be removed">Delete</button>
+                                    title="Used by existing SKU codes, so it cannot be deleted &mdash; hide it instead">Delete</button>
                             {% else %}
                             <form method="post" action="{% url 'field_master:delete' forloop.counter0 %}"
                                 onsubmit="return confirm('Delete field \'{{ field.name|escapejs }}\'?');">
